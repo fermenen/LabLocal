@@ -1,0 +1,374 @@
+{% extends "labs/base.html" %}
+{% block title %}LabLocal{% endblock %}
+
+{% block content %}
+<div class="space-y-4">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between px-0.5 pt-2 pb-1">
+    <div>
+      <p class="text-xs font-semibold text-[#8E8E93] uppercase tracking-wider">{{ greeting }}</p>
+      <h1 class="text-[26px] font-bold text-[#1C1C1E] tracking-tight leading-tight">
+        {{ request.user.get_full_name|default:request.user.username }}
+      </h1>
+    </div>
+    <div class="flex items-center gap-2">
+
+      <!-- Ask -->
+      <button type="button" @click="$store.aiPanel.setOpen(true)"
+              class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-[#D9D9DC] bg-[#F7F7F8] text-[#52525B] active:opacity-70 transition">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5m6 6l-3.2-2H7a3 3 0 01-3-3V7a3 3 0 013-3h10a3 3 0 013 3v8a3 3 0 01-1 2.236z"/>
+        </svg>
+        <span class="text-[13px] font-medium">Chatear</span>
+      </button>
+
+      <!-- Subir -->
+      <div x-data="{ open: false }" class="relative">
+        <button @click="open = !open" @keydown.escape.window="open = false"
+                class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full border border-[#D9D9DC] bg-[#F7F7F8] text-[#52525B] active:opacity-70 transition"
+                :class="open ? 'bg-[#1C1C1E] border-[#1C1C1E] text-white' : ''">
+          <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="open ? 'rotate-45' : ''"
+               fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+          <span class="text-[13px] font-medium">Subir</span>
+        </button>
+
+        <div x-show="open" x-transition:enter="transition ease-out duration-150"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-1"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-100"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95"
+             @click.outside="open = false"
+             class="absolute right-0 top-11 w-56 card py-2 z-50 origin-top-right shadow-xl shadow-black/10">
+
+          <p class="px-4 pt-1 pb-2 text-[10px] font-bold text-[#AEAEB2] uppercase tracking-wider">Nuevo registro</p>
+
+          <a href="{% url 'report_create' %}" @click="open = false"
+             class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#F2F2F7] transition">
+            <div class="w-7 h-7 rounded-lg bg-green-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-3.5 h-3.5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <span class="text-[13px] font-semibold text-[#1C1C1E]">Analítica</span>
+          </a>
+
+          <a href="{% url 'body_create' %}" @click="open = false"
+             class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#F2F2F7] transition">
+            <div class="w-7 h-7 rounded-lg bg-orange-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-3.5 h-3.5 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            </div>
+            <span class="text-[13px] font-semibold text-[#1C1C1E]">Composición corporal</span>
+          </a>
+
+          <a href="{% url 'ecg_create' %}" @click="open = false"
+             class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#F2F2F7] transition">
+            <div class="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-3.5 h-3.5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h3l2-7 4 14 3-9 2 4h4"/>
+              </svg>
+            </div>
+            <span class="text-[13px] font-semibold text-[#1C1C1E]">Electrocardiograma</span>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Foto de perfil -->
+      <a href="{% url 'profile' %}"
+         class="w-9 h-9 rounded-full overflow-hidden bg-[#007AFF] flex items-center justify-center
+                text-white font-bold text-sm shadow-md shadow-blue-500/20 active:opacity-80 transition">
+        {% if request.user.userprofile.avatar %}
+        <img src="{{ request.user.userprofile.avatar.url }}" alt="Perfil" class="w-full h-full object-cover">
+        {% else %}
+        {{ request.user.username|first|upper }}
+        {% endif %}
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Edad Biológica (PhenoAge) -->
+  {% if phenoage_data %}
+  <a href="{% url 'phenoage_history' %}" class="card block overflow-hidden active:opacity-70 transition">
+    <div class="flex items-center justify-between px-5 pt-4 pb-3">
+      <p class="text-[15px] font-semibold text-[#1C1C1E]">Tu Edad Biológica</p>
+      <svg class="w-4 h-4 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </div>
+
+    <div class="px-5 pt-5 pb-5 row-sep">
+      {% if phenoage_data.phenoage %}
+      <p class="text-[34px] font-bold text-[#1C1C1E] tracking-tight leading-none">
+        {{ phenoage_data.pheno_years }}<span class="text-[18px] font-semibold"> años</span>
+        {% if phenoage_data.pheno_months %}
+        {{ phenoage_data.pheno_months }}<span class="text-[18px] font-semibold"> meses</span>
+        {% endif %}
+      </p>
+      {% if phenoage_data.younger %}
+      <span class="inline-flex items-center mt-3 px-3 py-1 rounded-full text-xs font-semibold
+                   bg-[#E8F8ED] text-[#1A9E6E]">
+        {{ phenoage_data.diff_years }} año{% if phenoage_data.diff_years != 1 %}s{% endif %}{% if phenoage_data.diff_months %} y {{ phenoage_data.diff_months }} mes{% if phenoage_data.diff_months != 1 %}es{% endif %}{% endif %} más joven
+      </span>
+      {% else %}
+      <span class="inline-flex items-center mt-3 px-3 py-1 rounded-full text-xs font-semibold
+                   bg-[#FFEBE9] text-[#FF3B30]">
+        {{ phenoage_data.diff_years }} año{% if phenoage_data.diff_years != 1 %}s{% endif %}{% if phenoage_data.diff_months %} y {{ phenoage_data.diff_months }} mes{% if phenoage_data.diff_months != 1 %}es{% endif %}{% endif %} mayor biológicamente
+      </span>
+      {% endif %}
+      {% else %}
+      <p class="text-sm text-[#8E8E93]">Faltan marcadores: {{ phenoage_data.missing|join:", " }}</p>
+      {% endif %}
+    </div>
+  </a>
+  {% endif %}
+
+  <!-- Composición Corporal + Ratio de Envejecimiento -->
+  {% if latest_body or aging_ratio %}
+  <div class="card overflow-hidden">
+
+    <!-- Título de la card -->
+    <a href="{% url 'body_list' %}" class="flex items-center justify-between px-5 pt-4 pb-3">
+      <p class="text-[15px] font-semibold text-[#1C1C1E]">Composición Corporal</p>
+      <svg class="w-4 h-4 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+
+    {% if latest_body and latest_body.bmi %}
+    <!-- IMC -->
+    <div class="px-5 pt-5 pb-2 row-sep">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          <span class="text-[13px] font-medium text-[#1C1C1E]">Índice de Masa Corporal (IMC)</span>
+        </div>
+        <a href="{% url 'body_detail' latest_body.pk %}" class="flex items-center gap-1 flex-shrink-0 ml-2">
+          <span class="text-[11px] text-[#8E8E93]">{{ latest_body.date|date:"d/m/Y" }}</span>
+          <svg class="w-3 h-3 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+      <!-- Range bar -->
+      {% include "labs/_range_bar.html" with pct=bmi_pct value=latest_body.bmi unit="" ref_min="18" ref_max="25" color_scheme="bmi" %}
+    </div>
+    {% endif %}
+
+    {% if aging_ratio %}
+    <hr class="border-none h-px bg-[#F2F2F7] mx-5">
+    <!-- Ratio de envejecimiento -->
+    <div class="px-5 pt-5 pb-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          <span class="text-[13px] font-medium text-[#1C1C1E]">Ratio de Envejecimiento</span>
+        </div>
+        {% if aging_ratio_report %}
+        <a href="{% url 'report_detail' aging_ratio_report.pk %}" class="flex items-center gap-1 flex-shrink-0 ml-2">
+          <span class="text-[11px] text-[#8E8E93]">{{ aging_ratio_report.date|date:"d/m/Y" }}</span>
+          <svg class="w-3 h-3 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </a>
+        {% endif %}
+      </div>
+      {% include "labs/_range_bar.html" with pct=aging_ratio_pct value=aging_ratio unit="" ref_min="0" ref_max="2" color_scheme="ratio" %}
+    </div>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+  <!-- Electrocardiograma -->
+  <div class="card overflow-hidden">
+    <a href="{% url 'ecg_list' %}" class="flex items-center justify-between px-5 pt-4 pb-3">
+      <p class="text-[15px] font-semibold text-[#1C1C1E]">Electrocardiograma</p>
+      <svg class="w-4 h-4 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+
+    {% if latest_ecg %}
+
+    {% if latest_ecg.heart_rate and ecg_hr_scale %}
+    {# Barra de frecuencia cardíaca #}
+    <div class="px-5 pt-5 pb-2 row-sep">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h3l2-7 4 14 3-9 2 4h4"/>
+          </svg>
+          <span class="text-[13px] font-medium text-[#1C1C1E]">Frecuencia cardíaca en reposo</span>
+        </div>
+        <a href="{% url 'ecg_detail' latest_ecg.pk %}" class="flex items-center gap-1 flex-shrink-0 ml-2">
+          <span class="text-[11px] text-[#8E8E93]">{{ latest_ecg.date|date:"d/m/Y" }}</span>
+          <svg class="w-3 h-3 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+      {% include "labs/_range_bar.html" with pct=ecg_hr_pct value=latest_ecg.heart_rate unit="bpm" ref_min="40" ref_max="120" color_scheme="heart_rate" %}
+    </div>
+
+
+    {% else %}
+    {# Sin heart_rate registrado: link simple al ECG #}
+    <a href="{% url 'ecg_detail' latest_ecg.pk %}"
+       class="flex items-center gap-3 px-5 py-4 row-sep active:bg-[#F2F2F7] transition">
+      <div class="flex-1 min-w-0">
+        <p class="text-[14px] font-semibold text-[#1C1C1E] truncate">{{ latest_ecg.name }}</p>
+        <p class="text-xs text-[#8E8E93]">{{ latest_ecg.date|date:"d/m/Y" }} · Sin FC registrada</p>
+      </div>
+      <svg class="w-3.5 h-3.5 text-[#C7C7CC] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+    {% endif %}
+
+    {% else %}
+    <div class="px-5 pb-5 pt-2 text-center">
+      <p class="text-sm text-[#8E8E93] mb-3">Sin electrocardiogramas registrados.</p>
+      <a href="{% url 'ecg_create' %}"
+         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold
+                text-white bg-[#007AFF] active:opacity-80 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+        </svg>
+        Añadir primer ECG
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+  {% if not latest_report %}
+  <div class="card p-5 text-center">
+    <p class="text-sm text-[#8E8E93] mb-3">Sin analíticas registradas todavía.</p>
+    <a href="{% url 'report_create' %}"
+       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold
+              text-white bg-[#007AFF] active:opacity-80 transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+      Añadir primera analítica
+    </a>
+  </div>
+  {% endif %}
+
+  <!-- Marcadores (mosaico) -->
+  {% if latest_results %}
+  <a href="{% url 'report_detail' latest_report.pk %}" class="card block overflow-hidden active:opacity-70 transition">
+    <div class="flex items-center justify-between px-5 pt-4 pb-3">
+      <p class="text-[15px] font-semibold text-[#1C1C1E]">Marcadores</p>
+      <svg class="w-4 h-4 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </div>
+
+    <!-- Leyenda con números grandes -->
+    <div class="px-5 pt-4 pb-1 row-sep">
+      <div class="grid grid-cols-3 gap-4">
+        <div class="text-center">
+          <div class="flex items-center justify-center gap-2 mb-2">
+            <span class="w-2 h-2 rounded-sm bg-[#1A9E6E] flex-shrink-0"></span>
+            <span class="text-[11px] font-semibold text-[#8E8E93]">Óptimo</span>
+          </div>
+          <p class="text-[24px] font-bold text-[#1C1C1E]">{{ normal_count }}</p>
+        </div>
+        <div class="text-center">
+          <div class="flex items-center justify-center gap-2 mb-2">
+            <span class="w-2 h-2 rounded-sm bg-[#5FD4A3] flex-shrink-0"></span>
+            <span class="text-[11px] font-semibold text-[#8E8E93]">En rango</span>
+          </div>
+          <p class="text-[24px] font-bold text-[#1C1C1E]">{{ borderline_count }}</p>
+        </div>
+        <div class="text-center">
+          <div class="flex items-center justify-center gap-2 mb-2">
+            <span class="w-2 h-2 rounded-sm bg-[#FF9F0A] flex-shrink-0"></span>
+            <span class="text-[11px] font-semibold text-[#8E8E93]">Fuera</span>
+          </div>
+          <p class="text-[24px] font-bold text-[#1C1C1E]">{{ alert_count }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mosaico de cuadraditos -->
+    <div class="px-5 pt-4 pb-5">
+      <div class="flex flex-wrap gap-1.5">
+        {% for result in latest_results %}
+        <div class="w-3 h-3 rounded-sm
+          {% if result.status == 'normal' %}bg-[#1A9E6E]
+          {% elif result.status == 'borderline' %}bg-[#5FD4A3]
+          {% elif result.status == 'low' or result.status == 'high' %}bg-[#FF9F0A]
+          {% else %}bg-[#E5E5EA]{% endif %}"
+          title="{{ result.biomarker.short_name }}: {{ result.value }}">
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </a>
+  {% endif %}
+
+  <!-- Reportes recientes -->
+  {% if recent_all %}
+  <div class="card overflow-hidden">
+    <a href="{% url 'reports_all' %}" class="flex items-center justify-between px-5 pt-4 pb-3">
+      <p class="text-[15px] font-semibold text-[#1C1C1E]">Reportes</p>
+      <svg class="w-4 h-4 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+    {% for item in recent_all %}
+    <a href="{% url item.url item.obj.pk %}"
+       class="flex items-center gap-3 px-5 py-3.5 row-sep active:bg-[#F2F2F7] transition">
+      <div class="w-9 h-9 rounded-xl flex-shrink-0 flex items-center justify-center
+        {% if item.type == 'analysis' %}bg-green-50
+        {% elif item.type == 'body' %}bg-orange-50
+        {% else %}bg-red-50{% endif %}">
+        {% if item.type == 'analysis' %}
+        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        {% elif item.type == 'body' %}
+        <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        {% else %}
+        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h3l2-7 4 14 3-9 2 4h4"/>
+        </svg>
+        {% endif %}
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-[14px] font-semibold text-[#1C1C1E] truncate">{{ item.obj.name }}</p>
+        <p class="text-xs text-[#8E8E93]">
+          {{ item.obj.date|date:"d/m/Y" }} ·
+          {% if item.type == 'analysis' %}Analítica
+          {% elif item.type == 'body' %}Composición corporal
+          {% else %}ECG{% endif %}
+        </p>
+      </div>
+      <svg class="w-3.5 h-3.5 text-[#C7C7CC] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+    {% endfor %}
+    <a href="{% url 'reports_all' %}"
+       class="flex items-center justify-center px-5 py-3.5 row-sep active:bg-[#F2F2F7] transition">
+      <span class="text-[13px] font-semibold text-[#007AFF]">Ver todo</span>
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

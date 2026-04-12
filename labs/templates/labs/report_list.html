@@ -1,0 +1,75 @@
+{% extends "labs/base.html" %}
+{% block title %}Analíticas — LabLocal{% endblock %}
+
+{% block content %}
+<div class="space-y-4">
+
+  <div class="flex items-center justify-between px-0.5 pt-2 pb-1">
+    <h1 class="text-[26px] font-bold text-[#1C1C1E] tracking-tight">Analíticas</h1>
+    <a href="{% url 'report_create' %}"
+       class="w-8 h-8 rounded-full bg-[#007AFF] flex items-center justify-center
+              shadow-md shadow-blue-500/20 active:opacity-80 transition">
+      <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+    </a>
+  </div>
+
+  {% if reports %}
+  <div class="card overflow-hidden">
+    {% for report in reports %}
+    {% with alerts=report.get_alerts borderlines=report.get_borderlines %}
+    <div class="{% if not forloop.first %}row-sep{% endif %}">
+      <a href="{% url 'report_detail' report.pk %}"
+         class="flex items-center gap-3 px-5 py-4 active:bg-[#F2F2F7] transition">
+        <div class="w-10 h-10 rounded-2xl flex-shrink-0 flex items-center justify-center
+                    {% if alerts %}bg-[#FFEBE9]{% elif borderlines %}bg-[#FFF4E0]{% elif report.results.count %}bg-[#E8F8ED]{% else %}bg-[#F2F2F7]{% endif %}">
+          <span class="text-[18px]">{% if alerts %}🔴{% elif borderlines %}🟡{% elif report.results.count %}🟢{% else %}📋{% endif %}</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-[15px] font-semibold text-[#1C1C1E] truncate">{{ report.name }}</p>
+          <p class="text-[13px] text-[#8E8E93]">
+            {{ report.date|date:"d/m/Y" }}
+            {% if report.lab_name %} · {{ report.lab_name }}{% endif %}
+          </p>
+          {% if alerts %}
+          <p class="text-[12px] font-semibold text-[#FF3B30] mt-0.5">{{ alerts|length }} fuera de rango</p>
+          {% elif borderlines %}
+          <p class="text-[12px] font-semibold text-[#FF9F0A] mt-0.5">{{ borderlines|length }} en límite</p>
+          {% endif %}
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <span class="text-[12px] text-[#AEAEB2]">{{ report.results.count }}</span>
+          <svg class="w-3.5 h-3.5 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+    </div>
+    {% endwith %}
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="card p-12 text-center">
+    <div class="w-16 h-16 rounded-3xl bg-[#F2F2F7] flex items-center justify-center mx-auto mb-4">
+      <svg class="w-8 h-8 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+    </div>
+    <p class="text-[15px] font-semibold text-[#1C1C1E] mb-1">Sin analíticas</p>
+    <p class="text-sm text-[#8E8E93] mb-6">Añade tu primera analítica para empezar a hacer seguimiento.</p>
+    <a href="{% url 'report_create' %}"
+       class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-bold
+              text-white bg-[#007AFF] active:opacity-80 transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+      Añadir analítica
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

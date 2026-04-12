@@ -1,0 +1,202 @@
+{% extends "labs/base_detail.html" %}
+{% block title %}Electrocardiogramas — LabLocal{% endblock %}
+{% block back_label %}Dashboard{% endblock %}
+{% block page_title %}ECG{% endblock %}
+
+{% block page_content %}
+
+  <!-- Info colapsable -->
+  <div class="card p-5" x-data="{ open: false }">
+    <div class="flex items-center gap-2 mb-2">
+      <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Sobre los ECG</p>
+    </div>
+    <p class="text-[14px] text-[#1C1C1E] leading-relaxed mb-3">
+      El electrocardiograma registra la actividad eléctrica del corazón. La <strong>frecuencia cardíaca en reposo</strong>
+      es uno de los predictores de longevidad más robustos: la zona óptima se sitúa entre 60 y 70 lpm.
+    </p>
+    <button @click="open = !open" type="button"
+            class="flex items-center gap-1.5 text-[13px] font-semibold text-[#007AFF] active:opacity-70 transition">
+      <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+           fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+      <span x-text="open ? 'Ocultar' : 'Ver escala de referencia'"></span>
+    </button>
+    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 -translate-y-1"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         class="mt-3 space-y-1.5 text-[13px]">
+      {% for zone in zones %}
+      <div class="flex items-center gap-2.5">
+        <span class="w-2 h-2 rounded-full flex-shrink-0
+          {% if zone.color == 'green' %}bg-[#1A9E6E]
+          {% elif zone.color == 'yellow' %}bg-[#D97706]
+          {% elif zone.color == 'orange' %}bg-[#FF9F0A]
+          {% else %}bg-[#FF3B30]{% endif %}"></span>
+        <span class="font-semibold text-[#1C1C1E] w-20 flex-shrink-0">{{ zone.range }}</span>
+        <span class="text-[#8E8E93]">{{ zone.label }}</span>
+      </div>
+      {% empty %}
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF9F0A] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">&lt; 40 lpm</span><span class="text-[#8E8E93]">Bradicardia severa</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#D97706] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">40–49 lpm</span><span class="text-[#8E8E93]">Bradicardia leve</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#1A9E6E] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">50–60 lpm</span><span class="text-[#8E8E93]">Excelente — zona atleta</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#1A9E6E] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">60–70 lpm</span><span class="text-[#8E8E93]">Óptimo — menor mortalidad CV</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#1A9E6E] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">71–80 lpm</span><span class="text-[#8E8E93]">Normal</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF9F0A] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">81–90 lpm</span><span class="text-[#8E8E93]">Ligeramente elevada</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF3B30] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">91–100 lpm</span><span class="text-[#8E8E93]">Elevada (+60% riesgo vs óptimo)</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF3B30] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">&gt; 100 lpm</span><span class="text-[#8E8E93]">Taquicardia</span></div>
+      {% endfor %}
+      <p class="text-[11px] text-[#AEAEB2] pt-2 border-t border-[#F2F2F7]">
+        Basado en meta-análisis de 46 estudios (1,2M participantes) y Framingham Heart Study.
+      </p>
+    </div>
+  </div>
+
+  <!-- Gráfica de evolución -->
+  {% if chart_data %}
+  <div class="card overflow-hidden">
+    <div class="px-5 pt-4 pb-3 flex items-center justify-between">
+      <p class="text-[15px] font-semibold text-[#1C1C1E]">Frecuencia cardíaca</p>
+      {% if ecg_hr_trend.disponible %}
+      <span class="text-[12px] font-semibold
+        {% if ecg_hr_trend.color == 'green' %}text-[#1A9E6E]
+        {% elif ecg_hr_trend.color == 'yellow' %}text-[#D97706]
+        {% elif ecg_hr_trend.color == 'orange' %}text-[#C2560C]
+        {% else %}text-[#FF3B30]{% endif %}">
+        {{ ecg_hr_trend.label }}
+        ({% if ecg_hr_trend.cambio_anual > 0 %}+{% endif %}{{ ecg_hr_trend.cambio_anual }} lpm/año)
+      </span>
+      {% endif %}
+    </div>
+    <div class="px-4 pb-5">
+      <canvas id="ecgChart" height="160"></canvas>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Historial -->
+  {% if records %}
+  <div class="card overflow-hidden">
+    <div class="px-5 py-4 flex items-center gap-2">
+      <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+      </svg>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Historial</p>
+    </div>
+    {% for record in records %}
+    <a href="{% url 'ecg_detail' record.pk %}"
+       class="flex items-center gap-3 px-5 py-3.5 row-sep active:bg-[#F2F2F7] transition">
+      <div class="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h3l2-7 4 14 3-9 2 4h4"/>
+        </svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-[14px] font-semibold text-[#1C1C1E] truncate capitalize">{{ record.name }}</p>
+        {% if record.heart_rate %}
+        <p class="text-xs text-[#8E8E93]">{{ record.heart_rate }} bpm</p>
+        {% endif %}
+      </div>
+      <div class="flex items-center gap-2 flex-shrink-0 mr-1">
+        <span class="text-[13px] font-medium text-[#3C3C43]">{{ record.date|date:"d/m/Y" }}</span>
+        <svg class="w-3.5 h-3.5 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="card p-10 text-center">
+    <div class="w-14 h-14 rounded-3xl bg-red-50 flex items-center justify-center mx-auto mb-4">
+      <svg class="w-7 h-7 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h3l2-7 4 14 3-9 2 4h4"/>
+      </svg>
+    </div>
+    <p class="text-[15px] font-semibold text-[#1C1C1E] mb-1">Sin registros</p>
+    <p class="text-sm text-[#8E8E93] mb-5">Añade tu primer ECG para empezar el seguimiento.</p>
+    <a href="{% url 'ecg_create' %}" class="btn-primary">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+      Añadir ECG
+    </a>
+  </div>
+  {% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+{% if chart_data %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
+<script>
+  const data = {{ chart_data|safe }};
+  new Chart(document.getElementById('ecgChart'), {
+    type: 'line',
+    data: {
+      labels: data.labels,
+      datasets: [{
+        label: 'FC (bpm)',
+        data: data.values,
+        borderColor: '#FF3B30',
+        backgroundColor: 'rgba(255,59,48,0.08)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: '#FF3B30',
+      }],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        annotation: {
+          annotations: {
+            zoneCriticalLow: {
+              type: 'line', yMin: 40, yMax: 40,
+              borderColor: '#FF3B30', borderWidth: 1.5,
+              borderDash: [4, 4],
+              label: { content: '40 — crítico', display: true, position: 'start', color: '#FF3B30', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
+            },
+            zoneOptimalMin: {
+              type: 'line', yMin: 60, yMax: 60,
+              borderColor: '#1A9E6E', borderWidth: 1,
+              borderDash: [4, 4],
+              label: { content: '60 — óptimo', display: true, position: 'start', color: '#1A9E6E', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
+            },
+            zoneOptimalMax: {
+              type: 'line', yMin: 70, yMax: 70,
+              borderColor: '#1A9E6E', borderWidth: 1,
+              borderDash: [4, 4],
+              label: { content: '70 — óptimo', display: true, position: 'start', color: '#1A9E6E', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
+            },
+            zoneTachy: {
+              type: 'line', yMin: 100, yMax: 100,
+              borderColor: '#FF3B30', borderWidth: 1.5,
+              borderDash: [4, 4],
+              label: { content: '100 — taquicardia', display: true, position: 'start', color: '#FF3B30', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
+            },
+          },
+        },
+      },
+      scales: {
+        y: {
+          min: 40, max: 120,
+          ticks: { color: '#8E8E93', stepSize: 10 },
+          grid: { color: '#F2F2F7' },
+        },
+        x: {
+          ticks: { color: '#8E8E93' },
+          grid: { display: false },
+        },
+      },
+    },
+  });
+</script>
+{% endif %}
+{% endblock %}

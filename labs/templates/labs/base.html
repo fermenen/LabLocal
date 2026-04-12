@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>{% block title %}LabLocal{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            ios: {
+              bg:     '#F2F2F7',
+              card:   '#FFFFFF',
+              blue:   '#007AFF',
+              green:  '#34C759',
+              yellow: '#FF9F0A',
+              red:    '#FF3B30',
+              gray1:  '#8E8E93',
+              gray2:  '#AEAEB2',
+              gray3:  '#C7C7CC',
+              gray4:  '#D1D1D6',
+              gray5:  '#E5E5EA',
+              gray6:  '#F2F2F7',
+            },
+          },
+          maxWidth: {
+            mobile: '430px',
+            app: '960px',
+          },
+          borderRadius: { '2.5xl': '20px' },
+        },
+      },
+    }
+
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('aiPanel', {
+        open: false,
+        setOpen(value) {
+          this.open = value
+        },
+      })
+      localStorage.removeItem('aiPanelOpen')
+    })
+  </script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+    * { -webkit-tap-highlight-color: transparent; }
+    img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: #F2F2F7;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Tarjeta iOS */
+    .card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.06);
+    }
+    /* Separador entre filas dentro de una card */
+    .row-sep { border-top: 1px solid #F2F2F7; }
+    /* Inputs */
+    .field {
+      background: #FFFFFF;
+      border: 1.5px solid #E5E5EA;
+      border-radius: 10px;
+      padding: .6rem .85rem;
+      font-size: .9rem;
+      width: 100%;
+      outline: none;
+      color: #1C1C1E;
+      transition: border-color .15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .field:focus { border-color: #007AFF; box-shadow: 0 0 0 3px rgba(0,122,255,.12); }
+    .field::placeholder { color: #AEAEB2; }
+    /* Botón primario */
+    .btn-primary {
+      background: #007AFF;
+      color: white;
+      font-weight: 600;
+      font-size: .9rem;
+      padding: .75rem 1.5rem;
+      border-radius: 12px;
+      transition: opacity .15s, transform .1s;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-primary:active { opacity: .8; transform: scale(.97); }
+    /* Badge estado */
+    .badge-normal     { background:#E8F8ED; color:#1A7F37; }
+    .badge-borderline { background:#FFF4E0; color:#B45309; }
+    .badge-low, .badge-high { background:#FFEBE9; color:#C0392B; }
+    .badge-unknown    { background:#F0F0F5; color:#8E8E93; }
+    /* Animación suave */
+    @keyframes slideUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+    .page-enter { animation: slideUp .25s ease-out; }
+    /* Scrollbar invisible en móvil */
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body x-data class="min-h-screen bg-[#F2F2F7]">
+
+  <!-- Mensajes flash -->
+  {% if messages %}
+  <div class="max-w-app mx-auto px-4 md:px-6 pt-3 space-y-2 relative z-40">
+    {% for message in messages %}
+    <div x-data="{ show: true }" x-show="show" x-transition
+         class="card flex items-center justify-between px-4 py-3 text-sm
+                {% if message.tags == 'error' %}text-red-600{% elif message.tags == 'warning' %}text-amber-700{% else %}text-green-700{% endif %}">
+      <span>{{ message }}</span>
+      <button @click="show = false" class="ml-3 text-lg opacity-40 hover:opacity-70">&times;</button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Contenido principal -->
+  <main class="max-w-app mx-auto px-4 md:px-6 pt-4 md:pt-6 pb-10 min-h-screen page-enter">
+    {% block content %}{% endblock %}
+  </main>
+
+    <div x-cloak x-show="$store.aiPanel && $store.aiPanel.open"
+       x-transition.opacity
+       class="fixed inset-0 bg-black/20 z-40"
+       @click="$store.aiPanel.setOpen(false)"></div>
+
+      <aside x-cloak x-show="$store.aiPanel && $store.aiPanel.open"
+         x-transition:enter="transform transition ease-out duration-200"
+         x-transition:enter-start="translate-x-full"
+         x-transition:enter-end="translate-x-0"
+         x-transition:leave="transform transition ease-in duration-150"
+         x-transition:leave-start="translate-x-0"
+         x-transition:leave-end="translate-x-full"
+        class="fixed top-0 right-0 h-full w-full sm:w-[460px] bg-[#FAFAFB] border-l border-[#E5E7EB] z-50 flex flex-col">
+    <div class="flex items-center justify-between px-5 h-14 border-b border-[#ECEDEF] bg-white">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <span class="w-6 h-6 rounded-md bg-[#1A9E6E]/15 text-[#1A9E6E] flex items-center justify-center flex-shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5m6 6l-3.2-2H7a3 3 0 01-3-3V7a3 3 0 013-3h10a3 3 0 013 3v8a3 3 0 01-1 2.236z"/>
+          </svg>
+        </span>
+        <p class="text-[17px] font-semibold text-[#1C1C1E] truncate">Asistente IA médica</p>
+      </div>
+      <button type="button" @click="$store.aiPanel.setOpen(false)" class="w-8 h-8 rounded-full text-[#8E8E93] hover:bg-[#F2F2F7] transition">
+        <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex-1 p-5 overflow-y-auto">
+      <div class="h-full card p-5 flex flex-col items-center justify-center text-center">
+        <div class="w-20 h-20 rounded-full bg-[#1A9E6E]/10 text-[#1A9E6E] flex items-center justify-center mb-4">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5m6 6l-3.2-2H7a3 3 0 01-3-3V7a3 3 0 013-3h10a3 3 0 013 3v8a3 3 0 01-1 2.236z"/>
+          </svg>
+        </div>
+        <p class="text-[24px] font-semibold text-[#1C1C1E]">Buenas tardes</p>
+        <p class="text-sm text-[#8E8E93] mt-1">Estoy aquí para ayudarte con dudas médicas.</p>
+      </div>
+    </div>
+
+    <div class="p-4 border-t border-[#ECEDEF] bg-white">
+      <div class="rounded-2xl border border-[#E5E7EB] px-4 py-3 bg-[#FAFAFB] flex items-center gap-3">
+        <input type="text" placeholder="Pregunta sobre tus resultados..." class="flex-1 bg-transparent text-sm text-[#1C1C1E] placeholder:text-[#A1A1AA] focus:outline-none">
+        <button type="button" class="px-3 py-1.5 rounded-full text-sm font-semibold text-[#A1A1AA] bg-[#F2F2F7]" disabled>Enviar</button>
+      </div>
+    </div>
+  </aside>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

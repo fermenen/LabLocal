@@ -1,0 +1,153 @@
+{% extends "labs/base.html" %}
+{% load labs_extras %}
+{% block title %}{{ report.name }} — LabLocal{% endblock %}
+
+{% block content %}
+<div class="space-y-4">
+
+  <!-- Cabecera -->
+  <div class="flex items-center gap-3 pt-2 pb-1">
+    <a href="{% url 'report_list' %}"
+       class="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm
+              text-[#007AFF] active:opacity-70 transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </a>
+    <div class="flex-1 min-w-0">
+      <h1 class="text-[20px] font-bold text-[#1C1C1E] tracking-tight truncate">{{ report.name }}</h1>
+      <p class="text-[13px] text-[#8E8E93]">
+        {{ report.date|date:"d/m/Y" }}{% if report.lab_name %} · {{ report.lab_name }}{% endif %}
+      </p>
+    </div>
+    <a href="{% url 'report_update' report.pk %}"
+       class="text-[#007AFF] text-sm font-semibold active:opacity-70 transition">
+      Editar
+    </a>
+  </div>
+
+  <!-- Estado general -->
+  {% if alerts %}
+  <div class="card px-5 py-4">
+    <div class="flex items-center gap-2 mb-2.5">
+      <div class="w-2 h-2 rounded-full bg-[#FF3B30]"></div>
+      <p class="text-[11px] font-bold text-[#FF3B30] uppercase tracking-wider">Fuera de rango</p>
+    </div>
+    <div class="space-y-2">
+      {% for r in alerts %}
+      <a href="{% url 'biomarker_detail' r.biomarker.pk %}"
+         class="flex items-center justify-between py-1 active:opacity-70 transition">
+        <span class="text-[15px] font-medium text-[#1C1C1E]">{{ r.biomarker.name }}</span>
+        <span class="font-mono text-[15px] font-bold text-[#FF3B30]">
+          {{ r.value }} <span class="text-[12px] font-normal text-[#AEAEB2]">{{ r.biomarker.unit }}</span>
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if borderlines %}
+  <div class="card px-5 py-4">
+    <div class="flex items-center gap-2 mb-2.5">
+      <div class="w-2 h-2 rounded-full bg-[#FF9F0A]"></div>
+      <p class="text-[11px] font-bold text-[#FF9F0A] uppercase tracking-wider">En límite</p>
+    </div>
+    <div class="space-y-2">
+      {% for r in borderlines %}
+      <a href="{% url 'biomarker_detail' r.biomarker.pk %}"
+         class="flex items-center justify-between py-1 active:opacity-70 transition">
+        <span class="text-[15px] font-medium text-[#1C1C1E]">{{ r.biomarker.name }}</span>
+        <span class="font-mono text-[15px] font-bold text-[#FF9F0A]">
+          {{ r.value }} <span class="text-[12px] font-normal text-[#AEAEB2]">{{ r.biomarker.unit }}</span>
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if not alerts and not borderlines and report.results.count %}
+  <div class="card px-5 py-4 flex items-center gap-3">
+    <div class="w-9 h-9 rounded-xl bg-[#E8F8ED] flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-[#34C759]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+    </div>
+    <p class="text-[15px] font-semibold text-[#34C759]">Todos los valores normales</p>
+  </div>
+  {% endif %}
+
+  {% if report.notes %}
+  <div class="card px-5 py-4">
+    <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider mb-1">Notas</p>
+    <p class="text-[14px] text-[#1C1C1E]">{{ report.notes }}</p>
+  </div>
+  {% endif %}
+
+  <!-- Resultados por categoría -->
+  {% for category, results in results_grouped.items %}
+  <div class="card overflow-hidden">
+    <div class="px-5 py-3 bg-[#F9F9F9]">
+      <p class="text-[11px] font-bold text-[#8E8E93] uppercase tracking-wider">{{ category }}</p>
+    </div>
+    {% for result in results %}
+    <a href="{% url 'biomarker_detail' result.biomarker.pk %}"
+       class="flex items-center gap-3 px-5 py-3.5 row-sep active:bg-[#F2F2F7] transition">
+
+      <!-- Dot -->
+      <div class="w-2.5 h-2.5 rounded-full flex-shrink-0
+        {% if result.status == 'normal' %}bg-[#34C759]
+        {% elif result.status == 'borderline' %}bg-[#FF9F0A]
+        {% elif result.status == 'low' or result.status == 'high' %}bg-[#FF3B30]
+        {% else %}bg-[#AEAEB2]{% endif %}">
+      </div>
+
+      <div class="flex-1 min-w-0">
+        <p class="text-[14px] font-semibold text-[#1C1C1E] truncate">{{ result.biomarker.name }}</p>
+        {% with sex=request.user.userprofile.biological_sex %}
+        <p class="text-[11px] text-[#AEAEB2]">
+          Ref:
+          {% if sex == 'M' %}{{ result.biomarker.ref_min_male|default:"—" }}–{{ result.biomarker.ref_max_male|default:"—" }}
+          {% else %}{{ result.biomarker.ref_min_female|default:"—" }}–{{ result.biomarker.ref_max_female|default:"—" }}{% endif %}
+          {{ result.biomarker.unit }}
+        </p>
+        {% endwith %}
+      </div>
+
+      <div class="text-right flex-shrink-0">
+        <span class="font-mono text-[15px] font-bold
+          {% if result.status == 'normal' %}text-[#1C1C1E]
+          {% elif result.status == 'borderline' %}text-[#FF9F0A]
+          {% elif result.status == 'low' or result.status == 'high' %}text-[#FF3B30]
+          {% else %}text-[#AEAEB2]{% endif %}">
+          {{ result.value }}
+        </span>
+        <span class="text-[11px] text-[#AEAEB2] ml-0.5">{{ result.biomarker.unit }}</span>
+      </div>
+
+      <svg class="w-3.5 h-3.5 text-[#C7C7CC] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+    {% endfor %}
+  </div>
+  {% empty %}
+  <div class="card p-8 text-center">
+    <p class="text-sm text-[#8E8E93] mb-3">Sin valores registrados.</p>
+    <a href="{% url 'report_update' report.pk %}"
+       class="text-sm font-semibold text-[#007AFF]">Añadir valores →</a>
+  </div>
+  {% endfor %}
+
+  <!-- Eliminar -->
+  <div class="pt-2 pb-2">
+    <a href="{% url 'report_delete' report.pk %}"
+       class="block w-full text-center py-3.5 rounded-2xl text-sm font-semibold
+              text-[#FF3B30] bg-[#FFEBE9] active:opacity-70 transition">
+      Eliminar analítica
+    </a>
+  </div>
+
+</div>
+{% endblock %}

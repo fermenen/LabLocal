@@ -1,0 +1,60 @@
+{% comment %}
+Parámetros: pct (0-100), value, ref_min, ref_max, color_scheme ("bmi" | "ratio" | "heart_rate")
+{% endcomment %}
+<div class="relative select-none" style="height: 52px;">
+
+  {% if color_scheme == "bmi" %}
+  <div style="position:absolute;top:0;left:0;right:0;height:8px;border-radius:6px;
+    background:linear-gradient(to right,
+      #FF9F0A 0% 6.25%,
+      #ffffff 6.25% calc(6.25% + 3px),
+      #1A7A3C calc(6.25% + 3px) 50%,
+      #ffffff 50% calc(50% + 3px),
+      #7DC86A calc(50% + 3px) 87.5%,
+      #ffffff 87.5% calc(87.5% + 3px),
+      #FF9F0A calc(87.5% + 3px) 100%
+    );"></div>
+  {% elif color_scheme == "heart_rate" %}
+  {# Rango 40-120 bpm | 40=0% 50=12.5% 60=25% 70=37.5% 80=50% 90=62.5% 100=75% 120=100% #}
+  <div style="position:absolute;top:0;left:0;right:0;height:8px;border-radius:6px;
+    background:linear-gradient(to right,
+      #FF9F0A 0% 12.5%,
+      #ffffff 12.5% calc(12.5% + 3px),
+      #1A9E6E calc(12.5% + 3px) 37.5%,
+      #ffffff 37.5% calc(37.5% + 3px),
+      #5FD4A3 calc(37.5% + 3px) 50%,
+      #ffffff 50% calc(50% + 3px),
+      #FF9F0A calc(50% + 3px) 62.5%,
+      #ffffff 62.5% calc(62.5% + 3px),
+      #FF3B30 calc(62.5% + 3px) 100%
+    );"></div>
+  {% else %}
+  <div style="position:absolute;top:0;left:0;right:0;height:8px;border-radius:6px;
+    background:linear-gradient(to right,
+      #1A7A3C 0% 45%,
+      #ffffff 45% calc(45% + 3px),
+      #7DC86A calc(45% + 3px) 55%,
+      #ffffff 55% calc(55% + 3px),
+      #FF9F0A calc(55% + 3px) 70%,
+      #ffffff 70% calc(70% + 3px),
+      #FF3B30 calc(70% + 3px) 100%
+    );"></div>
+  {% endif %}
+
+  <div style="position:absolute;top:0;left:{{ pct|stringformat:"g" }}%;transform:translateX(-50%);
+              width:12px;height:8px;border-radius:2px;
+              border:1.5px solid #fff;
+              box-shadow:0 0 0 1.5px rgba(0,0,0,.12),0 2px 5px rgba(0,0,0,.22);
+              background:{% if color_scheme == 'bmi' %}{% if pct < 6.25 %}#FF9F0A{% elif pct < 50 %}#1A7A3C{% elif pct < 87.5 %}#7DC86A{% else %}#FF9F0A{% endif %}{% elif color_scheme == 'heart_rate' %}{% if pct < 12.5 %}#FF9F0A{% elif pct < 37.5 %}#1A9E6E{% elif pct < 50 %}#5FD4A3{% elif pct < 62.5 %}#FF9F0A{% else %}#FF3B30{% endif %}{% else %}{% if pct < 45 %}#1A7A3C{% elif pct < 55 %}#7DC86A{% elif pct < 70 %}#FF9F0A{% else %}#FF3B30{% endif %}{% endif %};
+              "></div>
+
+  <div style="position:absolute;top:12px;left:0;right:0;display:flex;justify-content:space-between;">
+    <span style="font-size:10px;color:#AEAEB2;font-weight:500;">{{ ref_min }}</span>
+    <span style="font-size:10px;color:#AEAEB2;font-weight:500;">{{ ref_max }}</span>
+  </div>
+
+  <div style="position:absolute;bottom:0;left:{{ pct|stringformat:"g" }}%;transform:translateX(-50%);">
+    <span style="font-size:15px;font-weight:700;color:#1C1C1E;white-space:nowrap;">{{ value }}</span>
+  </div>
+
+</div>
