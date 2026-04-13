@@ -1,0 +1,63 @@
+{% extends "labs/app_detail.html" %}
+{% block title %}{{ record.name|capfirst }} — LabLocal{% endblock %}
+{% block back_url %}{% if request.GET.back == 'dashboard' %}{% url 'dashboard' %}{% elif request.GET.back == 'reports' %}{% url 'reports_all' %}{% else %}{% url 'ecg_list' %}{% endif %}{% endblock %}
+{% block back_label %}{% if request.GET.back == 'dashboard' %}Dashboard{% elif request.GET.back == 'reports' %}Registros{% else %}ECG{% endif %}{% endblock %}
+{% block page_title %}{{ record.name|capfirst }}{% endblock %}
+
+{% block extra_actions %}
+  <a href="{% url 'ecg_update' record.pk %}" title="Editar"
+     class="w-9 h-9 rounded-full border border-[#D9D9DC] bg-[#F7F7F8] text-[#52525B]
+            flex items-center justify-center active:opacity-70 transition">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+    </svg>
+  </a>
+  <form method="post" action="{% url 'ecg_delete' record.pk %}">
+    {% csrf_token %}
+    <button type="button" title="Eliminar"
+            @click="$store.confirm.ask('¿Eliminar este ECG? Esta acción no se puede deshacer.', () => $el.closest('form').submit())"
+            class="w-9 h-9 rounded-full border border-[#FFD0CE] bg-[#FFF5F5] text-[#FF3B30]
+                   flex items-center justify-center active:opacity-70 transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+      </svg>
+    </button>
+  </form>
+{% endblock %}
+
+{% block page_content %}
+
+  <!-- Datos del ECG -->
+  <div class="card overflow-hidden">
+    <div class="px-5 py-4 flex items-center gap-2">
+      <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h3l2-7 4 14 3-9 2 4h4"/>
+      </svg>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Datos del ECG</p>
+    </div>
+    {% if record.heart_rate %}
+    <div class="flex items-center justify-between px-5 py-3 row-sep">
+      <span class="text-sm text-[#8E8E93]">Frecuencia cardíaca</span>
+      <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.heart_rate }} bpm</span>
+    </div>
+    {% endif %}
+    <div class="flex items-center justify-between px-5 py-3 row-sep">
+      <span class="text-sm text-[#8E8E93]">Fecha</span>
+      <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.date|date:"d/m/" }}<span class="font-bold">{{ record.date|date:"Y" }}</span></span>
+    </div>
+    {% if record.notes %}
+    <div class="px-5 py-3 row-sep">
+      <span class="text-sm text-[#8E8E93] block mb-1">Notas</span>
+      <span class="text-sm text-[#1C1C1E] leading-relaxed">{{ record.notes }}</span>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Imagen de ECG -->
+  {% if record.image %}
+  <div class="card overflow-hidden">
+    <img src="{{ record.image.url }}" alt="Electrocardiograma" class="w-full h-auto block">
+  </div>
+  {% endif %}
+
+{% endblock %}

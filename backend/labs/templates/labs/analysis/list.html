@@ -1,0 +1,65 @@
+{% extends "labs/app_detail.html" %}
+{% block title %}Analíticas — LabLocal{% endblock %}
+{% block back_label %}Dashboard{% endblock %}
+{% block page_title %}Analíticas{% endblock %}
+
+{% block page_content %}
+
+  {% if reports %}
+  <div class="card overflow-hidden">
+    <div class="px-5 py-4 flex items-center gap-2">
+      <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+      </svg>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Historial</p>
+    </div>
+    {% for report in reports %}
+    {% with alerts=report.get_alerts borderlines=report.get_borderlines %}
+    <a href="{% url 'analysis_detail' report.pk %}{% if request.GET.back %}?back={{ request.GET.back }}{% endif %}"
+       class="flex items-center gap-3 px-5 py-3.5 row-sep active:bg-[#F2F2F7] transition">
+      <div class="w-9 h-9 rounded-xl flex-shrink-0 flex items-center justify-center
+                  {% if alerts %}bg-[#FFF4E0]{% elif borderlines %}bg-[#E8F8ED]{% elif report.results.count %}bg-[#E8F8ED]{% else %}bg-[#F2F2F7]{% endif %}">
+        <svg class="w-4 h-4 {% if alerts %}text-[#FF9F0A]{% elif borderlines %}text-[#5FD4A3]{% elif report.results.count %}text-[#1A9E6E]{% else %}text-[#C7C7CC]{% endif %}"
+             fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-[14px] font-semibold text-[#1C1C1E] truncate">{{ report.name|capfirst }}</p>
+        <p class="text-xs text-[#8E8E93]">
+          {% if report.lab_name %}{{ report.lab_name }}{% else %}Analítica{% endif %}
+          {% if alerts %} · <span class="text-[#FF9F0A] font-semibold">{{ alerts|length }} fuera de rango</span>
+          {% elif borderlines %} · <span class="text-[#5FD4A3] font-semibold">{{ borderlines|length }} en rango</span>
+          {% elif report.results.count %} · <span class="text-[#1A9E6E] font-semibold">Todo óptimo</span>{% endif %}
+        </p>
+      </div>
+      <div class="flex items-center gap-2 flex-shrink-0 mr-1">
+        <span class="text-[13px] font-medium text-[#3C3C43]">{{ report.date|date:"d/m/" }}<span class="font-bold">{{ report.date|date:"Y" }}</span></span>
+        <svg class="w-3.5 h-3.5 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </div>
+    </a>
+    {% endwith %}
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="card p-12 text-center">
+    <div class="w-16 h-16 rounded-3xl bg-green-50 flex items-center justify-center mx-auto mb-4">
+      <svg class="w-8 h-8 text-green-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+    </div>
+    <p class="text-[15px] font-semibold text-[#1C1C1E] mb-1">Sin analíticas</p>
+    <p class="text-sm text-[#8E8E93] mb-6">Añade tu primera analítica para empezar el seguimiento.</p>
+    <a href="{% url 'analysis_create' %}" class="btn-primary">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+      Añadir analítica
+    </a>
+  </div>
+  {% endif %}
+
+{% endblock %}

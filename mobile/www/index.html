@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>LabLocal</title>
+  <style>
+    :root {
+      --brand:  #2B5EA7;
+      --accent: #1A9E6E;
+      --danger: #DC2626;
+      --bg:     #F8FAFC;
+      --card:   #FFFFFF;
+      --text:   #1A2340;
+      --muted:  #64748B;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { display: none; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 36px 28px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 24px rgba(43,94,167,0.10);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--brand);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+
+    .logo h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--brand);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    input[type="url"], input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #E2E8F0;
+      border-radius: 10px;
+      font-size: 16px;
+      color: var(--text);
+      background: #F8FAFC;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="url"]:focus, input[type="text"]:focus {
+      border-color: var(--brand);
+      background: #fff;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-top: 24px;
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn:hover  { background: #1e4a8a; }
+
+    .error {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: var(--danger);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 13px;
+      margin-top: 16px;
+      display: none;
+    }
+
+    /* Connecting state */
+    #connecting {
+      text-align: center;
+      display: none;
+    }
+
+    #connecting .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #E2E8F0;
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #connecting p   { color: var(--muted); font-size: 15px; margin-bottom: 6px; }
+    #connecting small { color: var(--brand); font-size: 13px; font-weight: 600; word-break: break-all; }
+
+    .change-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla de configuración -->
+  <div class="card" id="setup">
+    <div class="logo">
+      <div class="logo-icon">🧬</div>
+      <h1>LabLocal</h1>
+    </div>
+    <p class="subtitle">Visor de analíticas médicas self-hosted</p>
+
+    <label for="serverUrl">URL del servidor</label>
+    <input
+      type="text"
+      id="serverUrl"
+      placeholder="http://192.168.1.100:8000"
+      autocorrect="off"
+      autocapitalize="none"
+      spellcheck="false"
+    />
+    <p class="hint">
+      Introduce la IP de tu servidor Django.<br>
+      Emulador Android: <strong>http://10.0.2.2:8000</strong><br>
+      Red local: <strong>http://192.168.1.X:8000</strong>
+    </p>
+
+    <div class="error" id="errorMsg"></div>
+
+    <button class="btn" onclick="connect()">Conectar</button>
+  </div>
+
+  <!-- Pantalla de conexión -->
+  <div class="card" id="connecting">
+    <div class="spinner"></div>
+    <p>Conectando a</p>
+    <small id="connectingUrl"></small>
+    <br>
+    <button class="change-link" onclick="changeServer()">Cambiar servidor</button>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'lablocal_server_url';
+    const HEALTH_PATH = '/health/';
+    const CONNECT_TIMEOUT_MS = 4000;
+
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    function clearError() {
+      const el = document.getElementById('errorMsg');
+      el.textContent = '';
+      el.style.display = 'none';
+    }
+
+    function normalizeUrl(raw) {
+      const withProtocol = raw.startsWith('http://') || raw.startsWith('https://')
+        ? raw
+        : 'http://' + raw;
+      return withProtocol.replace(/\/$/, '');
+    }
+
+    async function isServerReachable(baseUrl) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), CONNECT_TIMEOUT_MS);
+
+      try {
+        await fetch(baseUrl + HEALTH_PATH, {
+          method: 'GET',
+          signal: controller.signal,
+          cache: 'no-store',
+          // En WebView cross-origin, no-cors evita bloqueos de lectura por CORS.
+          mode: 'no-cors',
+        });
+        return true;
+      } catch (err) {
+        return false;
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    }
+
+    async function connect() {
+      clearError();
+      const raw = document.getElementById('serverUrl').value.trim();
+      if (!raw) {
+        showError('Introduce una URL.');
+        return;
+      }
+      const cleanUrl = normalizeUrl(raw);
+
+      let parsed;
+      try {
+        parsed = new URL(cleanUrl);
+      } catch (err) {
+        showError('La URL no es valida. Ejemplo: http://192.168.1.34:8000');
+        return;
+      }
+
+      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+        showError('Solo se permiten URLs http:// o https://');
+        return;
+      }
+
+      if (!(await isServerReachable(cleanUrl))) {
+        showError('No se pudo conectar al servidor. Revisa IP, puerto y que Django este iniciado.');
+        return;
+      }
+
+      localStorage.setItem(STORAGE_KEY, cleanUrl);
+      redirect(cleanUrl);
+    }
+
+    function redirect(url) {
+      document.getElementById('setup').style.display = 'none';
+      document.getElementById('connecting').style.display = 'block';
+      document.getElementById('connectingUrl').textContent = url;
+      // Pequeño delay para mostrar la animación
+      setTimeout(() => { window.location.href = url; }, 600);
+    }
+
+    function changeServer() {
+      localStorage.removeItem(STORAGE_KEY);
+      document.getElementById('connecting').style.display = 'none';
+      document.getElementById('setup').style.display = 'block';
+    }
+
+    // Al arrancar, si ya hay URL guardada, validar antes de conectar
+    (async function init() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        document.getElementById('serverUrl').value = saved;
+        if (await isServerReachable(saved)) {
+          redirect(saved);
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
+          showError('El servidor guardado ya no esta disponible. Introduce una URL nueva.');
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

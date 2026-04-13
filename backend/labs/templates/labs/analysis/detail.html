@@ -1,0 +1,146 @@
+{% extends "labs/app_detail.html" %}
+{% block title %}{{ report.name|capfirst }} — LabLocal{% endblock %}
+{% block back_url %}{% if request.GET.back == 'dashboard' %}{% url 'dashboard' %}{% elif request.GET.back == 'reports' %}{% url 'reports_all' %}{% else %}{% url 'analysis_list' %}{% endif %}{% endblock %}
+{% block back_label %}{% if request.GET.back == 'dashboard' %}Dashboard{% elif request.GET.back == 'reports' %}Registros{% else %}Analíticas{% endif %}{% endblock %}
+{% block page_title %}{{ report.name|capfirst }}{% endblock %}
+
+{% block extra_actions %}
+  <a href="{% url 'analysis_update' report.pk %}" title="Editar"
+     class="w-9 h-9 rounded-full border border-[#D9D9DC] bg-[#F7F7F8] text-[#52525B]
+            flex items-center justify-center active:opacity-70 transition">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+    </svg>
+  </a>
+  <form method="post" action="{% url 'analysis_delete' report.pk %}">
+    {% csrf_token %}
+    <button type="button" title="Eliminar"
+            @click="$store.confirm.ask('¿Eliminar esta analítica? Esta acción no se puede deshacer.', () => $el.closest('form').submit())"
+            class="w-9 h-9 rounded-full border border-[#FFD0CE] bg-[#FFF5F5] text-[#FF3B30]
+                   flex items-center justify-center active:opacity-70 transition">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+      </svg>
+    </button>
+  </form>
+{% endblock %}
+
+{% block page_content %}
+
+  <!-- Estado general -->
+  {% if report.results.count %}
+  {% if alerts %}
+  <div class="card px-5 py-4 flex items-center gap-3">
+    <div class="w-9 h-9 rounded-xl bg-[#FFF4E0] flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-[#FF9F0A]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+      </svg>
+    </div>
+    <div>
+      <p class="text-[15px] font-semibold text-[#FF9F0A]">{{ alerts|length }} valor{% if alerts|length != 1 %}es{% endif %} fuera de rango</p>
+    </div>
+  </div>
+  {% elif borderlines %}
+  <div class="card px-5 py-4 flex items-center gap-3">
+    <div class="w-9 h-9 rounded-xl bg-[#E8F8ED] flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-[#5FD4A3]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+    </div>
+    <p class="text-[15px] font-semibold text-[#5FD4A3]">{{ borderlines|length }} valor{% if borderlines|length != 1 %}es{% endif %} en rango</p>
+  </div>
+  {% else %}
+  <div class="card px-5 py-4 flex items-center gap-3">
+    <div class="w-9 h-9 rounded-xl bg-[#E8F8ED] flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-[#1A9E6E]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+    </div>
+    <p class="text-[15px] font-semibold text-[#1A9E6E]">Todos los valores en rango óptimo</p>
+  </div>
+  {% endif %}
+  {% endif %}
+
+  <!-- Meta de la analítica -->
+  <div class="card overflow-hidden">
+    <div class="px-5 py-4 flex items-center gap-2">
+      <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Analítica</p>
+    </div>
+    <div class="flex items-center justify-between px-5 py-3 row-sep">
+      <span class="text-sm text-[#8E8E93]">Fecha</span>
+      <span class="text-sm font-semibold text-[#1C1C1E]">{{ report.date|date:"d/m/" }}<span class="font-bold">{{ report.date|date:"Y" }}</span></span>
+    </div>
+    {% if report.lab_name %}
+    <div class="flex items-center justify-between px-5 py-3 row-sep">
+      <span class="text-sm text-[#8E8E93]">Laboratorio</span>
+      <span class="text-sm font-semibold text-[#1C1C1E]">{{ report.lab_name }}</span>
+    </div>
+    {% endif %}
+    <div class="flex items-center justify-between px-5 py-3 row-sep">
+      <span class="text-sm text-[#8E8E93]">Marcadores</span>
+      <div class="flex items-center gap-3">
+        <span class="text-sm font-semibold text-[#1C1C1E]">{{ report.results.count }}</span>
+        <a href="{% url 'biomarker_list' %}?back=analysis&pk={{ report.pk }}"
+           class="text-[13px] font-semibold text-[#007AFF] active:opacity-70 transition">
+          Consultar todos
+        </a>
+      </div>
+    </div>
+    {% if report.notes %}
+    <div class="px-5 py-3 row-sep">
+      <span class="text-sm text-[#8E8E93] block mb-1">Notas</span>
+      <span class="text-sm text-[#1C1C1E] leading-relaxed">{{ report.notes }}</span>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Resultados por categoría -->
+  {% for category, results in results_grouped.items %}
+  <div class="card overflow-hidden">
+    <div class="px-5 py-4 flex items-center gap-2">
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{{ category }}</p>
+    </div>
+    {% for result in results %}
+    <a href="{% url 'biomarker_detail' result.biomarker.pk %}?back=analysis&pk={{ report.pk }}"
+       class="flex items-center gap-3 px-5 py-3.5 row-sep active:bg-[#F2F2F7] transition">
+      <span class="w-2.5 h-2.5 rounded-sm flex-shrink-0
+        {% if result.status == 'normal' %}bg-[#1A9E6E]
+        {% elif result.status == 'borderline' %}bg-[#5FD4A3]
+        {% elif result.status == 'low' or result.status == 'high' %}bg-[#FF9F0A]
+        {% else %}bg-[#E5E5EA]{% endif %}"></span>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold text-[#1C1C1E] truncate">{{ result.biomarker.name }}</p>
+        {% with sex=request.user.userprofile.biological_sex %}
+        <p class="text-[11px] text-[#AEAEB2]">
+          Ref:
+          {% if sex == 'M' %}{{ result.biomarker.ref_min_male|default:"—" }}–{{ result.biomarker.ref_max_male|default:"—" }}
+          {% else %}{{ result.biomarker.ref_min_female|default:"—" }}–{{ result.biomarker.ref_max_female|default:"—" }}{% endif %}
+          {{ result.biomarker.unit }}
+        </p>
+        {% endwith %}
+      </div>
+      <div class="flex items-center gap-1.5 flex-shrink-0">
+        <span class="font-mono text-sm font-bold
+          {% if result.status == 'normal' %}text-[#1A9E6E]
+          {% elif result.status == 'borderline' %}text-[#5FD4A3]
+          {% elif result.status == 'low' or result.status == 'high' %}text-[#FF9F0A]
+          {% else %}text-[#AEAEB2]{% endif %}">{{ result.value }}</span>
+        <span class="text-[11px] text-[#AEAEB2]">{{ result.biomarker.unit }}</span>
+        <svg class="w-3.5 h-3.5 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% empty %}
+  <div class="card p-8 text-center">
+    <p class="text-sm text-[#8E8E93] mb-3">Sin valores registrados.</p>
+    <a href="{% url 'analysis_update' report.pk %}" class="text-sm font-semibold text-[#007AFF]">Añadir valores →</a>
+  </div>
+  {% endfor %}
+
+{% endblock %}
