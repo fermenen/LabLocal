@@ -38,14 +38,23 @@ class ProfileView(LoginRequiredMixin, View):
             'ai_license': AILicense.get_active(),
         }
 
+    _REQUIRED_FIELDS = ('first_name', 'last_name', 'birth_date', 'biological_sex')
+
+    def _apply_required(self, form):
+        for field in self._REQUIRED_FIELDS:
+            form.fields[field].required = True
+        return form
+
     def get(self, request):
         profile = self._get_profile(request)
-        form = UserProfileForm(instance=profile, user=request.user)
+        form = self._apply_required(UserProfileForm(instance=profile, user=request.user))
         return render(request, self.template_name, self._get_context(request, form))
 
     def post(self, request):
         profile = self._get_profile(request)
-        form = UserProfileForm(request.POST, request.FILES, instance=profile, user=request.user)
+        form = self._apply_required(
+            UserProfileForm(request.POST, request.FILES, instance=profile, user=request.user)
+        )
         if form.is_valid():
             form.save()
             messages.success(request, _('Profile updated successfully.'))

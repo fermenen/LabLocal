@@ -4,6 +4,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # Onboarding (first login)
+    path('onboarding/profile/', views.OnboardingProfileView.as_view(), name='onboarding_profile'),
+    path('onboarding/analysis/', views.OnboardingAnalysisView.as_view(), name='onboarding_analysis'),
+
     # Dashboard
     path('health/', views.health_check, name='health_check'),
     path('dashboard/', views.DashboardView.as_view(), name='dashboard'),

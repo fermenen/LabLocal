@@ -28,7 +28,7 @@
       <div class="flex-1 min-w-0">
         <p class="text-[14px] font-semibold text-[#1C1C1E] truncate">{{ report.name|capfirst }}</p>
         <p class="text-xs text-[#8E8E93]">
-          {% if report.lab_name %}{{ report.lab_name }}{% else %}{% trans "Analysis" %}{% endif %}
+          {% if report.lab_name %}{{ report.lab_name | capfirst }}{% else %}{% trans "Analysis" %}{% endif %}
           {% if alerts %} · <span class="text-[#FF9F0A] font-semibold">{{ alerts|length }} {% trans "out of range" %}</span>
           {% elif borderlines %} · <span class="text-[#5FD4A3] font-semibold">{{ borderlines|length }} {% trans "in range" %}</span>
           {% elif report.results.count %} · <span class="text-[#1A9E6E] font-semibold">{% trans "All optimal" %}</span>{% endif %}

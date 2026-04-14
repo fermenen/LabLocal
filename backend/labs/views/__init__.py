@@ -30,6 +30,7 @@ from .profile import (
 )
 from .ai_proxy import ConversationsView, MessagesView
 from .reports import AllReportsView, ExportView
+from .onboarding import OnboardingProfileView, OnboardingAnalysisView
 
 __all__ = [
     'LoginView', 'LogoutView', 'custom_404', 'health_check',
@@ -43,4 +44,5 @@ __all__ = [
     'ProfileView', 'FamilyUserCreateView', 'PrivacyView', 'LanguageView', 'LanguageChangeView', 'PasswordChangeView', 'AISubscribeView', 'AIUnsubscribeView',
     'ConversationsView', 'MessagesView',
     'AllReportsView', 'ExportView',
+    'OnboardingProfileView', 'OnboardingAnalysisView',
 ]

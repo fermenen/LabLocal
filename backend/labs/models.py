@@ -149,7 +149,15 @@ class BaseReport(models.Model):
 class AnalysisReport(BaseReport):
     """Analítica o reconocimiento médico completo."""
 
+    def pdf_upload_path(_instance, filename):
+        ext = filename.rsplit('.', 1)[-1]
+        return f'analysis_pdfs/{uuid.uuid4()}.{ext}'
+
     lab_name = models.CharField(max_length=200, blank=True, verbose_name=_('Laboratory'))
+    pdf = models.FileField(
+        upload_to=pdf_upload_path,
+        null=True, blank=True, verbose_name=_('PDF')
+    )
     phenoage_years = models.DecimalField(
         max_digits=5, decimal_places=1, null=True, blank=True,
         verbose_name=_('Biological age (PhenoAge)')

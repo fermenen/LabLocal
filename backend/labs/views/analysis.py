@@ -60,22 +60,31 @@ class ReportCreateView(LoginRequiredMixin, View):
 
     template_name = 'labs/analysis/form.html'
 
+    def _back(self, request):
+        """Devuelve la URL de retorno según el parámetro ?back=."""
+        if request.GET.get('back') == 'dashboard':
+            return 'dashboard'
+        return None
+
     def get(self, request):
         return render(request, self.template_name, {
             'form': AnalysisReportForm(),
             'biomarkers_grouped': _biomarkers_grouped(),
             'existing_values': {},
             'action': 'Crear',
+            'back': self._back(request),
         })
 
     def post(self, request):
-        form = AnalysisReportForm(request.POST)
+        form = AnalysisReportForm(request.POST, request.FILES)
+        back = self._back(request)
         if not form.is_valid():
             return render(request, self.template_name, {
                 'form': form,
                 'biomarkers_grouped': _biomarkers_grouped(),
                 'existing_values': {},
                 'action': 'Crear',
+                'back': back,
             })
         report = form.save(commit=False)
         report.user = request.user
@@ -83,6 +92,8 @@ class ReportCreateView(LoginRequiredMixin, View):
         _save_biomarker_results(request, report)
         update_report_phenoage(report)
         messages.success(request, _('Analysis "%(name)s" created successfully.') % {'name': report.name})
+        if back == 'dashboard':
+            return redirect('dashboard')
         return redirect('analysis_detail', pk=report.pk)
 
 

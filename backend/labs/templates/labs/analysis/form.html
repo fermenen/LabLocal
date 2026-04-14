@@ -1,8 +1,8 @@
 {% extends "labs/app_detail.html" %}
 {% load i18n %}
 {% block title %}{% if action == 'Crear' %}{% trans "New analysis" %}{% else %}{% trans "Edit analysis" %}{% endif %} — LabLocal{% endblock %}
-{% block back_url %}{% if report %}{% url 'analysis_detail' report.pk %}{% else %}{% url 'analysis_list' %}{% endif %}{% endblock %}
-{% block back_label %}{% if report %}{{ report.name|capfirst|truncatechars:20 }}{% else %}{% trans "Analyses" %}{% endif %}{% endblock %}
+{% block back_url %}{% if back == 'dashboard' %}{% url 'dashboard' %}{% elif report %}{% url 'analysis_detail' report.pk %}{% else %}{% url 'analysis_list' %}{% endif %}{% endblock %}
+{% block back_label %}{% if back == 'dashboard' %}Dashboard{% elif report %}{{ report.name|capfirst|truncatechars:20 }}{% else %}{% trans "Analyses" %}{% endif %}{% endblock %}
 {% block page_title %}{% if action == 'Crear' %}{% trans "New analysis" %}{% else %}{% trans "Edit analysis" %}{% endif %}{% endblock %}
 
 {% block nav_actions %}{% endblock %}

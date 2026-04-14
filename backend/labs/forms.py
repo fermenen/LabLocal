@@ -69,22 +69,23 @@ class AnalysisReportForm(forms.ModelForm):
 
     class Meta:
         model = AnalysisReport
-        fields = ['name', 'date', 'lab_name', 'notes']
+        fields = ['name', 'date', 'lab_name', 'notes', 'pdf']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'field',
-                'placeholder': 'Ej: Reconocimiento laboral anual 2026',
+                'placeholder': _('e.g. Annual check-up 2026'),
             }),
             'date': forms.DateInput(attrs={'type': 'date', 'class': 'field'}, format='%Y-%m-%d'),
             'lab_name': forms.TextInput(attrs={
                 'class': 'field',
-                'placeholder': 'Ej: Clínica Salud Total',
+                'placeholder': _('e.g. City Health Clinic'),
             }),
             'notes': forms.Textarea(attrs={
                 'rows': 3,
                 'class': 'field',
-                'placeholder': 'Observaciones adicionales...',
+                'placeholder': _('Additional observations...'),
             }),
+            'pdf': forms.FileInput(attrs={'class': 'field', 'accept': '.pdf'}),
         }
 
 

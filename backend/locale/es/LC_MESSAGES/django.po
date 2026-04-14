@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LabLocal 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-14 13:29+0200\n"
+"POT-Creation-Date: 2026-04-14 21:07+0200\n"
 "PO-Revision-Date: 2026-04-14 13:13+0200\n"
 "Last-Translator: LabLocal\n"
 "Language-Team: Spanish\n"
@@ -16,21 +16,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: labs/forms.py:16 labs/templates/labs/profile/edit.html:79
+#: labs/forms.py:16 labs/templates/labs/onboarding/profile.html:88
+#: labs/templates/labs/profile/edit.html:79
 #: labs/templates/labs/profile/family_create.html:24
 msgid "First name"
 msgstr "Nombre"
 
-#: labs/forms.py:20 labs/templates/labs/profile/edit.html:84
+#: labs/forms.py:20 labs/templates/labs/onboarding/profile.html:93
+#: labs/templates/labs/profile/edit.html:84
 #: labs/templates/labs/profile/family_create.html:29
 msgid "Last name"
 msgstr "Apellidos"
 
-#: labs/forms.py:24 labs/models.py:33 labs/templates/labs/profile/edit.html:91
+#: labs/forms.py:24 labs/models.py:32
+#: labs/templates/labs/onboarding/profile.html:102
+#: labs/templates/labs/profile/edit.html:91
 msgid "Date of birth"
 msgstr "Fecha de nacimiento"
 
-#: labs/forms.py:31 labs/models.py:37 labs/templates/labs/profile/edit.html:102
+#: labs/forms.py:31 labs/models.py:36
+#: labs/templates/labs/onboarding/profile.html:115
+#: labs/templates/labs/profile/edit.html:102
 msgid "Smoker"
 msgstr "Fumador"
 
@@ -46,27 +52,40 @@ msgstr "Sí"
 msgid "No"
 msgstr "No"
 
-#: labs/models.py:19
+#: labs/forms.py:76
+msgid "e.g. Annual check-up 2026"
+msgstr "Ej: Reconocimiento laboral anual 2026"
+
+#: labs/forms.py:81
+msgid "e.g. City Health Clinic"
+msgstr "Ej: Clínica Salud Total"
+
+#: labs/forms.py:86
+msgid "Additional observations..."
+msgstr "Observaciones adicionales..."
+
+#: labs/models.py:18 labs/templates/labs/biomarkers/detail.html:50
 msgid "Male"
 msgstr "Masculino"
 
-#: labs/models.py:19
+#: labs/models.py:18 labs/templates/labs/biomarkers/detail.html:68
 msgid "Female"
 msgstr "Femenino"
 
-#: labs/models.py:27
+#: labs/models.py:26
 msgid "Public UUID"
 msgstr "UUID público"
 
-#: labs/models.py:31 labs/templates/labs/profile/privacy.html:39
+#: labs/models.py:30 labs/templates/labs/profile/privacy.html:39
 msgid "Profile picture"
 msgstr "Foto de perfil"
 
-#: labs/models.py:35 labs/templates/labs/profile/edit.html:96
+#: labs/models.py:34 labs/templates/labs/onboarding/profile.html:107
+#: labs/templates/labs/profile/edit.html:96
 msgid "Biological sex"
 msgstr "Sexo biológico"
 
-#: labs/models.py:38 labs/models.py:123 labs/models.py:258
+#: labs/models.py:37 labs/models.py:138 labs/models.py:281
 #: labs/templates/labs/analysis/detail.html:96
 #: labs/templates/labs/analysis/form.html:35
 #: labs/templates/labs/body/detail.html:68
@@ -77,144 +96,142 @@ msgstr "Sexo biológico"
 msgid "Notes"
 msgstr "Notas"
 
-#: labs/models.py:41
+#: labs/models.py:40
 msgid "User profile"
 msgstr "Perfil de usuario"
 
-#: labs/models.py:42
+#: labs/models.py:41
 msgid "User profiles"
 msgstr "Perfiles de usuario"
 
-#: labs/models.py:59
+#: labs/models.py:58
 msgid "Hematology"
 msgstr "Hematología"
 
-#: labs/models.py:60
+#: labs/models.py:59
 msgid "Biochemistry"
 msgstr "Bioquímica"
 
-#: labs/models.py:61
+#: labs/models.py:60
 msgid "Lipids"
 msgstr "Lípidos"
 
-#: labs/models.py:62
+#: labs/models.py:61
 msgid "Thyroid"
 msgstr "Tiroides"
 
-#: labs/models.py:63
+#: labs/models.py:62
 msgid "Iron"
 msgstr "Hierro"
 
-#: labs/models.py:64
+#: labs/models.py:63
 msgid "Inflammation"
 msgstr "Inflamación"
 
-#: labs/models.py:65
+#: labs/models.py:64
 msgid "Urine"
 msgstr "Orina"
 
-#: labs/models.py:66
+#: labs/models.py:65
 msgid "Vitamins"
 msgstr "Vitaminas"
 
-#: labs/models.py:67
+#: labs/models.py:66
 msgid "Other"
 msgstr "Otros"
 
-#: labs/models.py:70 labs/models.py:121
-#: labs/templates/labs/analysis/form.html:19
-msgid "Name"
-msgstr "Nombre"
-
-#: labs/models.py:71
-msgid "Short name"
-msgstr "Nombre corto"
-
-#: labs/models.py:72
+#: labs/models.py:69
 msgid "LOINC code"
 msgstr "Código LOINC"
 
-#: labs/models.py:74
+#: labs/models.py:71
 msgid "Category"
 msgstr "Categoría"
 
-#: labs/models.py:76
+#: labs/models.py:73
 msgid "Unit"
 msgstr "Unidad"
 
-#: labs/models.py:77
-msgid "Description"
-msgstr "Descripción"
-
-#: labs/models.py:80
+#: labs/models.py:76
 msgid "Reference min (male)"
 msgstr "Referencia mín. (hombre)"
 
-#: labs/models.py:84
+#: labs/models.py:80
 msgid "Reference max (male)"
 msgstr "Referencia máx. (hombre)"
 
-#: labs/models.py:88
+#: labs/models.py:84
 msgid "Reference min (female)"
 msgstr "Referencia mín. (mujer)"
 
-#: labs/models.py:92
+#: labs/models.py:88
 msgid "Reference max (female)"
 msgstr "Referencia máx. (mujer)"
 
-#: labs/models.py:95
+#: labs/models.py:91
 msgid "Low value is bad"
 msgstr "Valor bajo es malo"
 
-#: labs/models.py:97
+#: labs/models.py:93
 msgid "Order"
 msgstr "Orden"
 
-#: labs/models.py:100 labs/models.py:255
+#: labs/models.py:96 labs/models.py:278
 msgid "Biomarker"
 msgstr "Biomarcador"
 
-#: labs/models.py:101 labs/templates/labs/biomarkers/detail.html:5
+#: labs/models.py:97 labs/templates/labs/biomarkers/detail.html:5
 #: labs/templates/labs/biomarkers/list.html:3
 #: labs/templates/labs/biomarkers/list.html:6
 msgid "Biomarkers"
 msgstr "Biomarcadores"
 
-#: labs/models.py:119
+#: labs/models.py:134
 msgid "User"
 msgstr "Usuario"
 
-#: labs/models.py:122 labs/templates/labs/analysis/detail.html:75
+#: labs/models.py:136 labs/templates/labs/analysis/form.html:19
+#: labs/templates/labs/onboarding/analysis.html:53
+msgid "Name"
+msgstr "Nombre"
+
+#: labs/models.py:137 labs/templates/labs/analysis/detail.html:75
 #: labs/templates/labs/analysis/form.html:25
 #: labs/templates/labs/body/detail.html:63
 #: labs/templates/labs/body/detail.html:91
 #: labs/templates/labs/body/form.html:22 labs/templates/labs/ecg/detail.html:47
 #: labs/templates/labs/ecg/form.html:22
+#: labs/templates/labs/onboarding/analysis.html:61
 msgid "Date"
 msgstr "Fecha"
 
-#: labs/models.py:124
+#: labs/models.py:139
 msgid "Created at"
 msgstr "Creado el"
 
-#: labs/models.py:137 labs/templates/labs/analysis/detail.html:80
+#: labs/models.py:156 labs/templates/labs/analysis/detail.html:80
 #: labs/templates/labs/analysis/form.html:30
+#: labs/templates/labs/onboarding/analysis.html:66
 msgid "Laboratory"
 msgstr "Laboratorio"
 
-#: labs/models.py:140
+#: labs/models.py:159
+msgid "PDF"
+msgstr ""
+
+#: labs/models.py:163
 msgid "Biological age (PhenoAge)"
 msgstr "Edad biológica (PhenoAge)"
 
-#: labs/models.py:144
+#: labs/models.py:167
 msgid "Biological-chronological age difference"
 msgstr "Diferencia edad biológica-cronológica"
 
-#: labs/models.py:148
+#: labs/models.py:171
 msgid "Missing markers for PhenoAge"
 msgstr "Marcadores faltantes para PhenoAge"
 
-#: labs/models.py:152 labs/models.py:252
+#: labs/models.py:175 labs/models.py:275
 #: labs/templates/labs/analysis/detail.html:72
 #: labs/templates/labs/analysis/list.html:31
 #: labs/templates/labs/app_detail.html:72
@@ -225,146 +242,146 @@ msgstr "Marcadores faltantes para PhenoAge"
 msgid "Analysis"
 msgstr "Analítica"
 
-#: labs/models.py:153 labs/templates/labs/analysis/detail.html:5
+#: labs/models.py:176 labs/templates/labs/analysis/detail.html:5
 #: labs/templates/labs/analysis/form.html:5
 #: labs/templates/labs/analysis/list.html:3
 #: labs/templates/labs/analysis/list.html:5
 msgid "Analyses"
 msgstr "Analíticas"
 
-#: labs/models.py:168
+#: labs/models.py:191
 msgid "Weight (kg)"
 msgstr "Peso (kg)"
 
-#: labs/models.py:171
+#: labs/models.py:194
 msgid "Height (cm)"
 msgstr "Altura (cm)"
 
-#: labs/models.py:175
+#: labs/models.py:198
 msgid "Body fat (%)"
 msgstr "Grasa corporal (%)"
 
-#: labs/models.py:179 labs/templates/labs/body/list.html:67
+#: labs/models.py:202 labs/templates/labs/body/list.html:67
 msgid "Visceral fat (level)"
 msgstr "Grasa visceral (nivel)"
 
-#: labs/models.py:183
+#: labs/models.py:206
 msgid "Muscle mass (kg)"
 msgstr "Masa muscular (kg)"
 
-#: labs/models.py:187
+#: labs/models.py:210
 msgid "Water (%)"
 msgstr "Agua (%)"
 
-#: labs/models.py:191
+#: labs/models.py:214
 msgid "Protein (%)"
 msgstr "Proteína (%)"
 
-#: labs/models.py:195
+#: labs/models.py:218
 msgid "Bone mass (kg)"
 msgstr "Masa ósea (kg)"
 
-#: labs/models.py:199 labs/templates/labs/app_detail.html:82
+#: labs/models.py:222 labs/templates/labs/app_detail.html:82
 #: labs/templates/labs/body/list.html:3 labs/templates/labs/dashboard.html:68
 #: labs/templates/labs/dashboard.html:350
 #: labs/templates/labs/reports/all.html:42
 msgid "Body composition"
 msgstr "Composición corporal"
 
-#: labs/models.py:200
+#: labs/models.py:223
 msgid "Body compositions"
 msgstr "Composiciones corporales"
 
-#: labs/models.py:215
+#: labs/models.py:238
 msgid "No data"
 msgstr "Sin datos"
 
-#: labs/models.py:217 labs/templates/labs/body/list.html:39
+#: labs/models.py:240 labs/templates/labs/body/list.html:39
 msgid "Underweight"
 msgstr "Bajo peso"
 
-#: labs/models.py:219 labs/models.py:317 labs/templates/labs/body/list.html:40
+#: labs/models.py:242 labs/models.py:340 labs/templates/labs/body/list.html:40
 #: labs/templates/labs/body/list.html:69 labs/templates/labs/ecg/list.html:49
 msgid "Normal"
 msgstr "Normal"
 
-#: labs/models.py:221 labs/templates/labs/body/list.html:41
+#: labs/models.py:244 labs/templates/labs/body/list.html:41
 msgid "Overweight"
 msgstr "Sobrepeso"
 
-#: labs/models.py:222 labs/templates/labs/body/list.html:42
+#: labs/models.py:245 labs/templates/labs/body/list.html:42
 msgid "Obesity"
 msgstr "Obesidad"
 
-#: labs/models.py:234
+#: labs/models.py:257
 msgid "ECG image"
 msgstr "Imagen ECG"
 
-#: labs/models.py:237
+#: labs/models.py:260
 msgid "Heart rate (bpm)"
 msgstr "Frecuencia cardíaca (ppm)"
 
-#: labs/models.py:241
+#: labs/models.py:264
 msgid "Electrocardiogram"
 msgstr "Electrocardiograma"
 
-#: labs/models.py:242
+#: labs/models.py:265
 msgid "Electrocardiograms"
 msgstr "Electrocardiogramas"
 
-#: labs/models.py:257
+#: labs/models.py:280
 msgid "Value"
 msgstr "Valor"
 
-#: labs/models.py:261
+#: labs/models.py:284
 msgid "Result"
 msgstr "Resultado"
 
-#: labs/models.py:262
+#: labs/models.py:285
 msgid "Results"
 msgstr "Resultados"
 
-#: labs/models.py:318
+#: labs/models.py:341
 msgid "Borderline"
 msgstr "Límite"
 
-#: labs/models.py:319
+#: labs/models.py:342
 msgid "Low"
 msgstr "Bajo"
 
-#: labs/models.py:320
+#: labs/models.py:343
 msgid "High"
 msgstr "Alto"
 
-#: labs/models.py:321
+#: labs/models.py:344
 msgid "No range"
 msgstr "Sin rango"
 
-#: labs/models.py:322
+#: labs/models.py:345
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: labs/models.py:339
+#: labs/models.py:362
 msgid "AI API key"
 msgstr "Clave API de IA"
 
-#: labs/models.py:340
+#: labs/models.py:363
 msgid "Plan"
 msgstr "Plan"
 
-#: labs/models.py:341
+#: labs/models.py:364
 msgid "Activated at"
 msgstr "Activado el"
 
-#: labs/models.py:344
+#: labs/models.py:367
 msgid "Activated by"
 msgstr "Activado por"
 
-#: labs/models.py:348
+#: labs/models.py:371
 msgid "AI license"
 msgstr "Licencia IA"
 
-#: labs/models.py:349
+#: labs/models.py:372
 msgid "AI licenses"
 msgstr "Licencias IA"
 
@@ -433,19 +450,18 @@ msgid "Delete"
 msgstr "Eliminar"
 
 #: labs/templates/labs/analysis/detail.html:42
-#: labs/templates/labs/analysis/detail.html:52
-msgid "value"
-msgstr "valor"
-
-#: labs/templates/labs/analysis/detail.html:42
-#: labs/templates/labs/analysis/list.html:32
-msgid "out of range"
-msgstr "fuera de rango"
+#, python-format
+msgid "%(count)s value out of range"
+msgid_plural "%(count)s values out of range"
+msgstr[0] "%(count)s valor fuera de rango"
+msgstr[1] "%(count)s valores fuera de rango"
 
 #: labs/templates/labs/analysis/detail.html:52
-#: labs/templates/labs/analysis/list.html:33
-msgid "in range"
-msgstr "en rango"
+#, python-format
+msgid "%(count)s value in range"
+msgid_plural "%(count)s values in range"
+msgstr[0] "%(count)s valor en rango"
+msgstr[1] "%(count)s valores en rango"
 
 #: labs/templates/labs/analysis/detail.html:61
 msgid "All values in optimal range"
@@ -460,11 +476,15 @@ msgstr "Marcadores"
 msgid "View all"
 msgstr "Ver todos"
 
-#: labs/templates/labs/analysis/detail.html:143
+#: labs/templates/labs/analysis/detail.html:108
+msgid "View PDF"
+msgstr "Ver PDF"
+
+#: labs/templates/labs/analysis/detail.html:157
 msgid "No values recorded."
 msgstr "Sin valores registrados."
 
-#: labs/templates/labs/analysis/detail.html:144
+#: labs/templates/labs/analysis/detail.html:158
 msgid "Add values"
 msgstr "Añadir valores"
 
@@ -487,7 +507,7 @@ msgid "Values"
 msgstr "Valores"
 
 #: labs/templates/labs/analysis/form.html:43
-#: labs/templates/labs/biomarkers/list.html:17
+#: labs/templates/labs/biomarkers/list.html:25
 msgid "Search biomarker..."
 msgstr "Buscar biomarcador..."
 
@@ -503,7 +523,7 @@ msgstr "Guardar analítica"
 msgid "Update analysis"
 msgstr "Actualizar analítica"
 
-#: labs/templates/labs/analysis/form.html:105 labs/templates/labs/app.html:107
+#: labs/templates/labs/analysis/form.html:105 labs/templates/labs/app.html:108
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -513,6 +533,14 @@ msgstr "Cancelar"
 #: labs/templates/labs/reports/all.html:15
 msgid "History"
 msgstr "Historial"
+
+#: labs/templates/labs/analysis/list.html:32
+msgid "out of range"
+msgstr "fuera de rango"
+
+#: labs/templates/labs/analysis/list.html:33
+msgid "in range"
+msgstr "en rango"
 
 #: labs/templates/labs/analysis/list.html:34
 msgid "All optimal"
@@ -527,11 +555,12 @@ msgid "Add your first analysis to start tracking."
 msgstr "Añade tu primera analítica para empezar a hacer seguimiento."
 
 #: labs/templates/labs/analysis/list.html:61
-#: labs/templates/labs/biomarkers/detail.html:86
+#: labs/templates/labs/biomarkers/detail.html:111
+#: labs/templates/labs/onboarding/analysis.html:121
 msgid "Add analysis"
 msgstr "Añadir analítica"
 
-#: labs/templates/labs/app.html:112
+#: labs/templates/labs/app.html:113
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -539,11 +568,11 @@ msgstr "Confirmar"
 msgid "Back"
 msgstr "Atrás"
 
-#: labs/templates/labs/app_detail.html:34 labs/templates/labs/dashboard.html:25
+#: labs/templates/labs/app_detail.html:35 labs/templates/labs/dashboard.html:25
 msgid "Chat"
 msgstr "Chat"
 
-#: labs/templates/labs/app_detail.html:44 labs/templates/labs/dashboard.html:37
+#: labs/templates/labs/app_detail.html:45 labs/templates/labs/dashboard.html:37
 #: labs/templates/labs/profile/edit.html:232
 msgid "Add"
 msgstr "Añadir"
@@ -561,34 +590,38 @@ msgstr "ECG"
 
 #: labs/templates/labs/app_detail.html:103
 #: labs/templates/labs/dashboard.html:89
+#: labs/templates/labs/onboarding/analysis.html:26
+#: labs/templates/labs/onboarding/profile.html:24
 msgid "Profile"
 msgstr "Perfil"
 
-#: labs/templates/labs/biomarkers/detail.html:24
-#: labs/templates/labs/body/list.html:20 labs/templates/labs/ecg/list.html:20
-msgid "Hide"
-msgstr "Ocultar"
+#: labs/templates/labs/biomarkers/detail.html:36
+msgid "About"
+msgstr "Descripción"
 
-#: labs/templates/labs/biomarkers/detail.html:25
-#: labs/templates/labs/body/list.html:21
-msgid "See reference ranges"
-msgstr "Ver rangos de referencia"
+#: labs/templates/labs/biomarkers/detail.html:44
+msgid "Reference ranges"
+msgstr "Rangos de referencia"
 
-#: labs/templates/labs/biomarkers/detail.html:67
+#: labs/templates/labs/biomarkers/detail.html:92
 msgid "Evolution"
 msgstr "Evolución"
 
-#: labs/templates/labs/biomarkers/detail.html:80
+#: labs/templates/labs/biomarkers/detail.html:105
 msgid "No historical data"
 msgstr "Sin datos históricos"
 
-#: labs/templates/labs/biomarkers/detail.html:81
+#: labs/templates/labs/biomarkers/detail.html:106
 msgid "Record this biomarker in an analysis to see the chart."
 msgstr "Registra este biomarcador en una analítica para ver el gráfico."
 
-#: labs/templates/labs/biomarkers/detail.html:99
+#: labs/templates/labs/biomarkers/detail.html:124
 msgid "My measurements"
 msgstr "Mis mediciones"
+
+#: labs/templates/labs/biomarkers/list.html:16
+msgid "available biomarkers"
+msgstr "biomarcadores disponibles"
 
 #: labs/templates/labs/body/detail.html:5
 #: labs/templates/labs/body/detail.html:111
@@ -744,6 +777,14 @@ msgstr ""
 "marcadores de envejecimiento más relevantes son la grasa corporal (aumenta "
 "con la edad) y la masa muscular (disminuye con la edad, fenómeno llamado "
 "sarcopenia)."
+
+#: labs/templates/labs/body/list.html:20 labs/templates/labs/ecg/list.html:20
+msgid "Hide"
+msgstr "Ocultar"
+
+#: labs/templates/labs/body/list.html:21
+msgid "See reference ranges"
+msgstr "Ver rangos de referencia"
 
 #: labs/templates/labs/body/list.html:37
 msgid "BMI (kg/m²)"
@@ -1076,6 +1117,71 @@ msgstr "usuario"
 msgid "Password"
 msgstr "Contraseña"
 
+#: labs/templates/labs/onboarding/analysis.html:3
+#: labs/templates/labs/onboarding/analysis.html:42
+msgid "Add your first analysis"
+msgstr "Añade tu primera analítica"
+
+#: labs/templates/labs/onboarding/analysis.html:33
+#: labs/templates/labs/onboarding/profile.html:31
+msgid "First analysis"
+msgstr "Primera analítica"
+
+#: labs/templates/labs/onboarding/analysis.html:44
+msgid "Name it and drop the PDF — the values will be filled in automatically."
+msgstr ""
+"Ponle nombre y suelta el PDF — los valores se rellenarán automáticamente."
+
+#: labs/templates/labs/onboarding/analysis.html:103
+msgid "Drop your PDF here"
+msgstr "Suelta tu PDF aquí"
+
+#: labs/templates/labs/onboarding/analysis.html:104
+msgid "or tap to choose a file"
+msgstr "o toca para elegir un archivo"
+
+#: labs/templates/labs/onboarding/analysis.html:120
+msgid "Prefer to enter values manually?"
+msgstr "¿Prefieres introducir los valores a mano?"
+
+#: labs/templates/labs/onboarding/analysis.html:130
+msgid "Save and go to dashboard"
+msgstr "Guardar e ir al panel"
+
+#: labs/templates/labs/onboarding/analysis.html:135
+#: labs/templates/labs/onboarding/profile.html:129
+msgid "Skip for now"
+msgstr "Saltar por ahora"
+
+#: labs/templates/labs/onboarding/profile.html:3
+msgid "Set up your profile"
+msgstr "Configura tu perfil"
+
+#: labs/templates/labs/onboarding/profile.html:40
+msgid "Tell us about you"
+msgstr "Cuéntanos sobre ti"
+
+#: labs/templates/labs/onboarding/profile.html:41
+msgid ""
+"These details help personalise your health insights. You can always edit "
+"them later."
+msgstr ""
+"Estos datos nos ayudan a personalizar tu análisis de salud. Siempre podrás "
+"editarlos más adelante."
+
+#: labs/templates/labs/onboarding/profile.html:78
+#: labs/templates/labs/profile/edit.html:69
+msgid "Profile photo"
+msgstr "Foto de perfil"
+
+#: labs/templates/labs/onboarding/profile.html:79
+msgid "Optional · tap to upload"
+msgstr "Opcional · toca para subir"
+
+#: labs/templates/labs/onboarding/profile.html:124
+msgid "Continue"
+msgstr "Continuar"
+
 #: labs/templates/labs/phenoage/history.html:3
 #: labs/templates/labs/phenoage/history.html:5
 msgid "Biological Age"
@@ -1267,10 +1373,6 @@ msgstr "Mi perfil"
 msgid "Personal data"
 msgstr "Datos personales"
 
-#: labs/templates/labs/profile/edit.html:69
-msgid "Profile photo"
-msgstr "Foto de perfil"
-
 #: labs/templates/labs/profile/edit.html:70
 msgid "Tap or drag an image"
 msgstr "Toca o arrastra una imagen"
@@ -1309,7 +1411,7 @@ msgstr "Idioma"
 msgid "Privacy policy"
 msgstr "Política de privacidad"
 
-#: labs/templates/labs/profile/edit.html:207
+#: labs/templates/labs/profile/edit.html:199
 msgid "Sign out?"
 msgstr "¿Cerrar sesión?"
 
@@ -1573,17 +1675,17 @@ msgstr "Todos los registros"
 msgid "You have no records saved yet."
 msgstr "No tienes registros guardados aún."
 
-#: labs/views/analysis.py:85
+#: labs/views/analysis.py:94
 #, python-format
 msgid "Analysis \"%(name)s\" created successfully."
 msgstr "Analítica \"%(name)s\" creada correctamente."
 
-#: labs/views/analysis.py:152
+#: labs/views/analysis.py:163
 #, python-format
 msgid "Analysis \"%(name)s\" updated successfully."
 msgstr "Analítica \"%(name)s\" actualizada correctamente."
 
-#: labs/views/analysis.py:171
+#: labs/views/analysis.py:182
 #, python-format
 msgid "Analysis \"%(name)s\" deleted successfully."
 msgstr "Analítica \"%(name)s\" eliminada correctamente."
@@ -1596,16 +1698,16 @@ msgstr "Registro guardado correctamente."
 msgid "Record updated successfully."
 msgstr "Registro actualizado correctamente."
 
-#: labs/views/core.py:19
+#: labs/views/core.py:27
 #, python-format
 msgid "Welcome back, %(name)s."
 msgstr "Bienvenido de nuevo, %(name)s."
 
-#: labs/views/core.py:28
+#: labs/views/core.py:41
 msgid "You have been signed out."
 msgstr "Has cerrado sesión."
 
-#: labs/views/core.py:39
+#: labs/views/core.py:52
 msgid "The page you requested was not found."
 msgstr "La página que solicitaste no se ha encontrado."
 
@@ -1699,26 +1801,34 @@ msgstr "Error al eliminar la licencia local: %(error)s"
 msgid "Password updated successfully."
 msgstr "Contraseña actualizada correctamente."
 
-#: labs/templates/labs/biomarkers/detail.html
-msgid "Reference ranges"
-msgstr "Rangos de referencia"
+#~ msgid "Optional · you can always add it later"
+#~ msgstr "Opcional · siempre puedes añadirlo más tarde"
 
-#: labs/templates/labs/biomarkers/detail.html
-msgid "About"
-msgstr "Descripción"
+#~ msgid ""
+#~ "Register the details of a recent blood test. You can enter the values "
+#~ "later."
+#~ msgstr ""
+#~ "Registra los datos de un análisis de sangre reciente. Puedes introducir "
+#~ "los valores más adelante."
 
-#: labs/templates/labs/biomarkers/list.html
-msgid "available biomarkers"
-msgstr "biomarcadores disponibles"
+#~ msgid ""
+#~ "Once saved, you can enter the individual biomarker values from the "
+#~ "analysis detail page."
+#~ msgstr ""
+#~ "Una vez guardado, podrás introducir los valores de cada biomarcador desde "
+#~ "el detalle de la analítica."
 
-#: labs/templates/labs/analysis/detail.html
-msgid "%(count)s value out of range"
-msgid_plural "%(count)s values out of range"
-msgstr[0] "%(count)s valor fuera de rango"
-msgstr[1] "%(count)s valores fuera de rango"
+#~ msgid "Step 2 of 2"
+#~ msgstr "Paso 2 de 2"
 
-#: labs/templates/labs/analysis/detail.html
-msgid "%(count)s value in range"
-msgid_plural "%(count)s values in range"
-msgstr[0] "%(count)s valor en rango"
-msgstr[1] "%(count)s valores en rango"
+#~ msgid "Step 1 of 2"
+#~ msgstr "Paso 1 de 2"
+
+#~ msgid "Short name"
+#~ msgstr "Nombre corto"
+
+#~ msgid "Description"
+#~ msgstr "Descripción"
+
+#~ msgid "value"
+#~ msgstr "valor"
