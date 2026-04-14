@@ -1,52 +1,49 @@
+{% load i18n static %}
+{% get_current_language as CURRENT_LANG %}
 <!DOCTYPE html>
-<html lang="es" class="h-full">
+<html lang="{{ CURRENT_LANG }}" class="h-full">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>{% block title %}LabLocal{% endblock %}</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link href="{% static 'labs/css/inter.css' %}" rel="stylesheet">
+  <script src="{% static 'labs/js/tailwindcss_browser_4.js' %}"></script>
+  <script src="{% static 'labs/js/chartjs_4.5.1.js' %}"></script>
+  <script defer src="{% static 'labs/js/alpinejs_3.js' %}"></script>
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
-          colors: {
-            ios: {
-              bg:     '#F2F2F7',
-              card:   '#FFFFFF',
-              blue:   '#007AFF',
-              green:  '#34C759',
-              yellow: '#FF9F0A',
-              red:    '#FF3B30',
-              gray1:  '#8E8E93',
-              gray2:  '#AEAEB2',
-              gray3:  '#C7C7CC',
-              gray4:  '#D1D1D6',
-              gray5:  '#E5E5EA',
-              gray6:  '#F2F2F7',
-            },
-          },
-          maxWidth: {
-            mobile: '430px',
-            app: '960px',
-          },
-          borderRadius: { '2.5xl': '20px' },
-        },
-      },
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Inter', system-ui, sans-serif;
+
+      --color-ios-bg:     #F2F2F7;
+      --color-ios-card:   #FFFFFF;
+      --color-ios-blue:   #007AFF;
+      --color-ios-green:  #34C759;
+      --color-ios-yellow: #FF9F0A;
+      --color-ios-red:    #FF3B30;
+      --color-ios-gray1:  #8E8E93;
+      --color-ios-gray2:  #AEAEB2;
+      --color-ios-gray3:  #C7C7CC;
+      --color-ios-gray4:  #D1D1D6;
+      --color-ios-gray5:  #E5E5EA;
+      --color-ios-gray6:  #F2F2F7;
+
+      --max-width-mobile: 430px;
+      --max-width-app:    960px;
+
+      --radius-2_5xl: 20px;
     }
-  </script>
+
+    /* Clases usadas dinámicamente en Alpine :class que el scanner no detecta */
+    @source inline("bg-[#1C1C1E] border-[#1C1C1E] text-white rotate-45");
+  </style>
 
   {% block extra_head %}{% endblock %}
 </head>
 
 <body x-data class="min-h-screen bg-[#F2F2F7]">
 
-  <!-- Mensajes flash (toasts flotantes) -->
   {% if messages %}
   <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2 w-full max-w-lg px-4 pointer-events-none">
     {% for message in messages %}
@@ -62,7 +59,7 @@
          class="pointer-events-auto w-full flex items-center justify-between px-4 py-3 text-sm rounded-2xl shadow-xl border
                 {% if message.tags == 'error' %}bg-red-50 border-red-200 text-red-700{% elif message.tags == 'warning' %}bg-amber-50 border-amber-200 text-amber-800{% else %}bg-green-50 border-green-200 text-green-800{% endif %}">
       <span>{{ message }}</span>
-      <button @click="show = false" class="ml-3 text-lg opacity-40 hover:opacity-70">&times;</button>
+      <button @click="show = false" class="ml-3 text-lg opacity-40 hover:opacity-70 cursor-pointer">&times;</button>
     </div>
     {% endfor %}
   </div>

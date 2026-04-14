@@ -21,6 +21,7 @@ class BiomarkerListView(LoginRequiredMixin, ListView):
             cat = bm.get_category_display()
             grupos.setdefault(cat, []).append(bm)
         ctx['biomarkers_grouped'] = grupos
+        ctx['biomarker_count'] = len(ctx['biomarkers'])
         return ctx
 
 

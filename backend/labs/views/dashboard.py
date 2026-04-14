@@ -4,6 +4,8 @@ from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
+from django.utils.translation import gettext as _
+
 from ..heart_rate import heart_rate_pct, heart_rate_scale, heart_rate_trend
 from ..models import AnalysisReport, BodyCompositionReport, ECGReport
 from ..pace import calcular_pace
@@ -86,10 +88,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
         hour = datetime.now().hour
         if hour < 13:
-            ctx['greeting'] = 'Buenos días'
+            ctx['greeting'] = _('Good morning')
         elif hour < 20:
-            ctx['greeting'] = 'Buenas tardes'
+            ctx['greeting'] = _('Good afternoon')
         else:
-            ctx['greeting'] = 'Buenas noches'
+            ctx['greeting'] = _('Good evening')
 
         return ctx

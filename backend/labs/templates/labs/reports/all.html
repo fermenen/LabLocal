@@ -1,7 +1,8 @@
 {% extends "labs/app_detail.html" %}
-{% block title %}Todos los registros — LabLocal{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "All records" %} — LabLocal{% endblock %}
 {% block back_label %}Dashboard{% endblock %}
-{% block page_title %}Registros{% endblock %}
+{% block page_title %}{% trans "Records" %}{% endblock %}
 
 {% block page_content %}
 
@@ -11,7 +12,7 @@
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Historial</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "History" %}</p>
     </div>
     {% for item in records %}
     <a href="{% url item.url item.obj.pk %}?back=reports"
@@ -37,8 +38,8 @@
       <div class="flex-1 min-w-0">
         <p class="text-[14px] font-semibold text-[#1C1C1E] truncate">{{ item.obj.name|capfirst }}</p>
         <p class="text-xs text-[#8E8E93]">
-          {% if item.type == 'analysis' %}Analítica
-          {% elif item.type == 'body' %}Composición corporal
+          {% if item.type == 'analysis' %}{% trans "Analysis" %}
+          {% elif item.type == 'body' %}{% trans "Body composition" %}
           {% else %}ECG{% endif %}
         </p>
       </div>
@@ -59,8 +60,8 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
       </svg>
     </div>
-    <p class="text-[15px] font-semibold text-[#1C1C1E] mb-1">Sin registros</p>
-    <p class="text-sm text-[#8E8E93]">Aún no tienes ningún registro guardado.</p>
+    <p class="text-[15px] font-semibold text-[#1C1C1E] mb-1">{% trans "No records" %}</p>
+    <p class="text-sm text-[#8E8E93]">{% trans "You have no records saved yet." %}</p>
   </div>
   {% endif %}
 

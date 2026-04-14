@@ -14,10 +14,6 @@ python manage.py migrate --noinput
 echo "→ Cargando catálogo de biomarcadores..."
 python manage.py seed_biomarkers
 
-# Crear usuario admin si no existe
-echo "→ Verificando usuario admin..."
-python manage.py create_admin
-
 # Recopilar archivos estáticos
 echo "→ Recopilando archivos estáticos..."
 python manage.py collectstatic --noinput --clear

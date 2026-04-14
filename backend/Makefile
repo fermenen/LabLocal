@@ -4,7 +4,8 @@
 
 .DEFAULT_GOAL := help
 .PHONY: help install dev shell migrate migrations seed superuser test lint \
-        collectstatic docker-up docker-down docker-build docker-logs docker-shell clean
+        collectstatic docker-up docker-down docker-build docker-logs docker-shell clean \
+        locale messages compilemessages
 
 # ── Colores ───────────────────────────────────────────────────────────────────
 CYAN  := \033[0;36m
@@ -59,6 +60,16 @@ superuser: ## Crea un superusuario de forma interactiva
 
 setup: migrate seed superuser ## Bootstrap completo: migrar + seed + superusuario
 
+# ── Traducciones ──────────────────────────────────────────────────────────────
+
+messages: ## Extrae cadenas traducibles y actualiza los .po de todos los idiomas en locale/
+	$(MANAGE) makemessages --all --no-obsolete
+
+compilemessages: ## Compila todos los .po a .mo (necesario tras editar .po)
+	$(MANAGE) compilemessages
+
+locale: messages compilemessages ## Extrae + compila en un solo paso
+
 # ── Tests ─────────────────────────────────────────────────────────────────────
 
 test: ## Ejecuta la suite de tests con pytest
@@ -77,10 +88,7 @@ collectstatic: ## Recopila archivos estáticos para producción
 docker-build: ## Construye la imagen Docker
 	docker compose build
 
-docker-up: ## Arranca los servicios con Docker Compose (rebuild)
-	docker compose up --build
-
-docker-up-d: ## Arranca los servicios en segundo plano
+docker-up: ## Arranca los servicios en segundo plano
 	docker compose up --build -d
 
 docker-down: ## Para y elimina los contenedores

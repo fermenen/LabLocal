@@ -1,7 +1,6 @@
 """URLs raíz de LabLocal."""
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
 from django.urls import include, path
 from django.views.generic import RedirectView
 
@@ -13,6 +12,7 @@ urlpatterns = [
     path('', RedirectView.as_view(pattern_name='dashboard'), name='root'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('i18n/', include('django.conf.urls.i18n')),
     path('', include('labs.urls')),
 ]
 

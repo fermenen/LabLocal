@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DeleteView, DetailView, ListView
 
+from django.utils.translation import gettext as _
+
 from ..forms import ECGReportForm
 from ..heart_rate import heart_rate_trend
 from ..models import ECGReport
@@ -50,7 +52,7 @@ class ECGCreateView(LoginRequiredMixin, View):
             record = form.save(commit=False)
             record.user = request.user
             record.save()
-            messages.success(request, 'Electrocardiograma guardado correctamente.')
+            messages.success(request, _('ECG saved successfully.'))
             return redirect('ecg_detail', pk=record.pk)
         return render(request, self.template_name, {'form': form, 'editing': False})
 
@@ -83,7 +85,7 @@ class ECGUpdateView(LoginRequiredMixin, View):
         form = ECGReportForm(request.POST, request.FILES, instance=record)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Electrocardiograma actualizado correctamente.')
+            messages.success(request, _('ECG updated successfully.'))
             return redirect('ecg_detail', pk=record.pk)
         return render(request, self.template_name, {'form': form, 'record': record, 'editing': True})
 

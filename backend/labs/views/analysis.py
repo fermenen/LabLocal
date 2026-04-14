@@ -9,6 +9,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView
 
+from django.utils.translation import gettext as _
+
 from ..forms import AnalysisReportForm
 from ..models import AnalysisReport, Biomarker, BiomarkerResult
 from ..phenoage import update_report_phenoage
@@ -80,7 +82,7 @@ class ReportCreateView(LoginRequiredMixin, View):
         report.save()
         _save_biomarker_results(request, report)
         update_report_phenoage(report)
-        messages.success(request, f'Analítica «{report.name}» creada correctamente.')
+        messages.success(request, _('Analysis "%(name)s" created successfully.') % {'name': report.name})
         return redirect('analysis_detail', pk=report.pk)
 
 
@@ -147,7 +149,7 @@ class ReportUpdateView(LoginRequiredMixin, View):
         report = form.save()
         _save_biomarker_results(request, report)
         update_report_phenoage(report)
-        messages.success(request, f'Analítica «{report.name}» actualizada correctamente.')
+        messages.success(request, _('Analysis "%(name)s" updated successfully.') % {'name': report.name})
         return redirect('analysis_detail', pk=report.pk)
 
 
@@ -166,7 +168,7 @@ class ReportDeleteView(LoginRequiredMixin, DeleteView):
     def form_valid(self, form):
         name = self.object.name
         response = super().form_valid(form)
-        messages.success(self.request, f'Analítica «{name}» eliminada correctamente.')
+        messages.success(self.request, _('Analysis "%(name)s" deleted successfully.') % {'name': name})
         return response
 
 

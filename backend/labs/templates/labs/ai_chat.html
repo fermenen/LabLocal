@@ -1,0 +1,176 @@
+{% load static %}
+{% load i18n %}
+<!-- AI Chat -->
+<div x-cloak x-show="$store.aiPanel && $store.aiPanel.open"
+     x-transition.opacity
+     class="fixed inset-0 bg-black/20 z-40"
+     @click="$store.aiPanel.setOpen(false)"></div>
+
+<aside x-cloak x-show="$store.aiPanel && $store.aiPanel.open"
+       x-transition:enter="transform transition ease-out duration-200"
+       x-transition:enter-start="translate-x-full"
+       x-transition:enter-end="translate-x-0"
+       x-transition:leave="transform transition ease-in duration-150"
+       x-transition:leave-start="translate-x-0"
+       x-transition:leave-end="translate-x-full"
+      class="fixed top-0 right-0 h-full w-full sm:w-[460px] md:w-[560px] bg-white border-l border-[#E5E7EB] z-50 flex flex-col"
+
+       x-data="aiChat()"
+       x-init="init()"
+       @ai-panel-opened.window="onPanelOpen()">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between px-5 h-14 border-b border-[#ECEDEF] bg-[#F2F2F7] flex-shrink-0">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <!-- Back button (in conversation) -->
+      <button x-show="view === 'conversation'" @click="backToHome()"
+              class="w-7 h-7 rounded-full text-[#007AFF] hover:bg-[#F2F2F7] transition flex items-center justify-center mr-1 flex-shrink-0 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <span class="w-6 h-6 rounded-md bg-[#1A9E6E]/15 text-[#1A9E6E] flex items-center justify-center flex-shrink-0">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5m6 6l-3.2-2H7a3 3 0 01-3-3V7a3 3 0 013-3h10a3 3 0 013 3v8a3 3 0 01-1 2.236z"/>
+        </svg>
+      </span>
+      <p class="text-[17px] font-semibold text-[#1C1C1E] truncate"
+         x-text="view === 'conversation' && activeConv ? (activeConv.title || '{% trans "Conversation" %}') : '{% trans "AI Assistant" %}'"></p>
+    </div>
+    <div class="flex items-center gap-1">
+      <button @click="$store.aiPanel.setOpen(false)"
+              class="w-8 h-8 rounded-full text-[#8E8E93] hover:bg-[#F2F2F7] transition flex items-center justify-center cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {% if ai_enabled %}
+
+  <!-- View: home (conversation list) -->
+  <div x-show="view === 'home'" class="flex-1 overflow-y-auto flex flex-col bg-[#F2F2F7]">
+
+    <!-- Loading -->
+    <div x-show="loading" class="flex-1 flex items-center justify-center">
+      <svg class="w-6 h-6 text-[#8E8E93] animate-spin" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+      </svg>
+    </div>
+
+    <!-- No conversations -->
+    <div x-show="!loading && conversations.length === 0"
+         class="flex-1 flex flex-col items-center justify-center text-center px-6">
+      <div class="w-16 h-16 rounded-full bg-[#1A9E6E]/10 text-[#1A9E6E] flex items-center justify-center mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5m6 6l-3.2-2H7a3 3 0 01-3-3V7a3 3 0 013-3h10a3 3 0 013 3v8a3 3 0 01-1 2.236z"/>
+        </svg>
+      </div>
+      <p class="text-[17px] font-semibold text-[#1C1C1E]" x-text="greeting()"></p>
+      <p class="text-sm text-[#8E8E93] mt-1 mb-5">{% trans "I'm here to help you with medical questions." %}</p>
+      <button @click="newConversation()"
+              class="btn-primary text-[13px]">
+        {% trans "New conversation" %}
+      </button>
+    </div>
+
+    <!-- Conversation list -->
+    <div x-show="!loading && conversations.length > 0" class="divide-y divide-[#F2F2F7]">
+      <template x-for="conv in conversations" :key="conv.id">
+        <button @click="openConversation(conv)"
+                class="w-full text-left px-5 py-3.5 hover:bg-[#E8E8ED] active:bg-[#DCDCE0] transition flex items-center gap-3 cursor-pointer">
+          <div class="w-9 h-9 rounded-full bg-[#1A9E6E]/10 text-[#1A9E6E] flex items-center justify-center flex-shrink-0">
+            <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5m6 6l-3.2-2H7a3 3 0 01-3-3V7a3 3 0 013-3h10a3 3 0 013 3v8a3 3 0 01-1 2.236z"/>
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[14px] font-semibold text-[#1C1C1E] truncate" x-text="conv.title || '{% trans "Conversation" %}'"></p>
+            <p class="text-xs text-[#AEAEB2]" x-text="formatDate(conv.updated_at)"></p>
+          </div>
+          <svg class="w-3.5 h-3.5 text-[#C7C7CC] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </template>
+    </div>
+  </div>
+
+  <!-- View: active conversation -->
+  <div x-show="view === 'conversation'" class="flex-1 overflow-y-auto flex flex-col gap-3 p-4 bg-white" x-ref="msgList">
+
+    <!-- Loading messages -->
+    <div x-show="loadingMsgs" class="flex items-center justify-center py-8">
+      <svg class="w-5 h-5 text-[#8E8E93] animate-spin" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+      </svg>
+    </div>
+
+    <!-- Messages -->
+    <template x-for="msg in messages" :key="msg.id">
+      <div :class="msg.role === 'user' ? 'flex justify-end' : 'flex justify-start'">
+        <div :class="msg.role === 'user'
+                ? 'bg-[#007AFF] text-white rounded-2xl rounded-tr-md px-4 py-2.5 max-w-[85%]'
+                : (msg.error
+                    ? 'bg-[#FFF0F0] text-[#C0392B] rounded-2xl rounded-tl-md px-4 py-2.5 max-w-[85%] shadow-sm border border-[#F6D6D6]'
+                    : 'bg-white text-[#1C1C1E] rounded-2xl rounded-tl-md px-4 py-2.5 max-w-[85%] shadow-sm border border-[#F0F0F5]')">
+          <p class="text-[14px] leading-relaxed whitespace-pre-wrap" x-html="renderMessage(msg.content)"></p>
+        </div>
+      </div>
+    </template>
+
+    <!-- Streaming bubble -->
+    <div x-show="streamingText !== ''" class="flex justify-start">
+      <div class="bg-white text-[#1C1C1E] rounded-2xl rounded-tl-md px-4 py-2.5 max-w-[85%] shadow-sm border border-[#F0F0F5]">
+      <p class="text-[14px] leading-relaxed whitespace-pre-wrap" x-html="renderMessage(streamingText)"></p>
+        <span class="inline-block w-1.5 h-3.5 bg-[#1A9E6E] rounded-sm ml-0.5 animate-pulse"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="p-4 border-t border-[#ECEDEF] bg-white flex-shrink-0">
+    <div class="rounded-2xl border border-[#E5E7EB] px-4 py-2.5 bg-[#FAFAFB] flex items-center gap-3"
+         :class="sending ? 'opacity-60' : ''">
+      <textarea x-ref="inputEl"
+          x-model="input"
+          @keydown.enter.prevent="if (!$event.shiftKey) { sendMessage() }"
+          @keydown.shift.enter="/* allow newline */"
+                rows="1"
+                placeholder="{% trans "Ask about your results..." %}"
+                :disabled="sending"
+                class="flex-1 bg-transparent text-sm text-[#1C1C1E] placeholder:text-[#A1A1AA] focus:outline-none resize-none leading-relaxed"
+                style="max-height:120px; overflow-y:auto"></textarea>
+      <button @click="sendMessage()"
+              :disabled="sending || input.trim() === ''"
+              :class="input.trim() && !sending ? 'bg-[#007AFF] text-white' : 'bg-[#F2F2F7] text-[#A1A1AA]'"
+              class="px-3 py-1.5 rounded-full text-[13px] font-semibold transition flex-shrink-0 cursor-pointer">
+        <span x-show="!sending">{% trans "Send" %}</span>
+        <svg x-show="sending" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {% else %}
+  <!-- No license -->
+  <div class="flex-1 flex flex-col items-center justify-center text-center px-6">
+    <div class="w-16 h-16 rounded-full bg-[#F2F2F7] flex items-center justify-center mb-4">
+      <svg class="w-8 h-8 text-[#8E8E93]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+      </svg>
+    </div>
+    <p class="text-[15px] font-semibold text-[#1C1C1E]">{% trans "Unlock AI Assistant" %}</p>
+    <p class="text-sm text-[#8E8E93] mt-2 max-w-[220px]">{% trans "Analyse your results, resolve medical questions and take control of your health." %}</p>
+    <a href="{% url 'profile' %}" class="text-sm text-[#007AFF] mt-2 font-medium">{% trans "Activate it from your profile" %}</a>
+  </div>
+  {% endif %}
+
+</aside>
+
+  <script src="{% static 'labs/js/ai_chat.js' %}"></script>

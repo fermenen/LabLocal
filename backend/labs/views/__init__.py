@@ -24,7 +24,11 @@ from .ecg import (
     ECGUpdateView,
     ECGDeleteView,
 )
-from .profile import ProfileView, FamilyUserCreateView, PrivacyView, PasswordChangeView
+from .profile import (
+    ProfileView, FamilyUserCreateView, PrivacyView, LanguageView, LanguageChangeView,
+    PasswordChangeView, AISubscribeView, AIUnsubscribeView,
+)
+from .ai_proxy import ConversationsView, MessagesView
 from .reports import AllReportsView, ExportView
 
 __all__ = [
@@ -36,6 +40,7 @@ __all__ = [
     'BodyCompositionListView', 'BodyCompositionCreateView', 'BodyCompositionDetailView',
     'BodyCompositionUpdateView', 'BodyCompositionDeleteView',
     'ECGListView', 'ECGCreateView', 'ECGDetailView', 'ECGUpdateView', 'ECGDeleteView',
-    'ProfileView', 'FamilyUserCreateView', 'PrivacyView', 'PasswordChangeView',
+    'ProfileView', 'FamilyUserCreateView', 'PrivacyView', 'LanguageView', 'LanguageChangeView', 'PasswordChangeView', 'AISubscribeView', 'AIUnsubscribeView',
+    'ConversationsView', 'MessagesView',
     'AllReportsView', 'ExportView',
 ]

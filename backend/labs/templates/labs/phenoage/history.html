@@ -1,7 +1,8 @@
 {% extends "labs/app_detail.html" %}
-{% block title %}Edad Biológica — LabLocal{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Biological Age" %} — LabLocal{% endblock %}
 {% block back_label %}Dashboard{% endblock %}
-{% block page_title %}Edad Biológica{% endblock %}
+{% block page_title %}{% trans "Biological Age" %}{% endblock %}
 
 {% block page_content %}
 
@@ -10,23 +11,22 @@
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Cómo se calcula</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "How it's calculated" %}</p>
     </div>
+    {% trans "Hide details" as t_hide %}
+    {% trans "See the 9 markers" as t_show %}
     <div x-data="{ open: false }" class="space-y-3 text-[14px] text-[#1C1C1E] leading-relaxed">
       <p>
-        Usamos <strong>PhenoAge</strong> (Levine et al., 2018), un algoritmo validado
-        científicamente que estima tu edad biológica combinando tu edad cronológica con
-        9 biomarcadores de tu analítica de sangre. Cada marcador refleja el estado de un
-        sistema distinto de tu cuerpo:
+        {% blocktrans %}We use <strong>PhenoAge</strong> (Levine et al., 2018), a scientifically validated algorithm that estimates your biological age by combining your chronological age with 9 biomarkers from your blood test. Each marker reflects the state of a different system in your body:{% endblocktrans %}
       </p>
 
       <button @click="open = !open" type="button"
-              class="flex items-center gap-1.5 text-[13px] font-semibold text-[#007AFF] active:opacity-70 transition">
+              class="flex items-center gap-1.5 text-[13px] font-semibold text-[#007AFF] active:opacity-70 transition cursor-pointer">
         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="open ? 'rotate-90' : ''"
              fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
         </svg>
-        <span x-text="open ? 'Ocultar detalles' : 'Ver los 9 marcadores'"></span>
+        <span x-text="open ? '{{ t_hide }}' : '{{ t_show }}'"></span>
       </button>
 
       <div x-show="open" x-transition:enter="transition ease-out duration-200"
@@ -38,27 +38,23 @@
            class="space-y-3">
 
         <ul class="space-y-2 pl-1">
-          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>Albúmina</strong> — proteína hepática. <em class="text-[#8E8E93]">Baja con el envejecimiento.</em></span></li>
-          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>Creatinina</strong> — función renal. <em class="text-[#8E8E93]">Tiende a subir con la edad.</em></span></li>
-          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>Glucosa</strong> — metabolismo energético. <em class="text-[#8E8E93]">Sube con el envejecimiento y el sedentarismo.</em></span></li>
-          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>PCR</strong> — inflamación sistémica. <em class="text-[#8E8E93]">Un PCR elevado envejece más el resultado.</em></span></li>
-          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>VCM</strong> — tamaño de glóbulos rojos. <em class="text-[#8E8E93]">Cambia con la edad y la dieta.</em></span></li>
-          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>RDW</strong> — variabilidad eritrocitaria. <em class="text-[#8E8E93]">Mayor peso en el cálculo; elevado indica estrés celular.</em></span></li>
-          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>Fosfatasa Alcalina</strong> — estado óseo y hepático. <em class="text-[#8E8E93]">Sube con el daño tisular y la edad.</em></span></li>
-          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>Leucocitos</strong> — sistema inmune. <em class="text-[#8E8E93]">Se altera con el envejecimiento.</em></span></li>
-          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>% Linfocitos</strong> — respuesta inmune adaptativa. <em class="text-[#8E8E93]">Disminuye con la edad (inmunosenescencia).</em></span></li>
+          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>{% trans "Albumin" %}</strong> — {% trans "hepatic protein." %} <em class="text-[#8E8E93]">{% trans "Decreases with aging." %}</em></span></li>
+          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>{% trans "Creatinine" %}</strong> — {% trans "kidney function." %} <em class="text-[#8E8E93]">{% trans "Tends to rise with age." %}</em></span></li>
+          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>{% trans "Glucose" %}</strong> — {% trans "energy metabolism." %} <em class="text-[#8E8E93]">{% trans "Rises with aging and sedentary lifestyle." %}</em></span></li>
+          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>{% trans "CRP" %}</strong> — {% trans "systemic inflammation." %} <em class="text-[#8E8E93]">{% trans "High CRP ages the result further." %}</em></span></li>
+          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>{% trans "MCV" %}</strong> — {% trans "red blood cell size." %} <em class="text-[#8E8E93]">{% trans "Changes with age and diet." %}</em></span></li>
+          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>{% trans "RDW" %}</strong> — {% trans "erythrocyte variability." %} <em class="text-[#8E8E93]">{% trans "Highest weight in calculation; elevated indicates cellular stress." %}</em></span></li>
+          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>{% trans "Alkaline Phosphatase" %}</strong> — {% trans "bone and liver status." %} <em class="text-[#8E8E93]">{% trans "Rises with tissue damage and age." %}</em></span></li>
+          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>{% trans "WBC" %}</strong> — {% trans "immune system." %} <em class="text-[#8E8E93]">{% trans "Altered by aging." %}</em></span></li>
+          <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0">·</span><span><strong>{% trans "% Lymphocytes" %}</strong> — {% trans "adaptive immune response." %} <em class="text-[#8E8E93]">{% trans "Decreases with age (immunosenescence)." %}</em></span></li>
         </ul>
 
         <p>
-          El algoritmo combina estos 9 valores mediante una fórmula derivada de más de 11.000 personas
-          del estudio poblacional NHANES. El resultado es una <strong>edad biológica estimada</strong>:
-          si es menor que tu edad real, tu cuerpo funciona mejor de lo esperado; si es mayor, hay margen de mejora.
+          {% blocktrans %}The algorithm combines these 9 values using a formula derived from more than 11,000 people in the NHANES population study. The result is an <strong>estimated biological age</strong>: if it is lower than your real age, your body is functioning better than expected; if it is higher, there is room for improvement.{% endblocktrans %}
         </p>
 
         <p class="text-[12px] text-[#8E8E93] leading-relaxed border-t border-[#F2F2F7] pt-3">
-          ⚠️ Esta estimación es <strong>orientativa y educativa</strong>, no un diagnóstico médico.
-          Un solo valor puede verse afectado por infecciones recientes, medicación o el momento de la extracción.
-          Su mayor utilidad es el <strong>seguimiento a lo largo del tiempo</strong>.
+          {% blocktrans %}⚠️ This estimate is <strong>indicative and educational</strong>, not a medical diagnosis. A single value may be affected by recent infections, medication or the time of blood draw. Its greatest utility is <strong>tracking over time</strong>.{% endblocktrans %}
         </p>
 
       </div>
@@ -68,7 +64,7 @@
   {% if history %}
   <div class="card overflow-hidden">
     <div class="px-5 pt-4 pb-3">
-      <p class="text-[15px] font-semibold text-[#1C1C1E]">Evolución de la edad biológica</p>
+      <p class="text-[15px] font-semibold text-[#1C1C1E]">{% trans "Biological age evolution" %}</p>
     </div>
     <div class="px-4 pb-5">
       <canvas id="phenoageChart" height="180"></canvas>
@@ -80,7 +76,7 @@
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Historial</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "History" %}</p>
     </div>
     {% for item in history|dictsortreversed:'report.date' %}
     <a href="{% url 'analysis_detail' item.report.pk %}"
@@ -99,7 +95,7 @@
       <div class="flex-1 min-w-0">
         <p class="text-[14px] font-semibold text-[#1C1C1E] truncate">{{ item.report.name }}</p>
         <p class="text-[12px] {% if item.younger %}text-[#1A9E6E]{% else %}text-[#FF3B30]{% endif %} font-medium">
-          {% if item.younger %}{{ item.diff|floatformat:1 }} años más joven{% else %}{{ item.diff|floatformat:1|cut:'-' }} años mayor{% endif %}
+          {% if item.younger %}{{ item.diff|floatformat:1 }} {% trans "years younger" %}{% else %}{{ item.diff|floatformat:1|cut:'-' }} {% trans "years older" %}{% endif %}
         </p>
       </div>
       <div class="flex items-center gap-2 flex-shrink-0 mr-1">
@@ -113,7 +109,7 @@
   </div>
   {% else %}
   <div class="card p-5 text-center">
-    <p class="text-sm text-[#8E8E93]">Aún no hay datos suficientes para calcular PhenoAge.</p>
+    <p class="text-sm text-[#8E8E93]">{% trans "Not enough data yet to calculate PhenoAge." %}</p>
   </div>
   {% endif %}
 
@@ -121,7 +117,6 @@
 
 {% block extra_js %}
 {% if history %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   const data = {{ chart_data|safe }};
   const ctx = document.getElementById('phenoageChart');
@@ -131,7 +126,7 @@
       labels: data.labels,
       datasets: [
         {
-          label: 'Edad biológica',
+          label: 'Biological age',
           data: data.values,
           borderColor: '#007AFF',
           backgroundColor: 'rgba(0,122,255,0.10)',
@@ -141,7 +136,7 @@
           pointBackgroundColor: '#007AFF',
         },
         {
-          label: 'Edad real',
+          label: 'Chronological age',
           data: data.real_ages,
           borderColor: '#8E8E93',
           backgroundColor: 'transparent',

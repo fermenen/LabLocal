@@ -1,14 +1,15 @@
 {% extends "labs/app_detail.html" %}
-{% block title %}Política de privacidad — LabLocal{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Privacy policy" %} — LabLocal{% endblock %}
 {% block back_url %}{% url 'profile' %}{% endblock %}
-{% block back_label %}Ajustes{% endblock %}
-{% block page_title %}Privacidad{% endblock %}
+{% block back_label %}{% trans "Settings" %}{% endblock %}
+{% block page_title %}{% trans "Privacy" %}{% endblock %}
 
 {% block nav_actions %}{% endblock %}
 
 {% block page_content %}
 
-  <!-- Principio fundamental -->
+  <!-- Core principle -->
   <div class="card px-5 py-5 flex items-start gap-4">
     <div class="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center flex-shrink-0 mt-0.5">
       <svg class="w-5 h-5 text-[#007AFF]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -16,123 +17,117 @@
       </svg>
     </div>
     <div>
-      <p class="text-[15px] font-bold text-[#1C1C1E] mb-1">Tus datos son tuyos</p>
+      <p class="text-[15px] font-bold text-[#1C1C1E] mb-1">{% trans "Your data is yours" %}</p>
       <p class="text-[13px] text-[#3C3C43] leading-relaxed">
-        LabLocal se ejecuta en tu propia infraestructura. Tú controlas dónde viven tus datos médicos.
+        {% trans "LabLocal runs on your own infrastructure. You control where your medical data lives." %}
       </p>
     </div>
   </div>
 
-  <!-- Qué se almacena -->
+  <!-- What is stored -->
   <div class="card overflow-hidden">
     <div class="px-5 py-4 flex items-center gap-2">
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z M9 12h6M9 8h6M9 16h4"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Qué se almacena</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "What is stored" %}</p>
     </div>
     <div class="px-5 pb-4 space-y-3 text-[13px] text-[#3C3C43] leading-relaxed">
-      <p>Los siguientes datos se guardan <strong>únicamente en tu servidor</strong>:</p>
+      <p>{% trans "The following data is saved <strong>only on your server</strong>:" %}</p>
       <ul class="space-y-2 pl-1">
-        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>Nombre de usuario, nombre real y fecha de nacimiento</span></li>
-        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>Foto de perfil</span></li>
-        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>Analíticas de sangre y valores de biomarcadores</span></li>
-        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>Registros de composición corporal</span></li>
-        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>Electrocardiogramas e imágenes adjuntas</span></li>
-        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>Notas clínicas y datos de sexo biológico</span></li>
+        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>{% trans "Username, real name and date of birth" %}</span></li>
+        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>{% trans "Profile picture" %}</span></li>
+        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>{% trans "Blood analyses and biomarker values" %}</span></li>
+        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>{% trans "Body composition records" %}</span></li>
+        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>{% trans "ECGs and attached images" %}</span></li>
+        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>{% trans "Clinical notes and biological sex data" %}</span></li>
       </ul>
     </div>
   </div>
 
-  <!-- Nunca se comparte -->
+  <!-- Never shared -->
   <div class="card overflow-hidden">
     <div class="px-5 py-4 flex items-center gap-2">
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Nunca se comparte</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "Never shared" %}</p>
     </div>
     <div class="px-5 pb-4 space-y-2 text-[13px] text-[#3C3C43] leading-relaxed">
       <ul class="space-y-2 pl-1">
-        <li class="flex gap-2"><span class="text-[#1A9E6E] flex-shrink-0 mt-0.5">✓</span><span>No hay telemetría ni analíticas de uso</span></li>
-        <li class="flex gap-2"><span class="text-[#1A9E6E] flex-shrink-0 mt-0.5">✓</span><span>No hay publicidad ni seguimiento de comportamiento</span></li>
-        <li class="flex gap-2"><span class="text-[#1A9E6E] flex-shrink-0 mt-0.5">✓</span><span>No se venden ni ceden datos a terceros bajo ningún concepto</span></li>
-        <li class="flex gap-2"><span class="text-[#1A9E6E] flex-shrink-0 mt-0.5">✓</span><span>Tu nombre, correo o cualquier dato identificativo <strong>nunca sale del servidor</strong></span></li>
+        <li class="flex gap-2"><span class="text-[#1A9E6E] flex-shrink-0 mt-0.5">✓</span><span>{% trans "No telemetry or usage analytics" %}</span></li>
+        <li class="flex gap-2"><span class="text-[#1A9E6E] flex-shrink-0 mt-0.5">✓</span><span>{% trans "No advertising or behaviour tracking" %}</span></li>
+        <li class="flex gap-2"><span class="text-[#1A9E6E] flex-shrink-0 mt-0.5">✓</span><span>{% trans "Data is never sold or transferred to third parties under any circumstances" %}</span></li>
+        <li class="flex gap-2"><span class="text-[#1A9E6E] flex-shrink-0 mt-0.5">✓</span><span>{% trans "Your name, email or any identifying data <strong>never leaves the server</strong>" %}</span></li>
       </ul>
     </div>
   </div>
 
-  <!-- Plan Premium e IA -->
+  <!-- Premium plan & AI -->
   <div class="card overflow-hidden">
     <div class="px-5 py-4 flex items-center gap-2">
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Plan Premium e inteligencia artificial</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "Premium plan and artificial intelligence" %}</p>
     </div>
     <div class="px-5 pb-4 space-y-3 text-[13px] text-[#3C3C43] leading-relaxed">
       <p>
-        El <strong>plan premium anual</strong> incluye análisis e interpretación de tus datos mediante
-        inteligencia artificial.
+        {% blocktrans %}The <strong>annual premium plan</strong> includes analysis and interpretation of your data using artificial intelligence.{% endblocktrans %}
       </p>
       <p>
-        Cuando usas funciones de IA, únicamente se envían <strong>valores numéricos y biomarcadores</strong>
-        al modelo — nunca tu nombre, correo electrónico, fecha de nacimiento exacta ni ningún otro
-        identificador personal. El proceso de anonimización ocurre en tu servidor antes de cualquier
-        transmisión.
+        {% blocktrans %}When you use AI features, only <strong>numerical values and biomarkers</strong> are sent to the model — never your name, email address, exact date of birth or any other personal identifier. The anonymisation process takes place on your server before any transmission.{% endblocktrans %}
       </p>
       <div class="rounded-xl bg-[#F2F2F7] px-4 py-3 space-y-1.5">
-        <p class="text-[12px] font-semibold text-[#1C1C1E]">Lo que puede salir para análisis de IA</p>
+        <p class="text-[12px] font-semibold text-[#1C1C1E]">{% trans "What may leave for AI analysis" %}</p>
         <ul class="space-y-1 text-[12px] text-[#3C3C43]">
-          <li class="flex gap-2"><span class="text-[#007AFF] flex-shrink-0">·</span><span>Valores analíticos (ej: glucosa 95 mg/dL, colesterol 190 mg/dL)</span></li>
-          <li class="flex gap-2"><span class="text-[#007AFF] flex-shrink-0">·</span><span>Rango de edad (ej: 30–40 años) y sexo biológico</span></li>
-          <li class="flex gap-2"><span class="text-[#007AFF] flex-shrink-0">·</span><span>Imágenes de ECG para análisis del trazado</span></li>
-          <li class="flex gap-2"><span class="text-[#007AFF] flex-shrink-0">·</span><span>Tendencias temporales entre analíticas</span></li>
+          <li class="flex gap-2"><span class="text-[#007AFF] flex-shrink-0">·</span><span>{% trans "Lab values (e.g. glucose 95 mg/dL, cholesterol 190 mg/dL)" %}</span></li>
+          <li class="flex gap-2"><span class="text-[#007AFF] flex-shrink-0">·</span><span>{% trans "Age range (e.g. 30–40 years) and biological sex" %}</span></li>
+          <li class="flex gap-2"><span class="text-[#007AFF] flex-shrink-0">·</span><span>{% trans "ECG images for tracing analysis" %}</span></li>
+          <li class="flex gap-2"><span class="text-[#007AFF] flex-shrink-0">·</span><span>{% trans "Time trends between analyses" %}</span></li>
         </ul>
-        <p class="text-[12px] font-semibold text-[#1C1C1E] pt-1">Lo que NUNCA sale</p>
+        <p class="text-[12px] font-semibold text-[#1C1C1E] pt-1">{% trans "What NEVER leaves" %}</p>
         <ul class="space-y-1 text-[12px] text-[#3C3C43]">
-          <li class="flex gap-2"><span class="text-[#FF3B30] flex-shrink-0">·</span><span>Nombre, apellidos ni nombre de usuario</span></li>
-          <li class="flex gap-2"><span class="text-[#FF3B30] flex-shrink-0">·</span><span>Correo electrónico ni datos de contacto</span></li>
-          <li class="flex gap-2"><span class="text-[#FF3B30] flex-shrink-0">·</span><span>Fecha de nacimiento exacta ni cualquier otro identificador</span></li>
-          <li class="flex gap-2"><span class="text-[#FF3B30] flex-shrink-0">·</span><span>Fotografías de perfil</span></li>
+          <li class="flex gap-2"><span class="text-[#FF3B30] flex-shrink-0">·</span><span>{% trans "First name, last name or username" %}</span></li>
+          <li class="flex gap-2"><span class="text-[#FF3B30] flex-shrink-0">·</span><span>{% trans "Email address or contact details" %}</span></li>
+          <li class="flex gap-2"><span class="text-[#FF3B30] flex-shrink-0">·</span><span>{% trans "Exact date of birth or any other identifier" %}</span></li>
+          <li class="flex gap-2"><span class="text-[#FF3B30] flex-shrink-0">·</span><span>{% trans "Profile pictures" %}</span></li>
         </ul>
       </div>
       <p class="text-[12px] text-[#8E8E93]">
-        El plan premium es opcional. La versión gratuita funciona siempre de forma 100% offline.
+        {% trans "The premium plan is optional. The free version always works 100% offline." %}
       </p>
     </div>
   </div>
 
-  <!-- Tu responsabilidad -->
+  <!-- Your responsibility -->
   <div class="card overflow-hidden">
     <div class="px-5 py-4 flex items-center gap-2">
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Tu responsabilidad como operador</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "Your responsibility as operator" %}</p>
     </div>
     <div class="px-5 pb-4 space-y-2 text-[13px] text-[#3C3C43] leading-relaxed">
-      <p>Al desplegar LabLocal en tu infraestructura, tú eres el responsable del tratamiento de datos:</p>
+      <p>{% trans "By deploying LabLocal on your infrastructure, you are the data controller:" %}</p>
       <ul class="space-y-2 pl-1 mt-2">
-        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>Protege el acceso al servidor con contraseñas robustas y HTTPS</span></li>
-        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>Realiza copias de seguridad periódicas</span></li>
-        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>Si usas datos de otras personas (familia), informa y obtén su consentimiento</span></li>
+        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>{% trans "Protect server access with strong passwords and HTTPS" %}</span></li>
+        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>{% trans "Make regular backups" %}</span></li>
+        <li class="flex gap-2"><span class="text-[#C7C7CC] flex-shrink-0 mt-0.5">·</span><span>{% trans "If you use other people's data (family), inform them and obtain their consent" %}</span></li>
       </ul>
     </div>
   </div>
 
-  <!-- Aviso legal -->
+  <!-- Legal notice -->
   <div class="card px-5 py-5">
     <p class="text-[14px] text-[#3C3C43] leading-relaxed">
-      LabLocal es una herramienta de seguimiento personal. <strong>No es un producto sanitario</strong>
-      ni sustituye el consejo médico profesional. El código es abierto y se distribuye bajo la
-      licencia GNU AFFERO GENERAL PUBLIC LICENSE v3 (AGPL-3.0-or-later).
+      {% blocktrans %}LabLocal is a personal tracking tool. <strong>It is not a medical device</strong> and does not replace professional medical advice. The code is open source and distributed under the GNU AFFERO GENERAL PUBLIC LICENSE v3 (AGPL-3.0-or-later).{% endblocktrans %}
     </p>
   </div>
 
-  <!-- Pie -->
+  <!-- Footer -->
   <p class="text-center text-[13px] text-[#AEAEB2] pb-2">
-    Hecho con 💙 desde Asturias, España
+    {% trans "Made with 💙 from Asturias, Spain" %}
   </p>
 
 {% endblock %}

@@ -1,0 +1,34 @@
+{% extends "labs/app_detail.html" %}
+{% load i18n %}
+{% block title %}{% trans "Language" %} — LabLocal{% endblock %}
+{% block back_url %}{% url 'profile' %}{% endblock %}
+{% block back_label %}{% trans "My profile" %}{% endblock %}
+{% block page_title %}{% trans "Language" %}{% endblock %}
+
+{% block nav_actions %}{% endblock %}
+
+{% block page_content %}
+{% get_current_language as current_lang %}
+
+<div class="card overflow-hidden">
+  {% for lang_code, lang_name, flag in languages %}
+  <form method="post" action="{% url 'language_change' %}">
+    {% csrf_token %}
+    <input type="hidden" name="language" value="{{ lang_code }}">
+    <button type="submit"
+            class="w-full flex items-center gap-3 px-5 py-3.5 row-sep active:bg-[#F2F2F7] transition text-left cursor-pointer">
+      <span class="text-2xl leading-none flex-shrink-0">{{ flag }}</span>
+      <span class="flex-1 text-sm {% if lang_code == current_lang %}font-semibold text-[#1C1C1E]{% else %}font-normal text-[#3C3C43]{% endif %}">
+        {{ lang_name }}
+      </span>
+      {% if lang_code == current_lang %}
+      <svg class="w-4 h-4 text-[#007AFF] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+      </svg>
+      {% endif %}
+    </button>
+  </form>
+  {% endfor %}
+</div>
+
+{% endblock %}

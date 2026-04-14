@@ -42,7 +42,14 @@ urlpatterns = [
     path('profile/family/new/', views.FamilyUserCreateView.as_view(), name='family_create'),
     path('profile/password/', views.PasswordChangeView.as_view(), name='password_change'),
     path('profile/privacy/', views.PrivacyView.as_view(), name='privacy'),
-
+    path('profile/language/', views.LanguageView.as_view(), name='language'),
+    path('profile/language/change/', views.LanguageChangeView.as_view(), name='language_change'),
+    path('profile/ai/subscribe/', views.AISubscribeView.as_view(), name='ai_subscribe'),
+    path('profile/ai/unsubscribe/', views.AIUnsubscribeView.as_view(), name='ai_unsubscribe'),
     # Exportación
     path('export/', views.ExportView.as_view(), name='export'),
+
+    # Proxy IA
+    path('ai/conversations/', views.ConversationsView.as_view(), name='ai_conversations'),
+    path('ai/conversations/<uuid:conversation_id>/messages/', views.MessagesView.as_view(), name='ai_messages'),
 ]

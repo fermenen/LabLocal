@@ -1,11 +1,13 @@
 {% extends "labs/app_detail.html" %}
+{% load i18n %}
 {% block title %}{{ record.name|capfirst }} — LabLocal{% endblock %}
 {% block back_url %}{% if request.GET.back == 'dashboard' %}{% url 'dashboard' %}{% elif request.GET.back == 'reports' %}{% url 'reports_all' %}{% else %}{% url 'body_list' %}{% endif %}{% endblock %}
-{% block back_label %}{% if request.GET.back == 'dashboard' %}Dashboard{% elif request.GET.back == 'reports' %}Registros{% else %}Composición{% endif %}{% endblock %}
+{% block back_label %}{% if request.GET.back == 'dashboard' %}Dashboard{% elif request.GET.back == 'reports' %}{% trans "Records" %}{% else %}{% trans "Composition" %}{% endif %}{% endblock %}
 {% block page_title %}{{ record.name|capfirst }}{% endblock %}
 
 {% block extra_actions %}
-  <a href="{% url 'body_update' record.pk %}" title="Editar"
+  {% trans "Delete this record? This action cannot be undone." as confirm_delete %}
+  <a href="{% url 'body_update' record.pk %}" title="{% trans "Edit" %}"
      class="w-9 h-9 rounded-full border border-[#D9D9DC] bg-[#F7F7F8] text-[#52525B]
             flex items-center justify-center active:opacity-70 transition">
     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -14,10 +16,10 @@
   </a>
   <form method="post" action="{% url 'body_delete' record.pk %}">
     {% csrf_token %}
-    <button type="button" title="Eliminar"
-            @click="$store.confirm.ask('¿Eliminar este registro? Esta acción no se puede deshacer.', () => $el.closest('form').submit())"
+    <button type="button" title="{% trans "Delete" %}"
+            @click="$store.confirm.ask('{{ confirm_delete }}', () => $el.closest('form').submit())"
             class="w-9 h-9 rounded-full border border-[#FFD0CE] bg-[#FFF5F5] text-[#FF3B30]
-                   flex items-center justify-center active:opacity-70 transition">
+                   flex items-center justify-center active:opacity-70 transition cursor-pointer">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
       </svg>
@@ -27,7 +29,6 @@
 
 {% block page_content %}
 
-  <!-- IMC destacado -->
   {% if record.bmi %}
   {% with bmi_label=record.bmi_status.0 bmi_color=record.bmi_status.1 %}
   <div class="card overflow-hidden">
@@ -35,10 +36,10 @@
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Índice de masa corporal</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "Body mass index" %}</p>
     </div>
     <div class="flex items-center justify-between px-5 py-3 row-sep">
-      <span class="text-sm text-[#8E8E93]">IMC</span>
+      <span class="text-sm text-[#8E8E93]">{% trans "BMI" %}</span>
       <div class="flex items-center gap-2">
         <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.bmi }} kg/m²</span>
         <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold
@@ -51,56 +52,55 @@
       </div>
     </div>
     <div class="flex items-center justify-between px-5 py-3 row-sep">
-      <span class="text-sm text-[#8E8E93]">Peso</span>
+      <span class="text-sm text-[#8E8E93]">{% trans "Weight" %}</span>
       <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.weight }} kg</span>
     </div>
     <div class="flex items-center justify-between px-5 py-3 row-sep">
-      <span class="text-sm text-[#8E8E93]">Altura</span>
+      <span class="text-sm text-[#8E8E93]">{% trans "Height" %}</span>
       <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.height }} cm</span>
     </div>
     <div class="flex items-center justify-between px-5 py-3 row-sep">
-      <span class="text-sm text-[#8E8E93]">Fecha</span>
+      <span class="text-sm text-[#8E8E93]">{% trans "Date" %}</span>
       <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.date|date:"d/m/" }}<span class="font-bold">{{ record.date|date:"Y" }}</span></span>
     </div>
     {% if record.notes %}
     <div class="px-5 py-3 row-sep">
-      <span class="text-sm text-[#8E8E93] block mb-1">Notas</span>
+      <span class="text-sm text-[#8E8E93] block mb-1">{% trans "Notes" %}</span>
       <span class="text-sm text-[#1C1C1E] leading-relaxed">{{ record.notes }}</span>
     </div>
     {% endif %}
   </div>
   {% endwith %}
   {% else %}
-  <!-- Sin IMC: card solo con medidas base -->
   <div class="card overflow-hidden">
     <div class="px-5 py-4 flex items-center gap-2">
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Medidas base</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "Base measurements" %}</p>
     </div>
     <div class="flex items-center justify-between px-5 py-3 row-sep">
-      <span class="text-sm text-[#8E8E93]">Peso</span>
+      <span class="text-sm text-[#8E8E93]">{% trans "Weight" %}</span>
       <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.weight }} kg</span>
     </div>
     <div class="flex items-center justify-between px-5 py-3 row-sep">
-      <span class="text-sm text-[#8E8E93]">Altura</span>
+      <span class="text-sm text-[#8E8E93]">{% trans "Height" %}</span>
       <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.height }} cm</span>
     </div>
     <div class="flex items-center justify-between px-5 py-3 row-sep">
-      <span class="text-sm text-[#8E8E93]">Fecha</span>
+      <span class="text-sm text-[#8E8E93]">{% trans "Date" %}</span>
       <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.date|date:"d/m/" }}<span class="font-bold">{{ record.date|date:"Y" }}</span></span>
     </div>
     {% if record.notes %}
     <div class="px-5 py-3 row-sep">
-      <span class="text-sm text-[#8E8E93] block mb-1">Notas</span>
+      <span class="text-sm text-[#8E8E93] block mb-1">{% trans "Notes" %}</span>
       <span class="text-sm text-[#1C1C1E] leading-relaxed">{{ record.notes }}</span>
     </div>
     {% endif %}
   </div>
   {% endif %}
 
-  <!-- Composición -->
+  <!-- Composition -->
   {% with has_comp=record.body_fat_pct|default:record.visceral_fat|default:record.muscle_mass|default:record.water_pct|default:record.protein_pct|default:record.bone_mass %}
   {% if has_comp %}
   <div class="card overflow-hidden">
@@ -108,60 +108,60 @@
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Composición</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "Composition" %}</p>
     </div>
     {% if record.body_fat_pct is not None %}
     <div class="px-5 py-3 row-sep">
       <div class="flex items-center justify-between gap-3">
-        <span class="text-sm text-[#8E8E93]">Grasa corporal</span>
+        <span class="text-sm text-[#8E8E93]">{% trans "Body fat" %}</span>
         <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.body_fat_pct }}%</span>
       </div>
-      <p class="text-[11px] text-[#AEAEB2] mt-1">Porcentaje total de grasa del cuerpo. Ayuda a estimar riesgo metabólico más allá del peso.</p>
+      <p class="text-[11px] text-[#AEAEB2] mt-1">{% trans "Total body fat percentage. Helps estimate metabolic risk beyond weight." %}</p>
     </div>
     {% endif %}
     {% if record.visceral_fat is not None %}
     <div class="px-5 py-3 row-sep">
       <div class="flex items-center justify-between gap-3">
-        <span class="text-sm text-[#8E8E93]">Grasa visceral</span>
+        <span class="text-sm text-[#8E8E93]">{% trans "Visceral fat" %}</span>
         <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.visceral_fat }}</span>
       </div>
-      <p class="text-[11px] text-[#AEAEB2] mt-1">Grasa acumulada alrededor de órganos internos. Niveles altos se asocian con mayor riesgo cardiovascular.</p>
+      <p class="text-[11px] text-[#AEAEB2] mt-1">{% trans "Fat accumulated around internal organs. High levels are associated with increased cardiovascular risk." %}</p>
     </div>
     {% endif %}
     {% if record.muscle_mass is not None %}
     <div class="px-5 py-3 row-sep">
       <div class="flex items-center justify-between gap-3">
-        <span class="text-sm text-[#8E8E93]">Masa muscular</span>
+        <span class="text-sm text-[#8E8E93]">{% trans "Muscle mass" %}</span>
         <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.muscle_mass }} kg</span>
       </div>
-      <p class="text-[11px] text-[#AEAEB2] mt-1">Cantidad estimada de músculo esquelético. Es clave para fuerza, metabolismo y autonomía funcional.</p>
+      <p class="text-[11px] text-[#AEAEB2] mt-1">{% trans "Estimated skeletal muscle mass. Key for strength, metabolism and functional independence." %}</p>
     </div>
     {% endif %}
     {% if record.water_pct is not None %}
     <div class="px-5 py-3 row-sep">
       <div class="flex items-center justify-between gap-3">
-        <span class="text-sm text-[#8E8E93]">Agua</span>
+        <span class="text-sm text-[#8E8E93]">{% trans "Water" %}</span>
         <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.water_pct }}%</span>
       </div>
-      <p class="text-[11px] text-[#AEAEB2] mt-1">Porcentaje de agua corporal total. Puede variar con hidratación, masa muscular y composición general.</p>
+      <p class="text-[11px] text-[#AEAEB2] mt-1">{% trans "Total body water percentage. May vary with hydration, muscle mass and overall composition." %}</p>
     </div>
     {% endif %}
     {% if record.protein_pct is not None %}
     <div class="px-5 py-3 row-sep">
       <div class="flex items-center justify-between gap-3">
-        <span class="text-sm text-[#8E8E93]">Proteína</span>
+        <span class="text-sm text-[#8E8E93]">{% trans "Protein" %}</span>
         <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.protein_pct }}%</span>
       </div>
-      <p class="text-[11px] text-[#AEAEB2] mt-1">Estimación de proteína corporal asociada a tejido magro y estado nutricional.</p>
+      <p class="text-[11px] text-[#AEAEB2] mt-1">{% trans "Estimated body protein associated with lean tissue and nutritional status." %}</p>
     </div>
     {% endif %}
     {% if record.bone_mass is not None %}
     <div class="px-5 py-3 row-sep">
       <div class="flex items-center justify-between gap-3">
-        <span class="text-sm text-[#8E8E93]">Masa ósea</span>
+        <span class="text-sm text-[#8E8E93]">{% trans "Bone mass" %}</span>
         <span class="text-sm font-semibold text-[#1C1C1E]">{{ record.bone_mass }} kg</span>
       </div>
-      <p class="text-[11px] text-[#AEAEB2] mt-1">Estimación de contenido mineral óseo. Se interpreta mejor junto con densitometría y evolución temporal.</p>
+      <p class="text-[11px] text-[#AEAEB2] mt-1">{% trans "Estimated bone mineral content. Best interpreted alongside densitometry and trends over time." %}</p>
     </div>
     {% endif %}
   </div>

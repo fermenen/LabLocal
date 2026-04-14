@@ -1,29 +1,31 @@
 {% extends "labs/app_detail.html" %}
-{% block title %}Electrocardiogramas — LabLocal{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "ECGs" %} — LabLocal{% endblock %}
 {% block back_label %}Dashboard{% endblock %}
 {% block page_title %}ECG{% endblock %}
 
 {% block page_content %}
 
-  <!-- Info colapsable -->
+  <!-- Info card -->
   <div class="card p-5" x-data="{ open: false }">
     <div class="flex items-center gap-2 mb-2">
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Sobre los ECG</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "About ECGs" %}</p>
     </div>
     <p class="text-[14px] text-[#1C1C1E] leading-relaxed mb-3">
-      El electrocardiograma registra la actividad eléctrica del corazón. La <strong>frecuencia cardíaca en reposo</strong>
-      es uno de los predictores de longevidad más robustos: la zona óptima se sitúa entre 60 y 70 lpm.
+      {% trans "The electrocardiogram records the electrical activity of the heart. The resting heart rate is one of the most robust predictors of longevity: the optimal zone is between 60 and 70 bpm." %}
     </p>
+    {% trans "Hide" as t_hide %}
+    {% trans "See reference scale" as t_show %}
     <button @click="open = !open" type="button"
-            class="flex items-center gap-1.5 text-[13px] font-semibold text-[#007AFF] active:opacity-70 transition">
+            class="flex items-center gap-1.5 text-[13px] font-semibold text-[#007AFF] active:opacity-70 transition cursor-pointer">
       <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="open ? 'rotate-90' : ''"
            fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
       </svg>
-      <span x-text="open ? 'Ocultar' : 'Ver escala de referencia'"></span>
+      <span x-text="open ? '{{ t_hide }}' : '{{ t_show }}'"></span>
     </button>
     <div x-show="open" x-transition:enter="transition ease-out duration-200"
          x-transition:enter-start="opacity-0 -translate-y-1"
@@ -40,26 +42,26 @@
         <span class="text-[#8E8E93]">{{ zone.label }}</span>
       </div>
       {% empty %}
-      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF9F0A] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">&lt; 40 lpm</span><span class="text-[#8E8E93]">Bradicardia severa</span></div>
-      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#D97706] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">40–49 lpm</span><span class="text-[#8E8E93]">Bradicardia leve</span></div>
-      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#1A9E6E] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">50–60 lpm</span><span class="text-[#8E8E93]">Excelente — zona atleta</span></div>
-      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#1A9E6E] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">60–70 lpm</span><span class="text-[#8E8E93]">Óptimo — menor mortalidad CV</span></div>
-      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#1A9E6E] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">71–80 lpm</span><span class="text-[#8E8E93]">Normal</span></div>
-      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF9F0A] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">81–90 lpm</span><span class="text-[#8E8E93]">Ligeramente elevada</span></div>
-      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF3B30] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">91–100 lpm</span><span class="text-[#8E8E93]">Elevada (+60% riesgo vs óptimo)</span></div>
-      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF3B30] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">&gt; 100 lpm</span><span class="text-[#8E8E93]">Taquicardia</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF9F0A] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">&lt; 40 bpm</span><span class="text-[#8E8E93]">{% trans "Severe bradycardia" %}</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#D97706] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">40–49 bpm</span><span class="text-[#8E8E93]">{% trans "Mild bradycardia" %}</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#1A9E6E] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">50–60 bpm</span><span class="text-[#8E8E93]">{% trans "Excellent — athlete zone" %}</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#1A9E6E] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">60–70 bpm</span><span class="text-[#8E8E93]">{% trans "Optimal — lowest CV mortality" %}</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#1A9E6E] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">71–80 bpm</span><span class="text-[#8E8E93]">{% trans "Normal" %}</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF9F0A] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">81–90 bpm</span><span class="text-[#8E8E93]">{% trans "Slightly elevated" %}</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF3B30] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">91–100 bpm</span><span class="text-[#8E8E93]">{% trans "Elevated (+60% risk vs optimal)" %}</span></div>
+      <div class="flex items-center gap-2.5"><span class="w-2 h-2 rounded-full bg-[#FF3B30] flex-shrink-0"></span><span class="font-semibold text-[#1C1C1E] w-20">&gt; 100 bpm</span><span class="text-[#8E8E93]">{% trans "Tachycardia" %}</span></div>
       {% endfor %}
       <p class="text-[11px] text-[#AEAEB2] pt-2 border-t border-[#F2F2F7]">
-        Basado en meta-análisis de 46 estudios (1,2M participantes) y Framingham Heart Study.
+        {% trans "Based on meta-analysis of 46 studies (1.2M participants) and the Framingham Heart Study." %}
       </p>
     </div>
   </div>
 
-  <!-- Gráfica de evolución -->
+  <!-- Heart rate chart -->
   {% if chart_data %}
   <div class="card overflow-hidden">
     <div class="px-5 pt-4 pb-3 flex items-center justify-between">
-      <p class="text-[15px] font-semibold text-[#1C1C1E]">Frecuencia cardíaca</p>
+      <p class="text-[15px] font-semibold text-[#1C1C1E]">{% trans "Heart rate" %}</p>
       {% if ecg_hr_trend.disponible %}
       <span class="text-[12px] font-semibold
         {% if ecg_hr_trend.color == 'green' %}text-[#1A9E6E]
@@ -67,7 +69,7 @@
         {% elif ecg_hr_trend.color == 'orange' %}text-[#C2560C]
         {% else %}text-[#FF3B30]{% endif %}">
         {{ ecg_hr_trend.label }}
-        ({% if ecg_hr_trend.cambio_anual > 0 %}+{% endif %}{{ ecg_hr_trend.cambio_anual }} lpm/año)
+        ({% if ecg_hr_trend.cambio_anual > 0 %}+{% endif %}{{ ecg_hr_trend.cambio_anual }} bpm/{% trans "yr" %})
       </span>
       {% endif %}
     </div>
@@ -77,14 +79,14 @@
   </div>
   {% endif %}
 
-  <!-- Historial -->
+  <!-- History -->
   {% if records %}
   <div class="card overflow-hidden">
     <div class="px-5 py-4 flex items-center gap-2">
       <svg class="w-3.5 h-3.5 text-[#8E8E93] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
       </svg>
-      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">Historial</p>
+      <p class="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider">{% trans "History" %}</p>
     </div>
     {% for record in records %}
     <a href="{% url 'ecg_detail' record.pk %}"
@@ -117,13 +119,13 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h3l2-7 4 14 3-9 2 4h4"/>
       </svg>
     </div>
-    <p class="text-[15px] font-semibold text-[#1C1C1E] mb-1">Sin registros</p>
-    <p class="text-sm text-[#8E8E93] mb-5">Añade tu primer ECG para empezar el seguimiento.</p>
+    <p class="text-[15px] font-semibold text-[#1C1C1E] mb-1">{% trans "No records" %}</p>
+    <p class="text-sm text-[#8E8E93] mb-5">{% trans "Add your first ECG to start tracking." %}</p>
     <a href="{% url 'ecg_create' %}" class="btn-primary">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
       </svg>
-      Añadir ECG
+      {% trans "Add ECG" %}
     </a>
   </div>
   {% endif %}
@@ -132,7 +134,6 @@
 
 {% block extra_js %}
 {% if chart_data %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
 <script>
   const data = {{ chart_data|safe }};
@@ -141,7 +142,7 @@
     data: {
       labels: data.labels,
       datasets: [{
-        label: 'FC (bpm)',
+        label: 'HR (bpm)',
         data: data.values,
         borderColor: '#FF3B30',
         backgroundColor: 'rgba(255,59,48,0.08)',
@@ -161,25 +162,25 @@
               type: 'line', yMin: 40, yMax: 40,
               borderColor: '#FF3B30', borderWidth: 1.5,
               borderDash: [4, 4],
-              label: { content: '40 — crítico', display: true, position: 'start', color: '#FF3B30', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
+              label: { content: '40 — critical', display: true, position: 'start', color: '#FF3B30', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
             },
             zoneOptimalMin: {
               type: 'line', yMin: 60, yMax: 60,
               borderColor: '#1A9E6E', borderWidth: 1,
               borderDash: [4, 4],
-              label: { content: '60 — óptimo', display: true, position: 'start', color: '#1A9E6E', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
+              label: { content: '60 — optimal', display: true, position: 'start', color: '#1A9E6E', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
             },
             zoneOptimalMax: {
               type: 'line', yMin: 70, yMax: 70,
               borderColor: '#1A9E6E', borderWidth: 1,
               borderDash: [4, 4],
-              label: { content: '70 — óptimo', display: true, position: 'start', color: '#1A9E6E', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
+              label: { content: '70 — optimal', display: true, position: 'start', color: '#1A9E6E', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
             },
             zoneTachy: {
               type: 'line', yMin: 100, yMax: 100,
               borderColor: '#FF3B30', borderWidth: 1.5,
               borderDash: [4, 4],
-              label: { content: '100 — taquicardia', display: true, position: 'start', color: '#FF3B30', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
+              label: { content: '100 — tachycardia', display: true, position: 'start', color: '#FF3B30', font: { size: 10 }, backgroundColor: 'transparent', padding: 2 },
             },
           },
         },

@@ -1,96 +1,88 @@
-# LabLocal — Monorepo
+# LabLocal
 
-Estructura separada backend + mobile apps.
+**Personal health data tracker — self-hosted, private by design.**  
+Tu historial médico personal, en tu propio servidor. Sin nubes, sin terceros.
 
+Track blood tests, body composition, ECGs and more. All data stays on your own machine.  
+Analíticas de sangre, composición corporal, ECGs y más. Todos tus datos, solo tuyos.
+
+![License](https://img.shields.io/badge/license-AGPL--3.0-blue)
+![Docker](https://img.shields.io/badge/docker-required-blue)
+
+---
+
+## Requirements
+
+- [Docker](https://docs.docker.com/get-docker/) with Compose v2
+
+That's it.
+
+---
+
+## Install
+
+```bash
+git clone https://github.com/your-username/lablocal.git
+cd lablocal
+sh install.sh
 ```
-lablocal/
-├── backend/              ← Django REST API
-│   ├── .env
-│   ├── .venv/
-│   ├── manage.py
-│   ├── medivault/        (config Django)
-│   ├── labs/             (app principal)
-│   ├── docker-compose.yml
-│   ├── Dockerfile
-│   └── pyproject.toml
-│
-├── mobile/               ← Capacitor (Webview → Django)
-│   ├── capacitor.config.json
-│   ├── package.json
-│   ├── android/
-│   └── ios/
-│
-└── CLAUDE.md             (project memory)
+
+The installer will:
+1. Ask for an admin username, password and host
+2. Generate a `.env` with a random secret key
+3. Build the Docker image and start the service
+
+Then open **http://localhost:6789** and log in.
+
+---
+
+## Update
+
+```bash
+git pull
+docker compose -f ./backend/docker-compose.yml up -d --build
 ```
 
 ---
 
-## 🚀 Setup rápido
+## Commands
 
-### Backend (Django)
-```bash
-cd backend
-source .venv/bin/activate
-pip install -e .
-python manage.py migrate
-python manage.py runserver 0.0.0.0:8000
-```
-
-### Mobile (Capacitor + WebView)
-```bash
-cd mobile
-npm install
-npx cap run android
-# o
-npx cap run ios
-```
-
-### Docker (Backend + Mobile en emulador)
-```bash
-cd backend
-docker compose up --build
-```
+| Action | Command |
+|---|---|
+| Start | `docker compose -f ./backend/docker-compose.yml up -d` |
+| Stop | `docker compose -f ./backend/docker-compose.yml down` |
+| Logs | `docker compose -f ./backend/docker-compose.yml logs -f` |
+| Restart | `docker compose -f ./backend/docker-compose.yml restart` |
 
 ---
 
-## 📱 Cómo funciona
+## Configuration
 
-- **Web (Desktop):** Django templates + Alpine.js → `/`
-- **Mobile (Android/iOS):** Capacitor WebView → carga Django en `http://localhost:8000` (dev) o `https://tu-dominio.com` (prod)
+Edit `backend/.env` to change settings:
+
+| Variable | Description |
+|---|---|
+| `SECRET_KEY` | Django secret key (auto-generated) |
+| `ALLOWED_HOSTS` | Comma-separated list of allowed hostnames |
+
+After editing, restart the container for changes to take effect.
 
 ---
 
-## 🔧 Actualizar URL de Backend
+## Reverse proxy (optional)
 
-**Desarrollo (emulador):**
-```json
-// mobile/capacitor.config.json
-{
-  "server": {
-    "url": "http://10.0.2.2:8000"  // Android desde emulador
-  }
+To expose LabLocal on a domain with HTTPS, point your reverse proxy (nginx, Caddy, Traefik…) to `localhost:6789` and add your domain to `ALLOWED_HOSTS`.
+
+Example with Caddy:
+
+```
+yourdomain.com {
+    reverse_proxy localhost:6789
 }
 ```
 
-**Producción:**
-```json
-{
-  "server": {
-    "url": "https://tu-dominio.com"
-  }
-}
-```
-
-Luego sincroniza:
-```bash
-cd mobile
-npx cap sync
-npx cap open android  # o ios
-
 ---
 
-## Licencia
+## License
 
-- Este proyecto se distribuye bajo la licencia GNU AFFERO GENERAL PUBLIC LICENSE v3.
-- Texto completo en el archivo `LICENSE`.
-```
+GNU Affero General Public License v3.0 — see [LICENSE](LICENSE).

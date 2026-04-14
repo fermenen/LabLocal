@@ -1,4 +1,5 @@
 """Vistas de listado combinado y exportación de datos."""
+import base64
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -34,45 +35,90 @@ class AllReportsView(LoginRequiredMixin, TemplateView):
 
 
 class ExportView(LoginRequiredMixin, View):
-    """Exporta todos los datos del usuario como JSON."""
+    """Exporta todos los datos del usuario como JSON, sin datos identificativos."""
 
     def get(self, request):
-        reports = AnalysisReport.objects.filter(user=request.user).prefetch_related('results__biomarker')
+        user = request.user
 
+        # Profile — no identifying data (no name, username, email or date of birth)
         try:
-            profile = request.user.userprofile
-            perfil_data = {
-                'birth_date': str(profile.birth_date) if profile.birth_date else None,
-                'biological_sex': profile.biological_sex,
-                'notes': profile.notes,
+            profile = user.userprofile
+            profile_data = {
+                'biological_sex': profile.biological_sex or None,
+                'smoker': profile.smoker,
+                'notes': profile.notes or None,
             }
         except UserProfile.DoesNotExist:
-            perfil_data = {}
+            profile_data = {}
+
+        # Analysis reports
+        analysis_qs = AnalysisReport.objects.filter(user=user).prefetch_related('results__biomarker')
+        analysis = [
+            {
+                'name': r.name,
+                'date': str(r.date),
+                'lab': r.lab_name or None,
+                'notes': r.notes or None,
+                'phenoage_years': str(r.phenoage_years) if r.phenoage_years is not None else None,
+                'phenoage_delta_years': str(r.phenoage_delta_years) if r.phenoage_delta_years is not None else None,
+                'results': [
+                    {
+                        'biomarker': res.biomarker.name,
+                        'loinc_code': res.biomarker.loinc_code or None,
+                        'value': str(res.value),
+                        'unit': res.biomarker.unit,
+                        'status': res.status,
+                        'notes': res.notes or None,
+                    }
+                    for res in r.results.all()
+                ],
+            }
+            for r in analysis_qs
+        ]
+
+        # Body composition reports
+        body_qs = BodyCompositionReport.objects.filter(user=user)
+        body_composition = [
+            {
+                'name': r.name,
+                'date': str(r.date),
+                'notes': r.notes or None,
+                'weight_kg': str(r.weight),
+                'height_cm': str(r.height),
+                'bmi': r.bmi,
+                'body_fat_pct': str(r.body_fat_pct) if r.body_fat_pct is not None else None,
+                'visceral_fat': str(r.visceral_fat) if r.visceral_fat is not None else None,
+                'muscle_mass_kg': str(r.muscle_mass) if r.muscle_mass is not None else None,
+                'water_pct': str(r.water_pct) if r.water_pct is not None else None,
+                'protein_pct': str(r.protein_pct) if r.protein_pct is not None else None,
+                'bone_mass_kg': str(r.bone_mass) if r.bone_mass is not None else None,
+            }
+            for r in body_qs
+        ]
+
+        # ECG reports — image as base64
+        ecg_qs = ECGReport.objects.filter(user=user)
+        ecgs = []
+        for r in ecg_qs:
+            image_b64 = None
+            try:
+                with r.image.open('rb') as f:
+                    image_b64 = base64.b64encode(f.read()).decode('ascii')
+            except Exception:
+                pass
+            ecgs.append({
+                'name': r.name,
+                'date': str(r.date),
+                'notes': r.notes or None,
+                'heart_rate_bpm': r.heart_rate,
+                'image_base64': image_b64,
+            })
 
         data = {
-            'usuario': request.user.username,
-            'perfil': perfil_data,
-            'analiticas': [
-                {
-                    'id': r.pk,
-                    'nombre': r.name,
-                    'fecha': str(r.date),
-                    'laboratorio': r.lab_name,
-                    'notas': r.notes,
-                    'resultados': [
-                        {
-                            'biomarcador': res.biomarker.name,
-                            'codigo_loinc': res.biomarker.loinc_code,
-                            'valor': str(res.value),
-                            'unidad': res.biomarker.unit,
-                            'estado': res.status,
-                            'notas': res.notes,
-                        }
-                        for res in r.results.all()
-                    ],
-                }
-                for r in reports
-            ],
+            'profile': profile_data,
+            'analysis': analysis,
+            'body_composition': body_composition,
+            'ecg': ecgs,
         }
 
         response = HttpResponse(

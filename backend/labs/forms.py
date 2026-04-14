@@ -2,6 +2,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import gettext_lazy as _
 
 from .models import AnalysisReport, BodyCompositionReport, ECGReport, UserProfile
 
@@ -12,22 +13,30 @@ class UserProfileForm(forms.ModelForm):
     """Formulario para editar el perfil del usuario."""
 
     first_name = forms.CharField(
-        max_length=150, required=False, label='Nombre',
+        max_length=150, required=False, label=_('First name'),
         widget=forms.TextInput(attrs={'class': 'field'})
     )
     last_name = forms.CharField(
-        max_length=150, required=False, label='Apellidos',
+        max_length=150, required=False, label=_('Last name'),
         widget=forms.TextInput(attrs={'class': 'field'})
     )
     birth_date = forms.DateField(
-        required=False, label='Fecha de nacimiento',
+        required=False, label=_('Date of birth'),
         input_formats=['%Y-%m-%d'],
         widget=forms.DateInput(attrs={'type': 'date', 'class': 'field'}, format='%Y-%m-%d'),
     )
 
+    smoker = forms.TypedChoiceField(
+        required=False,
+        label=_('Smoker'),
+        coerce=lambda x: None if x == '' else x == 'True',
+        choices=[('', _('Not specified')), ('True', _('Yes')), ('False', _('No'))],
+        widget=forms.Select(attrs={'class': 'field'}),
+    )
+
     class Meta:
         model = UserProfile
-        fields = ['avatar', 'birth_date', 'biological_sex', 'notes']
+        fields = ['avatar', 'birth_date', 'biological_sex', 'smoker', 'notes']
         widgets = {
             'avatar': forms.FileInput(attrs={'class': 'field', 'accept': 'image/*'}),
             'biological_sex': forms.Select(attrs={'class': 'field'}),
@@ -40,6 +49,9 @@ class UserProfileForm(forms.ModelForm):
         if self.user:
             self.fields['first_name'].initial = self.user.first_name
             self.fields['last_name'].initial = self.user.last_name
+        if self.instance and self.instance.pk:
+            smoker_val = self.instance.smoker
+            self.fields['smoker'].initial = '' if smoker_val is None else str(smoker_val)
 
     def save(self, commit=True):
         profile = super().save(commit=False)

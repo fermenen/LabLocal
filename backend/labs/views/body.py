@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DeleteView, DetailView, ListView
 
+from django.utils.translation import gettext as _
+
 from ..forms import BodyCompositionForm
 from ..models import BodyCompositionReport
 
@@ -60,7 +62,7 @@ class BodyCompositionCreateView(LoginRequiredMixin, View):
             record = form.save(commit=False)
             record.user = request.user
             record.save()
-            messages.success(request, 'Registro guardado correctamente.')
+            messages.success(request, _('Record saved successfully.'))
             return redirect('body_detail', pk=record.pk)
         return render(request, self.template_name, {'form': form, 'editing': False})
 
@@ -93,7 +95,7 @@ class BodyCompositionUpdateView(LoginRequiredMixin, View):
         form = BodyCompositionForm(request.POST, instance=record)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Registro actualizado correctamente.')
+            messages.success(request, _('Record updated successfully.'))
             return redirect('body_detail', pk=record.pk)
         return render(request, self.template_name, {'form': form, 'record': record, 'editing': True})
 

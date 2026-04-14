@@ -1,29 +1,38 @@
 {% extends "labs/app_detail.html" %}
-{% block title %}Biomarcadores — LabLocal{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Biomarkers" %} — LabLocal{% endblock %}
 {% block back_url %}{% if request.GET.back == 'analysis' and request.GET.pk %}{% url 'analysis_detail' request.GET.pk %}{% else %}{% url 'dashboard' %}{% endif %}{% endblock %}
-{% block back_label %}{% if request.GET.back == 'analysis' %}Analítica{% else %}Dashboard{% endif %}{% endblock %}
-{% block page_title %}Biomarcadores{% endblock %}
+{% block back_label %}{% if request.GET.back == 'analysis' %}{% trans "Analysis" %}{% else %}Dashboard{% endif %}{% endblock %}
+{% block page_title %}{% trans "Biomarkers" %}{% endblock %}
 
 {% block page_content %}
 <div x-data="{ search: '' }">
   <div class="space-y-4">
 
-    <!-- Buscador -->
+    <!-- Summary card -->
+    <div class="card px-5 py-4 flex items-center justify-between">
+      <div>
+        <p class="text-[28px] font-bold text-[#1C1C1E] leading-none">{{ biomarker_count }}</p>
+        <p class="text-[12px] text-[#8E8E93] mt-1">{% trans "available biomarkers" %}</p>
+      </div>
+    </div>
+
+    <!-- Search -->
     <div class="card px-4 py-3 flex items-center gap-3">
       <svg class="w-4 h-4 text-[#AEAEB2] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 105 11a6 6 0 0012 0z"/>
       </svg>
-      <input type="text" x-model="search" placeholder="Buscar biomarcador..."
+      <input type="text" x-model="search" placeholder="{% trans "Search biomarker..." %}"
              class="flex-1 bg-transparent text-sm text-[#1C1C1E] placeholder:text-[#AEAEB2] outline-none" />
       <button x-show="search" @click="search = ''"
-              class="text-[#AEAEB2] active:opacity-70 transition flex-shrink-0">
+              class="text-[#AEAEB2] active:opacity-70 transition flex-shrink-0 cursor-pointer">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
     </div>
 
-    <!-- Categorías -->
+    <!-- Categories -->
     {% for category, bms in biomarkers_grouped.items %}
     <div x-show="{% for bm in bms %}{% if not forloop.first %} || {% endif %}'{{ bm.name|lower }}'.includes(search.toLowerCase()) || '{{ bm.short_name|lower }}'.includes(search.toLowerCase()){% endfor %}">
       <div class="card overflow-hidden">

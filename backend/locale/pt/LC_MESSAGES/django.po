@@ -1,0 +1,1723 @@
+# Portuguese translations for LabLocal
+# Copyright (C) 2026 LabLocal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LabLocal 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-14 13:31+0200\n"
+"PO-Revision-Date: 2026-04-14 13:31+0200\n"
+"Last-Translator: LabLocal\n"
+"Language-Team: Portuguese\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: labs/forms.py:16 labs/templates/labs/profile/edit.html:79
+#: labs/templates/labs/profile/family_create.html:24
+msgid "First name"
+msgstr "Nome"
+
+#: labs/forms.py:20 labs/templates/labs/profile/edit.html:84
+#: labs/templates/labs/profile/family_create.html:29
+msgid "Last name"
+msgstr "Apelido"
+
+#: labs/forms.py:24 labs/models.py:33 labs/templates/labs/profile/edit.html:91
+msgid "Date of birth"
+msgstr "Data de nascimento"
+
+#: labs/forms.py:31 labs/models.py:37 labs/templates/labs/profile/edit.html:102
+msgid "Smoker"
+msgstr "Fumador"
+
+#: labs/forms.py:33
+msgid "Not specified"
+msgstr "Não especificado"
+
+#: labs/forms.py:33
+msgid "Yes"
+msgstr "Sim"
+
+#: labs/forms.py:33
+msgid "No"
+msgstr "Não"
+
+#: labs/models.py:19
+msgid "Male"
+msgstr "Masculino"
+
+#: labs/models.py:19
+msgid "Female"
+msgstr "Feminino"
+
+#: labs/models.py:27
+msgid "Public UUID"
+msgstr "UUID público"
+
+#: labs/models.py:31 labs/templates/labs/profile/privacy.html:39
+msgid "Profile picture"
+msgstr "Foto de perfil"
+
+#: labs/models.py:35 labs/templates/labs/profile/edit.html:96
+msgid "Biological sex"
+msgstr "Sexo biológico"
+
+#: labs/models.py:38 labs/models.py:123 labs/models.py:258
+#: labs/templates/labs/analysis/detail.html:96
+#: labs/templates/labs/analysis/form.html:35
+#: labs/templates/labs/body/detail.html:68
+#: labs/templates/labs/body/detail.html:96
+#: labs/templates/labs/body/form.html:78 labs/templates/labs/ecg/detail.html:52
+#: labs/templates/labs/ecg/form.html:107
+#: labs/templates/labs/profile/edit.html:107
+msgid "Notes"
+msgstr "Notas"
+
+#: labs/models.py:41
+msgid "User profile"
+msgstr "Perfil de utilizador"
+
+#: labs/models.py:42
+msgid "User profiles"
+msgstr "Perfis de utilizador"
+
+#: labs/models.py:59
+msgid "Hematology"
+msgstr "Hematologia"
+
+#: labs/models.py:60
+msgid "Biochemistry"
+msgstr "Bioquímica"
+
+#: labs/models.py:61
+msgid "Lipids"
+msgstr "Lípidos"
+
+#: labs/models.py:62
+msgid "Thyroid"
+msgstr "Tiróide"
+
+#: labs/models.py:63
+msgid "Iron"
+msgstr "Ferro"
+
+#: labs/models.py:64
+msgid "Inflammation"
+msgstr "Inflamação"
+
+#: labs/models.py:65
+msgid "Urine"
+msgstr "Urina"
+
+#: labs/models.py:66
+msgid "Vitamins"
+msgstr "Vitaminas"
+
+#: labs/models.py:67
+msgid "Other"
+msgstr "Outros"
+
+#: labs/models.py:70 labs/models.py:121
+#: labs/templates/labs/analysis/form.html:19
+msgid "Name"
+msgstr "Nome"
+
+#: labs/models.py:71
+msgid "Short name"
+msgstr "Nome curto"
+
+#: labs/models.py:72
+msgid "LOINC code"
+msgstr "Código LOINC"
+
+#: labs/models.py:74
+msgid "Category"
+msgstr "Categoria"
+
+#: labs/models.py:76
+msgid "Unit"
+msgstr "Unidade"
+
+#: labs/models.py:77
+msgid "Description"
+msgstr "Descrição"
+
+#: labs/models.py:80
+msgid "Reference min (male)"
+msgstr "Referência mín. (homem)"
+
+#: labs/models.py:84
+msgid "Reference max (male)"
+msgstr "Referência máx. (homem)"
+
+#: labs/models.py:88
+msgid "Reference min (female)"
+msgstr "Referência mín. (mulher)"
+
+#: labs/models.py:92
+msgid "Reference max (female)"
+msgstr "Referência máx. (mulher)"
+
+#: labs/models.py:95
+msgid "Low value is bad"
+msgstr "Valor baixo é mau"
+
+#: labs/models.py:97
+msgid "Order"
+msgstr "Ordem"
+
+#: labs/models.py:100 labs/models.py:255
+msgid "Biomarker"
+msgstr "Biomarcador"
+
+#: labs/models.py:101 labs/templates/labs/biomarkers/detail.html:5
+#: labs/templates/labs/biomarkers/list.html:3
+#: labs/templates/labs/biomarkers/list.html:6
+msgid "Biomarkers"
+msgstr "Biomarcadores"
+
+#: labs/models.py:119
+msgid "User"
+msgstr "Utilizador"
+
+#: labs/models.py:122 labs/templates/labs/analysis/detail.html:75
+#: labs/templates/labs/analysis/form.html:25
+#: labs/templates/labs/body/detail.html:63
+#: labs/templates/labs/body/detail.html:91
+#: labs/templates/labs/body/form.html:22 labs/templates/labs/ecg/detail.html:47
+#: labs/templates/labs/ecg/form.html:22
+msgid "Date"
+msgstr "Data"
+
+#: labs/models.py:124
+msgid "Created at"
+msgstr "Criado em"
+
+#: labs/models.py:137 labs/templates/labs/analysis/detail.html:80
+#: labs/templates/labs/analysis/form.html:30
+msgid "Laboratory"
+msgstr "Laboratório"
+
+#: labs/models.py:140
+msgid "Biological age (PhenoAge)"
+msgstr "Idade biológica (PhenoAge)"
+
+#: labs/models.py:144
+msgid "Biological-chronological age difference"
+msgstr "Diferença entre idade biológica e cronológica"
+
+#: labs/models.py:148
+msgid "Missing markers for PhenoAge"
+msgstr "Marcadores em falta para PhenoAge"
+
+#: labs/models.py:152 labs/models.py:252
+#: labs/templates/labs/analysis/detail.html:72
+#: labs/templates/labs/analysis/list.html:31
+#: labs/templates/labs/app_detail.html:72
+#: labs/templates/labs/biomarkers/detail.html:5
+#: labs/templates/labs/biomarkers/list.html:5
+#: labs/templates/labs/dashboard.html:58 labs/templates/labs/dashboard.html:349
+#: labs/templates/labs/reports/all.html:41
+msgid "Analysis"
+msgstr "Análise"
+
+#: labs/models.py:153 labs/templates/labs/analysis/detail.html:5
+#: labs/templates/labs/analysis/form.html:5
+#: labs/templates/labs/analysis/list.html:3
+#: labs/templates/labs/analysis/list.html:5
+msgid "Analyses"
+msgstr "Análises"
+
+#: labs/models.py:168
+msgid "Weight (kg)"
+msgstr "Peso (kg)"
+
+#: labs/models.py:171
+msgid "Height (cm)"
+msgstr "Altura (cm)"
+
+#: labs/models.py:175
+msgid "Body fat (%)"
+msgstr "Gordura corporal (%)"
+
+#: labs/models.py:179 labs/templates/labs/body/list.html:67
+msgid "Visceral fat (level)"
+msgstr "Gordura visceral (nível)"
+
+#: labs/models.py:183
+msgid "Muscle mass (kg)"
+msgstr "Massa muscular (kg)"
+
+#: labs/models.py:187
+msgid "Water (%)"
+msgstr "Água (%)"
+
+#: labs/models.py:191
+msgid "Protein (%)"
+msgstr "Proteína (%)"
+
+#: labs/models.py:195
+msgid "Bone mass (kg)"
+msgstr "Massa óssea (kg)"
+
+#: labs/models.py:199 labs/templates/labs/app_detail.html:82
+#: labs/templates/labs/body/list.html:3 labs/templates/labs/dashboard.html:68
+#: labs/templates/labs/dashboard.html:350
+#: labs/templates/labs/reports/all.html:42
+msgid "Body composition"
+msgstr "Composição corporal"
+
+#: labs/models.py:200
+msgid "Body compositions"
+msgstr "Composições corporais"
+
+#: labs/models.py:215
+msgid "No data"
+msgstr "Sem dados"
+
+#: labs/models.py:217 labs/templates/labs/body/list.html:39
+msgid "Underweight"
+msgstr "Baixo peso"
+
+#: labs/models.py:219 labs/models.py:317 labs/templates/labs/body/list.html:40
+#: labs/templates/labs/body/list.html:69 labs/templates/labs/ecg/list.html:49
+msgid "Normal"
+msgstr "Normal"
+
+#: labs/models.py:221 labs/templates/labs/body/list.html:41
+msgid "Overweight"
+msgstr "Excesso de peso"
+
+#: labs/models.py:222 labs/templates/labs/body/list.html:42
+msgid "Obesity"
+msgstr "Obesidade"
+
+#: labs/models.py:234
+msgid "ECG image"
+msgstr "Imagem ECG"
+
+#: labs/models.py:237
+msgid "Heart rate (bpm)"
+msgstr "Frequência cardíaca (bpm)"
+
+#: labs/models.py:241
+msgid "Electrocardiogram"
+msgstr "Eletrocardiograma"
+
+#: labs/models.py:242
+msgid "Electrocardiograms"
+msgstr "Eletrocardiogramas"
+
+#: labs/models.py:257
+msgid "Value"
+msgstr "Valor"
+
+#: labs/models.py:261
+msgid "Result"
+msgstr "Resultado"
+
+#: labs/models.py:262
+msgid "Results"
+msgstr "Resultados"
+
+#: labs/models.py:318
+msgid "Borderline"
+msgstr "Limítrofe"
+
+#: labs/models.py:319
+msgid "Low"
+msgstr "Baixo"
+
+#: labs/models.py:320
+msgid "High"
+msgstr "Alto"
+
+#: labs/models.py:321
+msgid "No range"
+msgstr "Sem intervalo"
+
+#: labs/models.py:322
+msgid "Unknown"
+msgstr "Desconhecido"
+
+#: labs/models.py:339
+msgid "AI API key"
+msgstr "Chave API de IA"
+
+#: labs/models.py:340
+msgid "Plan"
+msgstr "Plano"
+
+#: labs/models.py:341
+msgid "Activated at"
+msgstr "Ativado em"
+
+#: labs/models.py:344
+msgid "Activated by"
+msgstr "Ativado por"
+
+#: labs/models.py:348
+msgid "AI license"
+msgstr "Licença IA"
+
+#: labs/models.py:349
+msgid "AI licenses"
+msgstr "Licenças IA"
+
+#: labs/templates/labs/ai_chat.html:38 labs/templates/labs/ai_chat.html:90
+msgid "Conversation"
+msgstr "Conversa"
+
+#: labs/templates/labs/ai_chat.html:38
+#: labs/templates/labs/profile/edit.html:126
+msgid "AI Assistant"
+msgstr "Assistente IA"
+
+#: labs/templates/labs/ai_chat.html:72
+msgid "I'm here to help you with medical questions."
+msgstr "Estou aqui para ajudar com dúvidas médicas."
+
+#: labs/templates/labs/ai_chat.html:75
+msgid "New conversation"
+msgstr "Nova conversa"
+
+#: labs/templates/labs/ai_chat.html:143
+msgid "Ask about your results..."
+msgstr "Pergunta sobre os teus resultados..."
+
+#: labs/templates/labs/ai_chat.html:151
+msgid "Send"
+msgstr "Enviar"
+
+#: labs/templates/labs/ai_chat.html:168
+msgid "Unlock AI Assistant"
+msgstr "Desbloqueia o Assistente IA"
+
+#: labs/templates/labs/ai_chat.html:169
+msgid ""
+"Analyse your results, resolve medical questions and take control of your "
+"health."
+msgstr ""
+"Analisa os teus resultados, resolve dúvidas médicas e controla a tua saúde."
+
+#: labs/templates/labs/ai_chat.html:170
+msgid "Activate it from your profile"
+msgstr "Ativa-o a partir do teu perfil"
+
+#: labs/templates/labs/analysis/detail.html:5
+#: labs/templates/labs/body/detail.html:5
+#: labs/templates/labs/dashboard.html:319 labs/templates/labs/ecg/detail.html:5
+#: labs/templates/labs/reports/all.html:5
+msgid "Records"
+msgstr "Registos"
+
+#: labs/templates/labs/analysis/detail.html:9
+msgid "Delete this analysis? This action cannot be undone."
+msgstr "Eliminar esta análise? Esta ação não pode ser desfeita."
+
+#: labs/templates/labs/analysis/detail.html:10
+#: labs/templates/labs/body/detail.html:10 labs/templates/labs/body/form.html:6
+#: labs/templates/labs/ecg/detail.html:10 labs/templates/labs/ecg/form.html:6
+msgid "Edit"
+msgstr "Editar"
+
+#: labs/templates/labs/analysis/detail.html:19
+#: labs/templates/labs/body/detail.html:19
+#: labs/templates/labs/ecg/detail.html:19
+msgid "Delete"
+msgstr "Eliminar"
+
+#: labs/templates/labs/analysis/detail.html:42
+#: labs/templates/labs/analysis/detail.html:52
+msgid "value"
+msgstr "valor"
+
+#: labs/templates/labs/analysis/detail.html:42
+#: labs/templates/labs/analysis/list.html:32
+msgid "out of range"
+msgstr "fora do intervalo"
+
+#: labs/templates/labs/analysis/detail.html:52
+#: labs/templates/labs/analysis/list.html:33
+msgid "in range"
+msgstr "no intervalo"
+
+#: labs/templates/labs/analysis/detail.html:61
+msgid "All values in optimal range"
+msgstr "Todos os valores no intervalo ótimo"
+
+#: labs/templates/labs/analysis/detail.html:85
+#: labs/templates/labs/dashboard.html:267
+msgid "Markers"
+msgstr "Marcadores"
+
+#: labs/templates/labs/analysis/detail.html:90
+msgid "View all"
+msgstr "Ver todos"
+
+#: labs/templates/labs/analysis/detail.html:143
+msgid "No values recorded."
+msgstr "Sem valores registados."
+
+#: labs/templates/labs/analysis/detail.html:144
+msgid "Add values"
+msgstr "Adicionar valores"
+
+#: labs/templates/labs/analysis/form.html:3
+#: labs/templates/labs/analysis/form.html:6
+msgid "New analysis"
+msgstr "Nova análise"
+
+#: labs/templates/labs/analysis/form.html:3
+#: labs/templates/labs/analysis/form.html:6
+msgid "Edit analysis"
+msgstr "Editar análise"
+
+#: labs/templates/labs/analysis/form.html:17
+msgid "General data"
+msgstr "Dados gerais"
+
+#: labs/templates/labs/analysis/form.html:42
+msgid "Values"
+msgstr "Valores"
+
+#: labs/templates/labs/analysis/form.html:43
+#: labs/templates/labs/biomarkers/list.html:17
+msgid "Search biomarker..."
+msgstr "Pesquisar biomarcador..."
+
+#: labs/templates/labs/analysis/form.html:45
+msgid "Only fill in those that appear in your analysis"
+msgstr "Preenche apenas os que aparecem na tua análise"
+
+#: labs/templates/labs/analysis/form.html:100
+msgid "Save analysis"
+msgstr "Guardar análise"
+
+#: labs/templates/labs/analysis/form.html:100
+msgid "Update analysis"
+msgstr "Atualizar análise"
+
+#: labs/templates/labs/analysis/form.html:105 labs/templates/labs/app.html:107
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: labs/templates/labs/analysis/list.html:15
+#: labs/templates/labs/body/list.html:113 labs/templates/labs/ecg/list.html:89
+#: labs/templates/labs/phenoage/history.html:79
+#: labs/templates/labs/reports/all.html:15
+msgid "History"
+msgstr "Histórico"
+
+#: labs/templates/labs/analysis/list.html:34
+msgid "All optimal"
+msgstr "Tudo ótimo"
+
+#: labs/templates/labs/analysis/list.html:55
+msgid "No analyses"
+msgstr "Sem análises"
+
+#: labs/templates/labs/analysis/list.html:56
+msgid "Add your first analysis to start tracking."
+msgstr "Adiciona a tua primeira análise para começar o acompanhamento."
+
+#: labs/templates/labs/analysis/list.html:61
+#: labs/templates/labs/biomarkers/detail.html:86
+msgid "Add analysis"
+msgstr "Adicionar análise"
+
+#: labs/templates/labs/app.html:112
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: labs/templates/labs/app_detail.html:18
+msgid "Back"
+msgstr "Voltar"
+
+#: labs/templates/labs/app_detail.html:34 labs/templates/labs/dashboard.html:25
+msgid "Chat"
+msgstr "Chat"
+
+#: labs/templates/labs/app_detail.html:44 labs/templates/labs/dashboard.html:37
+#: labs/templates/labs/profile/edit.html:232
+msgid "Add"
+msgstr "Adicionar"
+
+#: labs/templates/labs/app_detail.html:63 labs/templates/labs/body/form.html:3
+#: labs/templates/labs/body/form.html:6 labs/templates/labs/dashboard.html:49
+msgid "New record"
+msgstr "Novo registo"
+
+#: labs/templates/labs/app_detail.html:92 labs/templates/labs/dashboard.html:78
+#: labs/templates/labs/dashboard.html:194
+#: labs/templates/labs/ecg/detail.html:61
+msgid "ECG"
+msgstr "ECG"
+
+#: labs/templates/labs/app_detail.html:103
+#: labs/templates/labs/dashboard.html:89
+msgid "Profile"
+msgstr "Perfil"
+
+#: labs/templates/labs/biomarkers/detail.html:24
+#: labs/templates/labs/body/list.html:20 labs/templates/labs/ecg/list.html:20
+msgid "Hide"
+msgstr "Ocultar"
+
+#: labs/templates/labs/biomarkers/detail.html:25
+#: labs/templates/labs/body/list.html:21
+msgid "See reference ranges"
+msgstr "Ver intervalos de referência"
+
+#: labs/templates/labs/biomarkers/detail.html:67
+msgid "Evolution"
+msgstr "Evolução"
+
+#: labs/templates/labs/biomarkers/detail.html:80
+msgid "No historical data"
+msgstr "Sem dados históricos"
+
+#: labs/templates/labs/biomarkers/detail.html:81
+msgid "Record this biomarker in an analysis to see the chart."
+msgstr "Regista este biomarcador numa análise para ver o gráfico."
+
+#: labs/templates/labs/biomarkers/detail.html:99
+msgid "My measurements"
+msgstr "As minhas medições"
+
+#: labs/templates/labs/body/detail.html:5
+#: labs/templates/labs/body/detail.html:111
+#: labs/templates/labs/body/form.html:5 labs/templates/labs/body/form.html:47
+#: labs/templates/labs/body/list.html:5
+msgid "Composition"
+msgstr "Composição"
+
+#: labs/templates/labs/body/detail.html:9
+msgid "Delete this record? This action cannot be undone."
+msgstr "Eliminar este registo? Esta ação não pode ser desfeita."
+
+#: labs/templates/labs/body/detail.html:39
+msgid "Body mass index"
+msgstr "Índice de massa corporal"
+
+#: labs/templates/labs/body/detail.html:42
+#: labs/templates/labs/body/list.html:127
+msgid "BMI"
+msgstr "IMC"
+
+#: labs/templates/labs/body/detail.html:55
+#: labs/templates/labs/body/detail.html:83
+#: labs/templates/labs/body/form.html:33
+msgid "Weight"
+msgstr "Peso"
+
+#: labs/templates/labs/body/detail.html:59
+#: labs/templates/labs/body/detail.html:87
+#: labs/templates/labs/body/form.html:38
+msgid "Height"
+msgstr "Altura"
+
+#: labs/templates/labs/body/detail.html:80
+#: labs/templates/labs/body/form.html:30
+msgid "Base measurements"
+msgstr "Medições base"
+
+#: labs/templates/labs/body/detail.html:116
+#: labs/templates/labs/body/form.html:50
+msgid "Body fat"
+msgstr "Gordura corporal"
+
+#: labs/templates/labs/body/detail.html:119
+msgid "Total body fat percentage. Helps estimate metabolic risk beyond weight."
+msgstr ""
+"Percentagem total de gordura corporal. Ajuda a estimar o risco metabólico "
+"para além do peso."
+
+#: labs/templates/labs/body/detail.html:125
+#: labs/templates/labs/body/form.html:54
+msgid "Visceral fat"
+msgstr "Gordura visceral"
+
+#: labs/templates/labs/body/detail.html:128
+msgid ""
+"Fat accumulated around internal organs. High levels are associated with "
+"increased cardiovascular risk."
+msgstr ""
+"Gordura acumulada em redor dos órgãos internos. Níveis elevados estão "
+"associados a maior risco cardiovascular."
+
+#: labs/templates/labs/body/detail.html:134
+#: labs/templates/labs/body/form.html:58 labs/templates/labs/body/list.html:59
+msgid "Muscle mass"
+msgstr "Massa muscular"
+
+#: labs/templates/labs/body/detail.html:137
+msgid ""
+"Estimated skeletal muscle mass. Key for strength, metabolism and functional "
+"independence."
+msgstr ""
+"Massa muscular esquelética estimada. Fundamental para a força, o metabolismo "
+"e a independência funcional."
+
+#: labs/templates/labs/body/detail.html:143
+#: labs/templates/labs/body/form.html:62
+msgid "Water"
+msgstr "Água"
+
+#: labs/templates/labs/body/detail.html:146
+msgid ""
+"Total body water percentage. May vary with hydration, muscle mass and "
+"overall composition."
+msgstr ""
+"Percentagem total de água corporal. Pode variar com a hidratação, a massa "
+"muscular e a composição geral."
+
+#: labs/templates/labs/body/detail.html:152
+#: labs/templates/labs/body/form.html:66
+msgid "Protein"
+msgstr "Proteína"
+
+#: labs/templates/labs/body/detail.html:155
+msgid ""
+"Estimated body protein associated with lean tissue and nutritional status."
+msgstr ""
+"Proteína corporal estimada associada ao tecido magro e ao estado nutricional."
+
+#: labs/templates/labs/body/detail.html:161
+#: labs/templates/labs/body/form.html:70
+msgid "Bone mass"
+msgstr "Massa óssea"
+
+#: labs/templates/labs/body/detail.html:164
+msgid ""
+"Estimated bone mineral content. Best interpreted alongside densitometry and "
+"trends over time."
+msgstr ""
+"Conteúdo mineral ósseo estimado. Melhor interpretado em conjunto com a "
+"densitometria e as tendências ao longo do tempo."
+
+#: labs/templates/labs/body/form.html:3
+msgid "Edit record"
+msgstr "Editar registo"
+
+#: labs/templates/labs/body/form.html:15 labs/templates/labs/ecg/form.html:15
+msgid "General"
+msgstr "Geral"
+
+#: labs/templates/labs/body/form.html:17 labs/templates/labs/ecg/form.html:17
+msgid "Record name"
+msgstr "Nome do registo"
+
+#: labs/templates/labs/body/form.html:47 labs/templates/labs/ecg/form.html:99
+msgid "optional"
+msgstr "opcional"
+
+#: labs/templates/labs/body/form.html:54
+msgid "level"
+msgstr "nível"
+
+#: labs/templates/labs/body/form.html:83 labs/templates/labs/ecg/form.html:112
+#: labs/templates/labs/profile/edit.html:114
+msgid "Save changes"
+msgstr "Guardar alterações"
+
+#: labs/templates/labs/body/form.html:83
+msgid "Save record"
+msgstr "Guardar registo"
+
+#: labs/templates/labs/body/list.html:15
+msgid "About body composition"
+msgstr "Sobre a composição corporal"
+
+#: labs/templates/labs/body/list.html:18
+msgid ""
+"BMI relates weight and height but does not distinguish muscle from fat. The "
+"most relevant aging markers are body fat (increases with age) and muscle "
+"mass (decreases with age, a phenomenon called sarcopenia)."
+msgstr ""
+"O IMC relaciona peso e altura mas não distingue músculo de gordura. Os "
+"marcadores de envelhecimento mais relevantes são a gordura corporal (aumenta "
+"com a idade) e a massa muscular (diminui com a idade, fenómeno chamado "
+"sarcopenia)."
+
+#: labs/templates/labs/body/list.html:37
+msgid "BMI (kg/m²)"
+msgstr "IMC (kg/m²)"
+
+#: labs/templates/labs/body/list.html:48
+#, python-format
+msgid "Body fat (%%)"
+msgstr "Gordura corporal (%%)"
+
+#: labs/templates/labs/body/list.html:50
+msgid "Male 10–20"
+msgstr "Homem 10–20"
+
+#: labs/templates/labs/body/list.html:50 labs/templates/labs/body/list.html:51
+msgid "Healthy range"
+msgstr "Intervalo saudável"
+
+#: labs/templates/labs/body/list.html:51
+msgid "Female 18–28"
+msgstr "Mulher 18–28"
+
+#: labs/templates/labs/body/list.html:52
+msgid "Obesity (M/F)"
+msgstr "Obesidade (H/M)"
+
+#: labs/templates/labs/body/list.html:54
+#, python-format
+msgid ""
+"With age, fat tends to increase ~0.5%% per year even without weight changes."
+msgstr ""
+"Com a idade, a gordura tende a aumentar ~0,5%% por ano mesmo sem alterações "
+"de peso."
+
+#: labs/templates/labs/body/list.html:61
+#, python-format
+msgid ""
+"After age 30, between 3–5%% of muscle mass is lost per decade (sarcopenia). "
+"The main cause is inactivity, not age. Strength training is the only proven "
+"brake. A stable or growing muscle mass is one of the best predictors of "
+"functional longevity."
+msgstr ""
+"A partir dos 30 anos perde-se entre 3–5%% de massa muscular por década "
+"(sarcopenia). A principal causa é a inatividade, não a idade. O treino de "
+"força é o único travão comprovado. Uma massa muscular estável ou crescente é "
+"um dos melhores preditores de longevidade funcional."
+
+#: labs/templates/labs/body/list.html:70
+msgid "Elevated"
+msgstr "Elevado"
+
+#: labs/templates/labs/body/list.html:71
+msgid "Very high — high CV risk"
+msgstr "Muito elevado — alto risco CV"
+
+#: labs/templates/labs/body/list.html:76
+msgid ""
+"Ranges based on WHO, ACSM and NHANES cohort studies. These are indicative "
+"and do not constitute a medical diagnosis."
+msgstr ""
+"Intervalos baseados na OMS, ACSM e estudos de coorte NHANES. São indicativos "
+"e não constituem um diagnóstico médico."
+
+#: labs/templates/labs/body/list.html:85
+msgid "BMI evolution"
+msgstr "Evolução do IMC"
+
+#: labs/templates/labs/body/list.html:97
+msgid "Aging ratio"
+msgstr "Rácio de envelhecimento"
+
+#: labs/templates/labs/body/list.html:98
+msgid "Body fat (↑ with age) · Muscle mass (↓ with age)"
+msgstr "Gordura corporal (↑ com idade) · Massa muscular (↓ com idade)"
+
+#: labs/templates/labs/body/list.html:147 labs/templates/labs/ecg/list.html:122
+#: labs/templates/labs/reports/all.html:63
+msgid "No records"
+msgstr "Sem registos"
+
+#: labs/templates/labs/body/list.html:148
+msgid "Add your first record to start tracking."
+msgstr "Adiciona o teu primeiro registo para começar o acompanhamento."
+
+#: labs/templates/labs/body/list.html:153
+msgid "Add record"
+msgstr "Adicionar registo"
+
+#: labs/templates/labs/dashboard.html:102
+msgid "Your Biological Age"
+msgstr "A tua Idade Biológica"
+
+#: labs/templates/labs/dashboard.html:111
+msgid "years"
+msgstr "anos"
+
+#: labs/templates/labs/dashboard.html:113
+msgid "months"
+msgstr "meses"
+
+#: labs/templates/labs/dashboard.html:119
+#: labs/templates/labs/dashboard.html:124
+#, python-format
+msgid "%(years)s year"
+msgstr "%(years)s ano"
+
+#: labs/templates/labs/dashboard.html:119
+#: labs/templates/labs/dashboard.html:124
+#, python-format
+msgid "and %(months)s month"
+msgstr "e %(months)s mês"
+
+#: labs/templates/labs/dashboard.html:119
+msgid "younger"
+msgstr "mais novo"
+
+#: labs/templates/labs/dashboard.html:124
+msgid "biologically older"
+msgstr "biologicamente mais velho"
+
+#: labs/templates/labs/dashboard.html:128
+msgid "Missing markers"
+msgstr "Marcadores em falta"
+
+#: labs/templates/labs/dashboard.html:139
+msgid "Body Composition"
+msgstr "Composição Corporal"
+
+#: labs/templates/labs/dashboard.html:152
+msgid "Body Mass Index (BMI)"
+msgstr "Índice de Massa Corporal (IMC)"
+
+#: labs/templates/labs/dashboard.html:173
+msgid "Aging Ratio"
+msgstr "Rácio de Envelhecimento"
+
+#: labs/templates/labs/dashboard.html:209
+msgid "Resting heart rate"
+msgstr "Frequência cardíaca em repouso"
+
+#: labs/templates/labs/dashboard.html:226
+msgid "No HR recorded"
+msgstr "Sem FC registada"
+
+#: labs/templates/labs/dashboard.html:236
+msgid "No ECGs recorded."
+msgstr "Sem ECGs registados."
+
+#: labs/templates/labs/dashboard.html:243
+msgid "Add first ECG"
+msgstr "Adicionar primeiro ECG"
+
+#: labs/templates/labs/dashboard.html:251
+msgid "No analyses recorded yet."
+msgstr "Sem análises registadas ainda."
+
+#: labs/templates/labs/dashboard.html:258
+msgid "Add first analysis"
+msgstr "Adicionar primeira análise"
+
+#: labs/templates/labs/dashboard.html:278
+msgid "Optimal"
+msgstr "Ótimo"
+
+#: labs/templates/labs/dashboard.html:285
+msgid "In range"
+msgstr "No intervalo"
+
+#: labs/templates/labs/dashboard.html:292
+msgid "Out of range"
+msgstr "Fora do intervalo"
+
+#: labs/templates/labs/dashboard.html:361
+msgid "See all"
+msgstr "Ver todos"
+
+#: labs/templates/labs/ecg/detail.html:9
+msgid "Delete this ECG? This action cannot be undone."
+msgstr "Eliminar este ECG? Esta ação não pode ser desfeita."
+
+#: labs/templates/labs/ecg/detail.html:38
+msgid "ECG data"
+msgstr "Dados do ECG"
+
+#: labs/templates/labs/ecg/detail.html:42 labs/templates/labs/ecg/form.html:99
+#: labs/templates/labs/ecg/list.html:64
+msgid "Heart rate"
+msgstr "Frequência cardíaca"
+
+#: labs/templates/labs/ecg/form.html:3
+msgid "Edit ECG"
+msgstr "Editar ECG"
+
+#: labs/templates/labs/ecg/form.html:3 labs/templates/labs/ecg/form.html:6
+msgid "New ECG"
+msgstr "Novo ECG"
+
+#: labs/templates/labs/ecg/form.html:30
+msgid "Image"
+msgstr "Imagem"
+
+#: labs/templates/labs/ecg/form.html:31
+msgid "Change image"
+msgstr "Alterar imagem"
+
+#: labs/templates/labs/ecg/form.html:32
+msgid "Drop here"
+msgstr "Larga aqui"
+
+#: labs/templates/labs/ecg/form.html:33
+msgid "Drag or click"
+msgstr "Arrasta ou clica"
+
+#: labs/templates/labs/ecg/form.html:97
+msgid "Clinical data"
+msgstr "Dados clínicos"
+
+#: labs/templates/labs/ecg/form.html:112
+msgid "Save ECG"
+msgstr "Guardar ECG"
+
+#: labs/templates/labs/ecg/list.html:3
+msgid "ECGs"
+msgstr "ECGs"
+
+#: labs/templates/labs/ecg/list.html:15
+msgid "About ECGs"
+msgstr "Sobre os ECGs"
+
+#: labs/templates/labs/ecg/list.html:18
+msgid ""
+"The electrocardiogram records the electrical activity of the heart. The "
+"resting heart rate is one of the most robust predictors of longevity: the "
+"optimal zone is between 60 and 70 bpm."
+msgstr ""
+"O eletrocardiograma regista a atividade elétrica do coração. A frequência "
+"cardíaca em repouso é um dos preditores de longevidade mais robustos: a zona "
+"ótima situa-se entre 60 e 70 bpm."
+
+#: labs/templates/labs/ecg/list.html:21
+msgid "See reference scale"
+msgstr "Ver escala de referência"
+
+#: labs/templates/labs/ecg/list.html:45
+msgid "Severe bradycardia"
+msgstr "Bradicardia grave"
+
+#: labs/templates/labs/ecg/list.html:46
+msgid "Mild bradycardia"
+msgstr "Bradicardia ligeira"
+
+#: labs/templates/labs/ecg/list.html:47
+msgid "Excellent — athlete zone"
+msgstr "Excelente — zona atleta"
+
+#: labs/templates/labs/ecg/list.html:48
+msgid "Optimal — lowest CV mortality"
+msgstr "Ótimo — menor mortalidade CV"
+
+#: labs/templates/labs/ecg/list.html:50
+msgid "Slightly elevated"
+msgstr "Ligeiramente elevada"
+
+#: labs/templates/labs/ecg/list.html:51
+#, python-format
+msgid "Elevated (+60%% risk vs optimal)"
+msgstr "Elevada (+60%% risco vs ótimo)"
+
+#: labs/templates/labs/ecg/list.html:52
+msgid "Tachycardia"
+msgstr "Taquicardia"
+
+#: labs/templates/labs/ecg/list.html:55
+msgid ""
+"Based on meta-analysis of 46 studies (1.2M participants) and the Framingham "
+"Heart Study."
+msgstr ""
+"Baseado numa meta-análise de 46 estudos (1,2M participantes) e no estudo "
+"Framingham Heart Study."
+
+#: labs/templates/labs/ecg/list.html:72
+msgid "yr"
+msgstr "ano"
+
+#: labs/templates/labs/ecg/list.html:123
+msgid "Add your first ECG to start tracking."
+msgstr "Adiciona o teu primeiro ECG para começar o acompanhamento."
+
+#: labs/templates/labs/ecg/list.html:128
+msgid "Add ECG"
+msgstr "Adicionar ECG"
+
+#: labs/templates/labs/login.html:4 labs/templates/labs/login.html:137
+msgid "Sign in"
+msgstr "Entrar"
+
+#: labs/templates/labs/login.html:55
+msgid "Photo"
+msgstr "Foto"
+
+#: labs/templates/labs/login.html:73
+msgid "Photo by"
+msgstr "Foto de"
+
+#: labs/templates/labs/login.html:100
+msgid "Welcome"
+msgstr "Bem-vindo"
+
+#: labs/templates/labs/login.html:101
+msgid "Access your medical analytics"
+msgstr "Acede às tuas análises médicas"
+
+#: labs/templates/labs/login.html:107
+msgid "Incorrect username or password."
+msgstr "Utilizador ou palavra-passe incorretos."
+
+#: labs/templates/labs/login.html:117
+#: labs/templates/labs/profile/family_create.html:35
+msgid "Username"
+msgstr "Utilizador"
+
+#: labs/templates/labs/login.html:120
+msgid "username"
+msgstr "utilizador"
+
+#: labs/templates/labs/login.html:126
+#: labs/templates/labs/profile/family_create.html:42
+#: labs/templates/labs/profile/password_change.html:6
+msgid "Password"
+msgstr "Palavra-passe"
+
+#: labs/templates/labs/phenoage/history.html:3
+#: labs/templates/labs/phenoage/history.html:5
+msgid "Biological Age"
+msgstr "Idade Biológica"
+
+#: labs/templates/labs/phenoage/history.html:14
+msgid "How it's calculated"
+msgstr "Como é calculado"
+
+#: labs/templates/labs/phenoage/history.html:16
+msgid "Hide details"
+msgstr "Ocultar detalhes"
+
+#: labs/templates/labs/phenoage/history.html:17
+msgid "See the 9 markers"
+msgstr "Ver os 9 marcadores"
+
+#: labs/templates/labs/phenoage/history.html:20
+msgid ""
+"We use <strong>PhenoAge</strong> (Levine et al., 2018), a scientifically "
+"validated algorithm that estimates your biological age by combining your "
+"chronological age with 9 biomarkers from your blood test. Each marker "
+"reflects the state of a different system in your body:"
+msgstr ""
+"Utilizamos o <strong>PhenoAge</strong> (Levine et al., 2018), um algoritmo "
+"cientificamente validado que estima a tua idade biológica combinando a tua "
+"idade cronológica com 9 biomarcadores da tua análise de sangue. Cada "
+"marcador reflete o estado de um sistema diferente do teu corpo:"
+
+#: labs/templates/labs/phenoage/history.html:41
+msgid "Albumin"
+msgstr "Albumina"
+
+#: labs/templates/labs/phenoage/history.html:41
+msgid "hepatic protein."
+msgstr "proteína hepática."
+
+#: labs/templates/labs/phenoage/history.html:41
+msgid "Decreases with aging."
+msgstr "Diminui com o envelhecimento."
+
+#: labs/templates/labs/phenoage/history.html:42
+msgid "Creatinine"
+msgstr "Creatinina"
+
+#: labs/templates/labs/phenoage/history.html:42
+msgid "kidney function."
+msgstr "função renal."
+
+#: labs/templates/labs/phenoage/history.html:42
+msgid "Tends to rise with age."
+msgstr "Tende a aumentar com a idade."
+
+#: labs/templates/labs/phenoage/history.html:43
+msgid "Glucose"
+msgstr "Glicose"
+
+#: labs/templates/labs/phenoage/history.html:43
+msgid "energy metabolism."
+msgstr "metabolismo energético."
+
+#: labs/templates/labs/phenoage/history.html:43
+msgid "Rises with aging and sedentary lifestyle."
+msgstr "Aumenta com o envelhecimento e o sedentarismo."
+
+#: labs/templates/labs/phenoage/history.html:44
+msgid "CRP"
+msgstr "PCR"
+
+#: labs/templates/labs/phenoage/history.html:44
+msgid "systemic inflammation."
+msgstr "inflamação sistémica."
+
+#: labs/templates/labs/phenoage/history.html:44
+msgid "High CRP ages the result further."
+msgstr "Uma PCR elevada envelhece ainda mais o resultado."
+
+#: labs/templates/labs/phenoage/history.html:45
+msgid "MCV"
+msgstr "VGM"
+
+#: labs/templates/labs/phenoage/history.html:45
+msgid "red blood cell size."
+msgstr "tamanho dos glóbulos vermelhos."
+
+#: labs/templates/labs/phenoage/history.html:45
+msgid "Changes with age and diet."
+msgstr "Varia com a idade e a alimentação."
+
+#: labs/templates/labs/phenoage/history.html:46
+msgid "RDW"
+msgstr "RDW"
+
+#: labs/templates/labs/phenoage/history.html:46
+msgid "erythrocyte variability."
+msgstr "variabilidade eritrocitária."
+
+#: labs/templates/labs/phenoage/history.html:46
+msgid "Highest weight in calculation; elevated indicates cellular stress."
+msgstr "Maior peso no cálculo; elevado indica stress celular."
+
+#: labs/templates/labs/phenoage/history.html:47
+msgid "Alkaline Phosphatase"
+msgstr "Fosfatase Alcalina"
+
+#: labs/templates/labs/phenoage/history.html:47
+msgid "bone and liver status."
+msgstr "estado ósseo e hepático."
+
+#: labs/templates/labs/phenoage/history.html:47
+msgid "Rises with tissue damage and age."
+msgstr "Aumenta com o dano tecidual e a idade."
+
+#: labs/templates/labs/phenoage/history.html:48
+msgid "WBC"
+msgstr "Leucócitos"
+
+#: labs/templates/labs/phenoage/history.html:48
+msgid "immune system."
+msgstr "sistema imunitário."
+
+#: labs/templates/labs/phenoage/history.html:48
+msgid "Altered by aging."
+msgstr "Alterado pelo envelhecimento."
+
+#: labs/templates/labs/phenoage/history.html:49
+#, python-format
+msgid "%% Lymphocytes"
+msgstr "%% Linfócitos"
+
+#: labs/templates/labs/phenoage/history.html:49
+msgid "adaptive immune response."
+msgstr "resposta imunitária adaptativa."
+
+#: labs/templates/labs/phenoage/history.html:49
+msgid "Decreases with age (immunosenescence)."
+msgstr "Diminui com a idade (imunossenescência)."
+
+#: labs/templates/labs/phenoage/history.html:53
+msgid ""
+"The algorithm combines these 9 values using a formula derived from more than "
+"11,000 people in the NHANES population study. The result is an "
+"<strong>estimated biological age</strong>: if it is lower than your real "
+"age, your body is functioning better than expected; if it is higher, there "
+"is room for improvement."
+msgstr ""
+"O algoritmo combina estes 9 valores com uma fórmula derivada de mais de 11 "
+"000 pessoas do estudo populacional NHANES. O resultado é uma <strong>idade "
+"biológica estimada</strong>: se for inferior à tua idade real, o teu corpo "
+"está a funcionar melhor do que o esperado; se for superior, há margem de "
+"melhoria."
+
+#: labs/templates/labs/phenoage/history.html:57
+msgid ""
+"⚠️ This estimate is <strong>indicative and educational</strong>, not a "
+"medical diagnosis. A single value may be affected by recent infections, "
+"medication or the time of blood draw. Its greatest utility is "
+"<strong>tracking over time</strong>."
+msgstr ""
+"⚠️ Esta estimativa é <strong>indicativa e educativa</strong>, não um "
+"diagnóstico médico. Um valor pontual pode ser afetado por infeções recentes, "
+"medicação ou o momento da colheita. A sua maior utilidade é o "
+"<strong>acompanhamento ao longo do tempo</strong>."
+
+#: labs/templates/labs/phenoage/history.html:67
+msgid "Biological age evolution"
+msgstr "Evolução da idade biológica"
+
+#: labs/templates/labs/phenoage/history.html:98
+msgid "years younger"
+msgstr "anos mais novo"
+
+#: labs/templates/labs/phenoage/history.html:98
+msgid "years older"
+msgstr "anos mais velho"
+
+#: labs/templates/labs/phenoage/history.html:112
+msgid "Not enough data yet to calculate PhenoAge."
+msgstr "Ainda não há dados suficientes para calcular o PhenoAge."
+
+#: labs/templates/labs/profile/edit.html:3
+#: labs/templates/labs/profile/edit.html:6
+#: labs/templates/labs/profile/family_create.html:5
+#: labs/templates/labs/profile/language.html:5
+#: labs/templates/labs/profile/password_change.html:5
+msgid "My profile"
+msgstr "O meu perfil"
+
+#: labs/templates/labs/profile/edit.html:18
+msgid "Personal data"
+msgstr "Dados pessoais"
+
+#: labs/templates/labs/profile/edit.html:69
+msgid "Profile photo"
+msgstr "Foto de perfil"
+
+#: labs/templates/labs/profile/edit.html:70
+msgid "Tap or drag an image"
+msgstr "Toca ou arrasta uma imagem"
+
+#: labs/templates/labs/profile/edit.html:109
+msgid "Medications, allergies or other relevant information."
+msgstr "Medicamentos, alergias ou outras informações relevantes."
+
+#: labs/templates/labs/profile/edit.html:136
+msgid "Coming soon"
+msgstr "Em breve"
+
+#: labs/templates/labs/profile/edit.html:137
+msgid "The AI assistant will be available in a future update"
+msgstr "O assistente IA estará disponível numa futura atualização"
+
+#: labs/templates/labs/profile/edit.html:149
+#: labs/templates/labs/profile/privacy.html:5
+msgid "Settings"
+msgstr "Definições"
+
+#: labs/templates/labs/profile/edit.html:160
+#: labs/templates/labs/profile/password_change.html:3
+#: labs/templates/labs/profile/password_change.html:17
+msgid "Change password"
+msgstr "Alterar palavra-passe"
+
+#: labs/templates/labs/profile/edit.html:174
+#: labs/templates/labs/profile/language.html:3
+#: labs/templates/labs/profile/language.html:6
+msgid "Language"
+msgstr "Idioma"
+
+#: labs/templates/labs/profile/edit.html:192
+#: labs/templates/labs/profile/privacy.html:3
+msgid "Privacy policy"
+msgstr "Política de privacidade"
+
+#: labs/templates/labs/profile/edit.html:207
+msgid "Sign out?"
+msgstr "Terminar sessão?"
+
+#: labs/templates/labs/profile/edit.html:211
+msgid "Sign out"
+msgstr "Terminar sessão"
+
+#: labs/templates/labs/profile/edit.html:224
+msgid "Accounts"
+msgstr "Contas"
+
+#: labs/templates/labs/profile/edit.html:250
+msgid "you"
+msgstr "tu"
+
+#: labs/templates/labs/profile/edit.html:270
+msgid "Export my data"
+msgstr "Exportar os meus dados"
+
+#: labs/templates/labs/profile/edit.html:271
+msgid "Download everything in JSON format"
+msgstr "Descarrega tudo em formato JSON"
+
+#: labs/templates/labs/profile/family_create.html:3
+#: labs/templates/labs/profile/family_create.html:6
+msgid "New account"
+msgstr "Nova conta"
+
+#: labs/templates/labs/profile/family_create.html:17
+msgid "Access data"
+msgstr "Dados de acesso"
+
+#: labs/templates/labs/profile/family_create.html:50
+#: labs/templates/labs/profile/password_change.html:42
+msgid "Minimum 8 characters"
+msgstr "Mínimo 8 caracteres"
+
+#: labs/templates/labs/profile/family_create.html:54
+#: labs/templates/labs/profile/password_change.html:46
+msgid "Cannot be entirely numeric"
+msgstr "Não pode ser apenas números"
+
+#: labs/templates/labs/profile/family_create.html:58
+#: labs/templates/labs/profile/password_change.html:50
+msgid "Cannot be too similar to username"
+msgstr "Não pode ser demasiado semelhante ao nome de utilizador"
+
+#: labs/templates/labs/profile/family_create.html:64
+msgid "Repeat password"
+msgstr "Repetir palavra-passe"
+
+#: labs/templates/labs/profile/family_create.html:70
+msgid "Create account"
+msgstr "Criar conta"
+
+#: labs/templates/labs/profile/password_change.html:24
+msgid "Current password"
+msgstr "Palavra-passe atual"
+
+#: labs/templates/labs/profile/password_change.html:34
+msgid "New password"
+msgstr "Nova palavra-passe"
+
+#: labs/templates/labs/profile/password_change.html:57
+msgid "Repeat new password"
+msgstr "Repetir nova palavra-passe"
+
+#: labs/templates/labs/profile/password_change.html:70
+msgid "Save password"
+msgstr "Guardar palavra-passe"
+
+#: labs/templates/labs/profile/privacy.html:6
+msgid "Privacy"
+msgstr "Privacidade"
+
+#: labs/templates/labs/profile/privacy.html:20
+msgid "Your data is yours"
+msgstr "Os teus dados são teus"
+
+#: labs/templates/labs/profile/privacy.html:22
+msgid ""
+"LabLocal runs on your own infrastructure. You control where your medical "
+"data lives."
+msgstr ""
+"O LabLocal corre na tua própria infraestrutura. Tu controlas onde vivem os "
+"teus dados médicos."
+
+#: labs/templates/labs/profile/privacy.html:33
+msgid "What is stored"
+msgstr "O que é armazenado"
+
+#: labs/templates/labs/profile/privacy.html:36
+msgid "The following data is saved <strong>only on your server</strong>:"
+msgstr ""
+"Os seguintes dados são guardados <strong>apenas no teu servidor</strong>:"
+
+#: labs/templates/labs/profile/privacy.html:38
+msgid "Username, real name and date of birth"
+msgstr "Nome de utilizador, nome real e data de nascimento"
+
+#: labs/templates/labs/profile/privacy.html:40
+msgid "Blood analyses and biomarker values"
+msgstr "Análises de sangue e valores de biomarcadores"
+
+#: labs/templates/labs/profile/privacy.html:41
+msgid "Body composition records"
+msgstr "Registos de composição corporal"
+
+#: labs/templates/labs/profile/privacy.html:42
+msgid "ECGs and attached images"
+msgstr "Eletrocardiogramas e imagens anexadas"
+
+#: labs/templates/labs/profile/privacy.html:43
+msgid "Clinical notes and biological sex data"
+msgstr "Notas clínicas e dados de sexo biológico"
+
+#: labs/templates/labs/profile/privacy.html:54
+msgid "Never shared"
+msgstr "Nunca partilhado"
+
+#: labs/templates/labs/profile/privacy.html:58
+msgid "No telemetry or usage analytics"
+msgstr "Sem telemetria nem análises de utilização"
+
+#: labs/templates/labs/profile/privacy.html:59
+msgid "No advertising or behaviour tracking"
+msgstr "Sem publicidade nem rastreio de comportamento"
+
+#: labs/templates/labs/profile/privacy.html:60
+msgid ""
+"Data is never sold or transferred to third parties under any circumstances"
+msgstr ""
+"Os dados nunca são vendidos nem cedidos a terceiros em nenhuma circunstância"
+
+#: labs/templates/labs/profile/privacy.html:61
+msgid ""
+"Your name, email or any identifying data <strong>never leaves the server</"
+"strong>"
+msgstr ""
+"O teu nome, email ou qualquer dado identificativo <strong>nunca sai do "
+"servidor</strong>"
+
+#: labs/templates/labs/profile/privacy.html:72
+msgid "Premium plan and artificial intelligence"
+msgstr "Plano Premium e inteligência artificial"
+
+#: labs/templates/labs/profile/privacy.html:76
+msgid ""
+"The <strong>annual premium plan</strong> includes analysis and "
+"interpretation of your data using artificial intelligence."
+msgstr ""
+"O <strong>plano premium anual</strong> inclui análise e interpretação dos "
+"teus dados através de inteligência artificial."
+
+#: labs/templates/labs/profile/privacy.html:79
+msgid ""
+"When you use AI features, only <strong>numerical values and biomarkers</"
+"strong> are sent to the model — never your name, email address, exact date "
+"of birth or any other personal identifier. The anonymisation process takes "
+"place on your server before any transmission."
+msgstr ""
+"Quando utilizas as funções de IA, apenas <strong>valores numéricos e "
+"biomarcadores</strong> são enviados ao modelo — nunca o teu nome, email, "
+"data de nascimento exata nem qualquer outro identificador pessoal. O "
+"processo de anonimização ocorre no teu servidor antes de qualquer "
+"transmissão."
+
+#: labs/templates/labs/profile/privacy.html:82
+msgid "What may leave for AI analysis"
+msgstr "O que pode sair para análise de IA"
+
+#: labs/templates/labs/profile/privacy.html:84
+msgid "Lab values (e.g. glucose 95 mg/dL, cholesterol 190 mg/dL)"
+msgstr "Valores analíticos (ex: glicose 95 mg/dL, colesterol 190 mg/dL)"
+
+#: labs/templates/labs/profile/privacy.html:85
+msgid "Age range (e.g. 30–40 years) and biological sex"
+msgstr "Faixa etária (ex: 30–40 anos) e sexo biológico"
+
+#: labs/templates/labs/profile/privacy.html:86
+msgid "ECG images for tracing analysis"
+msgstr "Imagens de ECG para análise do traçado"
+
+#: labs/templates/labs/profile/privacy.html:87
+msgid "Time trends between analyses"
+msgstr "Tendências temporais entre análises"
+
+#: labs/templates/labs/profile/privacy.html:89
+msgid "What NEVER leaves"
+msgstr "O que NUNCA sai"
+
+#: labs/templates/labs/profile/privacy.html:91
+msgid "First name, last name or username"
+msgstr "Nome, apelido ou nome de utilizador"
+
+#: labs/templates/labs/profile/privacy.html:92
+msgid "Email address or contact details"
+msgstr "Email ou dados de contacto"
+
+#: labs/templates/labs/profile/privacy.html:93
+msgid "Exact date of birth or any other identifier"
+msgstr "Data de nascimento exata nem qualquer outro identificador"
+
+#: labs/templates/labs/profile/privacy.html:94
+msgid "Profile pictures"
+msgstr "Fotografias de perfil"
+
+#: labs/templates/labs/profile/privacy.html:98
+#, python-format
+msgid ""
+"The premium plan is optional. The free version always works 100%% offline."
+msgstr ""
+"O plano premium é opcional. A versão gratuita funciona sempre 100%% offline."
+
+#: labs/templates/labs/profile/privacy.html:109
+msgid "Your responsibility as operator"
+msgstr "A tua responsabilidade como operador"
+
+#: labs/templates/labs/profile/privacy.html:112
+msgid ""
+"By deploying LabLocal on your infrastructure, you are the data controller:"
+msgstr ""
+"Ao instalar o LabLocal na tua infraestrutura, és o responsável pelo "
+"tratamento de dados:"
+
+#: labs/templates/labs/profile/privacy.html:114
+msgid "Protect server access with strong passwords and HTTPS"
+msgstr "Protege o acesso ao servidor com palavras-passe robustas e HTTPS"
+
+#: labs/templates/labs/profile/privacy.html:115
+msgid "Make regular backups"
+msgstr "Faz cópias de segurança periódicas"
+
+#: labs/templates/labs/profile/privacy.html:116
+msgid ""
+"If you use other people's data (family), inform them and obtain their consent"
+msgstr ""
+"Se utilizas dados de outras pessoas (família), informa-as e obtém o seu "
+"consentimento"
+
+#: labs/templates/labs/profile/privacy.html:124
+msgid ""
+"LabLocal is a personal tracking tool. <strong>It is not a medical device</"
+"strong> and does not replace professional medical advice. The code is open "
+"source and distributed under the GNU AFFERO GENERAL PUBLIC LICENSE v3 "
+"(AGPL-3.0-or-later)."
+msgstr ""
+"O LabLocal é uma ferramenta de acompanhamento pessoal. <strong>Não é um "
+"dispositivo médico</strong> e não substitui o aconselhamento médico "
+"profissional. O código é aberto e distribuído sob a licença GNU AFFERO "
+"GENERAL PUBLIC LICENSE v3 (AGPL-3.0-or-later)."
+
+#: labs/templates/labs/profile/privacy.html:130
+msgid "Made with 💙 from Asturias, Spain"
+msgstr "Feito com 💙 das Astúrias, Espanha"
+
+#: labs/templates/labs/reports/all.html:3
+msgid "All records"
+msgstr "Todos os registos"
+
+#: labs/templates/labs/reports/all.html:64
+msgid "You have no records saved yet."
+msgstr "Ainda não tens registos guardados."
+
+#: labs/views/analysis.py:85
+#, python-format
+msgid "Analysis \"%(name)s\" created successfully."
+msgstr "Análise \"%(name)s\" criada com sucesso."
+
+#: labs/views/analysis.py:152
+#, python-format
+msgid "Analysis \"%(name)s\" updated successfully."
+msgstr "Análise \"%(name)s\" atualizada com sucesso."
+
+#: labs/views/analysis.py:171
+#, python-format
+msgid "Analysis \"%(name)s\" deleted successfully."
+msgstr "Análise \"%(name)s\" eliminada com sucesso."
+
+#: labs/views/body.py:65
+msgid "Record saved successfully."
+msgstr "Registo guardado com sucesso."
+
+#: labs/views/body.py:98
+msgid "Record updated successfully."
+msgstr "Registo atualizado com sucesso."
+
+#: labs/views/core.py:19
+#, python-format
+msgid "Welcome back, %(name)s."
+msgstr "Bem-vindo de volta, %(name)s."
+
+#: labs/views/core.py:28
+msgid "You have been signed out."
+msgstr "A sessão foi terminada."
+
+#: labs/views/core.py:39
+msgid "The page you requested was not found."
+msgstr "A página que pediste não foi encontrada."
+
+#: labs/views/dashboard.py:91
+msgid "Good morning"
+msgstr "Bom dia"
+
+#: labs/views/dashboard.py:93
+msgid "Good afternoon"
+msgstr "Boa tarde"
+
+#: labs/views/dashboard.py:95
+msgid "Good evening"
+msgstr "Boa noite"
+
+#: labs/views/ecg.py:55
+msgid "ECG saved successfully."
+msgstr "ECG guardado com sucesso."
+
+#: labs/views/ecg.py:88
+msgid "ECG updated successfully."
+msgstr "ECG atualizado com sucesso."
+
+#: labs/views/profile.py:51
+msgid "Profile updated successfully."
+msgstr "Perfil atualizado com sucesso."
+
+#: labs/views/profile.py:63
+msgid "Only the administrator can create accounts."
+msgstr "Apenas o administrador pode criar contas."
+
+#: labs/views/profile.py:74
+#, python-format
+msgid "Account \"%(username)s\" created successfully."
+msgstr "Conta \"%(username)s\" criada com sucesso."
+
+#: labs/views/profile.py:114
+#, python-format
+msgid "Language changed to %(lang)s."
+msgstr "Idioma alterado para %(lang)s."
+
+#: labs/views/profile.py:136
+msgid "Only the administrator can activate the AI plan."
+msgstr "Apenas o administrador pode ativar o plano de IA."
+
+#: labs/views/profile.py:142
+msgid "The AI license is already active for all users."
+msgstr "A licença de IA já está ativa para todos os utilizadores."
+
+#: labs/views/profile.py:173
+msgid "AI Premium plan activated for all users!"
+msgstr "Plano Premium de IA ativado para todos os utilizadores!"
+
+#: labs/views/profile.py:176
+#, python-format
+msgid "Error activating AI plan: %(code)s — %(body)s"
+msgstr "Erro ao ativar o plano de IA: %(code)s — %(body)s"
+
+#: labs/views/profile.py:178 labs/views/profile.py:222
+#, python-format
+msgid "Could not connect to the AI service: %(error)s"
+msgstr "Não foi possível ligar ao serviço de IA: %(error)s"
+
+#: labs/views/profile.py:188
+msgid "Only the administrator can cancel the AI license."
+msgstr "Apenas o administrador pode cancelar a licença de IA."
+
+#: labs/views/profile.py:195
+msgid "There is no active AI license."
+msgstr "Não existe nenhuma licença de IA ativa."
+
+#: labs/views/profile.py:200
+msgid "The AI service is not configured (LAB_LOCAL_AI_URL)."
+msgstr "O serviço de IA não está configurado (LAB_LOCAL_AI_URL)."
+
+#: labs/views/profile.py:219
+#, python-format
+msgid "Error cancelling AI license: %(code)s — %(body)s"
+msgstr "Erro ao cancelar a licença de IA: %(code)s — %(body)s"
+
+#: labs/views/profile.py:227
+msgid "AI license cancelled successfully."
+msgstr "Licença de IA cancelada com sucesso."
+
+#: labs/views/profile.py:229
+#, python-format
+msgid "Error deleting local license: %(error)s"
+msgstr "Erro ao eliminar a licença local: %(error)s"
+
+#: labs/views/profile.py:252
+msgid "Password updated successfully."
+msgstr "Palavra-passe atualizada com sucesso."
+
+#: labs/templates/labs/biomarkers/detail.html
+msgid "Reference ranges"
+msgstr "Intervalos de referência"
+
+#: labs/templates/labs/biomarkers/detail.html
+msgid "About"
+msgstr "Descrição"
+
+#: labs/templates/labs/biomarkers/list.html
+msgid "available biomarkers"
+msgstr "biomarcadores disponíveis"
+
+#: labs/templates/labs/analysis/detail.html
+msgid "%(count)s value out of range"
+msgid_plural "%(count)s values out of range"
+msgstr[0] "%(count)s valor fora do intervalo"
+msgstr[1] "%(count)s valores fora do intervalo"
+
+#: labs/templates/labs/analysis/detail.html
+msgid "%(count)s value in range"
+msgid_plural "%(count)s values in range"
+msgstr[0] "%(count)s valor dentro do intervalo"
+msgstr[1] "%(count)s valores dentro do intervalo"

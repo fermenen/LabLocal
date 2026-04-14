@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.utils.translation import gettext_lazy as _
 
 
 
@@ -15,7 +15,7 @@ class UserProfile(models.Model):
         ext = filename.split('.')[-1]
         return f'avatars/{uuid.uuid4()}.{ext}'
 
-    SEXO_CHOICES = [('M', 'Masculino'), ('F', 'Femenino')]
+    SEXO_CHOICES = [('M', _('Male')), ('F', _('Female'))]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='userprofile')
     user_uuid = models.UUIDField(
@@ -23,21 +23,22 @@ class UserProfile(models.Model):
         unique=True,
         editable=False,
         db_index=True,
-        verbose_name='UUID público'
+        verbose_name=_('Public UUID')
     )
     avatar = models.ImageField(
         upload_to=avatar_upload_path,
-        null=True, blank=True, verbose_name='Foto de perfil'
+        null=True, blank=True, verbose_name=_('Profile picture')
     )
-    birth_date = models.DateField(null=True, blank=True, verbose_name='Fecha de nacimiento')
+    birth_date = models.DateField(null=True, blank=True, verbose_name=_('Date of birth'))
     biological_sex = models.CharField(
-        max_length=1, choices=SEXO_CHOICES, blank=True, verbose_name='Sexo biológico'
+        max_length=1, choices=SEXO_CHOICES, blank=True, verbose_name=_('Biological sex')
     )
-    notes = models.TextField(blank=True, verbose_name='Notas')
+    smoker = models.BooleanField(null=True, blank=True, verbose_name=_('Smoker'))
+    notes = models.TextField(blank=True, verbose_name=_('Notes'))
 
     class Meta:
-        verbose_name = 'Perfil de usuario'
-        verbose_name_plural = 'Perfiles de usuario'
+        verbose_name = _('User profile')
+        verbose_name_plural = _('User profiles')
 
     def __str__(self):
         return f'Perfil de {self.user.username}'
@@ -54,50 +55,66 @@ class Biomarker(models.Model):
     """Catálogo de biomarcadores médicos."""
 
     CATEGORIA_CHOICES = [
-        ('HEMATOLOGIA', 'Hematología'),
-        ('BIOQUIMICA', 'Bioquímica'),
-        ('LIPIDOS', 'Lípidos'),
-        ('TIROIDES', 'Tiroides'),
-        ('HIERRO', 'Hierro'),
-        ('INFLAMACION', 'Inflamación'),
-        ('ORINA', 'Orina'),
-        ('VITAMINAS', 'Vitaminas'),
-        ('OTRO', 'Otro'),
+        ('HEMATOLOGIA', _('Hematology')),
+        ('BIOQUIMICA', _('Biochemistry')),
+        ('LIPIDOS', _('Lipids')),
+        ('TIROIDES', _('Thyroid')),
+        ('HIERRO', _('Iron')),
+        ('INFLAMACION', _('Inflammation')),
+        ('ORINA', _('Urine')),
+        ('VITAMINAS', _('Vitamins')),
+        ('OTRO', _('Other')),
     ]
 
-    name = models.CharField(max_length=200, verbose_name='Nombre')
-    short_name = models.CharField(max_length=50, verbose_name='Nombre corto')
-    loinc_code = models.CharField(max_length=20, blank=True, verbose_name='Código LOINC')
+    loinc_code = models.CharField(max_length=30, unique=True, verbose_name=_('LOINC code'))
     category = models.CharField(
-        max_length=20, choices=CATEGORIA_CHOICES, default='OTRO', verbose_name='Categoría'
+        max_length=20, choices=CATEGORIA_CHOICES, default='OTRO', verbose_name=_('Category')
     )
-    unit = models.CharField(max_length=50, verbose_name='Unidad')
-    description = models.TextField(blank=True, verbose_name='Descripción')
+    unit = models.CharField(max_length=50, verbose_name=_('Unit'))
     ref_min_male = models.DecimalField(
         max_digits=10, decimal_places=3, null=True, blank=True,
-        verbose_name='Rango mínimo (hombre)'
+        verbose_name=_('Reference min (male)')
     )
     ref_max_male = models.DecimalField(
         max_digits=10, decimal_places=3, null=True, blank=True,
-        verbose_name='Rango máximo (hombre)'
+        verbose_name=_('Reference max (male)')
     )
     ref_min_female = models.DecimalField(
         max_digits=10, decimal_places=3, null=True, blank=True,
-        verbose_name='Rango mínimo (mujer)'
+        verbose_name=_('Reference min (female)')
     )
     ref_max_female = models.DecimalField(
         max_digits=10, decimal_places=3, null=True, blank=True,
-        verbose_name='Rango máximo (mujer)'
+        verbose_name=_('Reference max (female)')
     )
     low_is_bad = models.BooleanField(
-        default=True, verbose_name='Valor bajo es malo'
+        default=True, verbose_name=_('Low value is bad')
     )
-    order = models.PositiveIntegerField(default=0, verbose_name='Orden')
+    order = models.PositiveIntegerField(default=0, verbose_name=_('Order'))
 
     class Meta:
-        verbose_name = 'Biomarcador'
-        verbose_name_plural = 'Biomarcadores'
-        ordering = ['category', 'order', 'name']
+        verbose_name = _('Biomarker')
+        verbose_name_plural = _('Biomarkers')
+        ordering = ['category', 'order']
+
+    # ------------------------------------------------------------------
+    # Translated properties (text lives in biomarker_i18n.py, not in DB)
+    # ------------------------------------------------------------------
+
+    @property
+    def name(self):
+        from labs.biomarker_i18n import get_biomarker_field
+        return get_biomarker_field(self.loinc_code, 'name')
+
+    @property
+    def short_name(self):
+        from labs.biomarker_i18n import get_biomarker_field
+        return get_biomarker_field(self.loinc_code, 'short_name')
+
+    @property
+    def description(self):
+        from labs.biomarker_i18n import get_biomarker_field
+        return get_biomarker_field(self.loinc_code, 'description')
 
     def __str__(self):
         return f'{self.name} ({self.unit})'
@@ -114,12 +131,12 @@ class BaseReport(models.Model):
 
     user = models.ForeignKey(
         User, on_delete=models.CASCADE,
-        related_name='%(class)s_reports', verbose_name='Usuario'
+        related_name='%(class)s_reports', verbose_name=_('User')
     )
-    name = models.CharField(max_length=200, verbose_name='Nombre')
-    date = models.DateField(verbose_name='Fecha')
-    notes = models.TextField(blank=True, verbose_name='Notas')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Creado el')
+    name = models.CharField(max_length=200, verbose_name=_('Name'))
+    date = models.DateField(verbose_name=_('Date'))
+    notes = models.TextField(blank=True, verbose_name=_('Notes'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Created at'))
 
     class Meta:
         abstract = True
@@ -132,23 +149,23 @@ class BaseReport(models.Model):
 class AnalysisReport(BaseReport):
     """Analítica o reconocimiento médico completo."""
 
-    lab_name = models.CharField(max_length=200, blank=True, verbose_name='Laboratorio')
+    lab_name = models.CharField(max_length=200, blank=True, verbose_name=_('Laboratory'))
     phenoage_years = models.DecimalField(
         max_digits=5, decimal_places=1, null=True, blank=True,
-        verbose_name='Edad biológica (PhenoAge)'
+        verbose_name=_('Biological age (PhenoAge)')
     )
     phenoage_delta_years = models.DecimalField(
         max_digits=5, decimal_places=1, null=True, blank=True,
-        verbose_name='Diferencia edad biológica-cronológica'
+        verbose_name=_('Biological-chronological age difference')
     )
     phenoage_missing = models.TextField(
         blank=True, default='',
-        verbose_name='Marcadores faltantes para PhenoAge'
+        verbose_name=_('Missing markers for PhenoAge')
     )
 
     class Meta(BaseReport.Meta):
-        verbose_name = 'Analítica'
-        verbose_name_plural = 'Analíticas'
+        verbose_name = _('Analysis')
+        verbose_name_plural = _('Analyses')
 
     def get_alerts(self):
         """Devuelve los resultados fuera de rango normal."""
@@ -163,39 +180,39 @@ class BodyCompositionReport(BaseReport):
     """Registro de composición corporal (báscula inteligente o medición manual)."""
 
     weight = models.DecimalField(
-        max_digits=5, decimal_places=2, verbose_name='Peso (kg)'
+        max_digits=5, decimal_places=2, verbose_name=_('Weight (kg)')
     )
     height = models.DecimalField(
-        max_digits=5, decimal_places=1, verbose_name='Altura (cm)'
+        max_digits=5, decimal_places=1, verbose_name=_('Height (cm)')
     )
     body_fat_pct = models.DecimalField(
         max_digits=5, decimal_places=2, null=True, blank=True,
-        verbose_name='Grasa corporal (%)'
+        verbose_name=_('Body fat (%)')
     )
     visceral_fat = models.DecimalField(
         max_digits=5, decimal_places=1, null=True, blank=True,
-        verbose_name='Grasa visceral (nivel)'
+        verbose_name=_('Visceral fat (level)')
     )
     muscle_mass = models.DecimalField(
         max_digits=5, decimal_places=2, null=True, blank=True,
-        verbose_name='Masa muscular (kg)'
+        verbose_name=_('Muscle mass (kg)')
     )
     water_pct = models.DecimalField(
         max_digits=5, decimal_places=2, null=True, blank=True,
-        verbose_name='Agua (%)'
+        verbose_name=_('Water (%)')
     )
     protein_pct = models.DecimalField(
         max_digits=5, decimal_places=2, null=True, blank=True,
-        verbose_name='Proteína (%)'
+        verbose_name=_('Protein (%)')
     )
     bone_mass = models.DecimalField(
         max_digits=5, decimal_places=2, null=True, blank=True,
-        verbose_name='Masa ósea (kg)'
+        verbose_name=_('Bone mass (kg)')
     )
 
     class Meta(BaseReport.Meta):
-        verbose_name = 'Composición corporal'
-        verbose_name_plural = 'Composiciones corporales'
+        verbose_name = _('Body composition')
+        verbose_name_plural = _('Body compositions')
 
     @property
     def bmi(self):
@@ -210,14 +227,14 @@ class BodyCompositionReport(BaseReport):
         """Categoría del IMC según OMS. Retorna (etiqueta, color_key)."""
         bmi = self.bmi
         if bmi is None:
-            return ('Sin datos', 'unknown')
+            return (_('No data'), 'unknown')
         if bmi < 18.5:
-            return ('Bajo peso', 'low')
+            return (_('Underweight'), 'low')
         if bmi < 25.0:
-            return ('Normal', 'normal')
+            return (_('Normal'), 'normal')
         if bmi < 30.0:
-            return ('Sobrepeso', 'borderline')
-        return ('Obesidad', 'high')
+            return (_('Overweight'), 'borderline')
+        return (_('Obesity'), 'high')
 
 
 
@@ -229,15 +246,15 @@ class ECGReport(BaseReport):
 
     image = models.ImageField(
         upload_to=ecg_image_upload_path,
-        verbose_name='Imagen de ECG'
+        verbose_name=_('ECG image')
     )
     heart_rate = models.PositiveIntegerField(
-        null=True, blank=True, verbose_name="Frecuencia cardíaca (bpm)"
+        null=True, blank=True, verbose_name=_('Heart rate (bpm)')
     )
 
     class Meta(BaseReport.Meta):
-        verbose_name = 'Electrocardiograma'
-        verbose_name_plural = 'Electrocardiogramas'
+        verbose_name = _('Electrocardiogram')
+        verbose_name_plural = _('Electrocardiograms')
 
     def __str__(self):
         return f'ECG — {self.name} ({self.date})'
@@ -247,17 +264,17 @@ class BiomarkerResult(models.Model):
     """Valor de un biomarcador en una analítica concreta."""
 
     report = models.ForeignKey(
-        AnalysisReport, on_delete=models.CASCADE, related_name='results', verbose_name='Analítica'
+        AnalysisReport, on_delete=models.CASCADE, related_name='results', verbose_name=_('Analysis')
     )
     biomarker = models.ForeignKey(
-        Biomarker, on_delete=models.PROTECT, related_name='results', verbose_name='Biomarcador'
+        Biomarker, on_delete=models.PROTECT, related_name='results', verbose_name=_('Biomarker')
     )
-    value = models.DecimalField(max_digits=12, decimal_places=4, verbose_name='Valor')
-    notes = models.TextField(blank=True, verbose_name='Notas')
+    value = models.DecimalField(max_digits=12, decimal_places=4, verbose_name=_('Value'))
+    notes = models.TextField(blank=True, verbose_name=_('Notes'))
 
     class Meta:
-        verbose_name = 'Resultado'
-        verbose_name_plural = 'Resultados'
+        verbose_name = _('Result')
+        verbose_name_plural = _('Results')
         unique_together = [('report', 'biomarker')]
         ordering = ['biomarker__category', 'biomarker__order']
 
@@ -312,12 +329,12 @@ class BiomarkerResult(models.Model):
     def status_display(self):
         """Texto legible del semáforo."""
         return {
-            'normal': 'Normal',
-            'borderline': 'Límite',
-            'low': 'Bajo',
-            'high': 'Alto',
-            'unknown': 'Sin rango',
-        }.get(self.status, 'Desconocido')
+            'normal': _('Normal'),
+            'borderline': _('Borderline'),
+            'low': _('Low'),
+            'high': _('High'),
+            'unknown': _('No range'),
+        }.get(self.status, _('Unknown'))
 
     @property
     def status_color(self):
@@ -329,3 +346,27 @@ class BiomarkerResult(models.Model):
             'high': 'red',
             'unknown': 'gray',
         }.get(self.status, 'gray')
+
+
+class AILicense(models.Model):
+    """Licencia global de IA para toda la instalación (singleton)."""
+
+    api_key = models.CharField(max_length=255, verbose_name=_('AI API key'))
+    plan = models.CharField(max_length=50, default='premium', verbose_name=_('Plan'))
+    activated_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Activated at'))
+    activated_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True,
+        related_name='ai_licenses', verbose_name=_('Activated by')
+    )
+
+    class Meta:
+        verbose_name = _('AI license')
+        verbose_name_plural = _('AI licenses')
+
+    def __str__(self):
+        return f'Licencia {self.plan} ({self.activated_at:%Y-%m-%d})'
+
+    @classmethod
+    def get_active(cls):
+        """Devuelve la licencia activa o None."""
+        return cls.objects.order_by('-activated_at').first()
