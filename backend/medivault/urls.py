@@ -16,6 +16,5 @@ urlpatterns = [
     path('', include('labs.urls')),
 ]
 
-# Servir archivos de medios en desarrollo
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Servir archivos de medios (Django los sirve directamente al no haber nginx delante)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

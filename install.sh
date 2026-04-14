@@ -31,6 +31,8 @@ ENV_FILE="./backend/.env"
 
 if [ -f "$ENV_FILE" ]; then
   echo "${YELLOW}→ $ENV_FILE already exists, skipping generation.${RESET}"
+  ALLOWED_HOSTS=$(grep '^ALLOWED_HOSTS=' "$ENV_FILE" | cut -d'=' -f2-)
+  ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost}
 else
   echo "→ Generating $ENV_FILE..."
 
@@ -38,7 +40,7 @@ else
   SECRET_KEY=$(LC_ALL=C tr -dc 'A-Za-z0-9!@#$%^&*(-_=+)' </dev/urandom 2>/dev/null | head -c 50 || \
                python3 -c "import secrets,string; print(''.join(secrets.choice(string.ascii_letters+string.digits+'!@#\$%^&*(-_=+)') for _ in range(50)))")
 
-  printf "Enter the host/domain where LabLocal will be accessible [localhost]: "
+  printf "Enter the host/domain where LabLocal will be accessible [localhost / e.g. 192.168.1.100]: "
   read ALLOWED_HOSTS
   ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost}
 
@@ -64,9 +66,11 @@ echo "→ Creating admin user..."
 docker compose -f ./backend/docker-compose.yml exec web python manage.py createsuperuser
 
 echo ""
+HOST=$(echo "$ALLOWED_HOSTS" | cut -d',' -f1)
+
 echo "${GREEN}${BOLD}✓ LabLocal is running!${RESET}"
 echo ""
-echo "  Open:  http://localhost:6789"
+echo "  Open:  http://${HOST}:6789"
 echo ""
 echo "  Stop:  docker compose -f ./backend/docker-compose.yml down"
 echo "  Logs:  docker compose -f ./backend/docker-compose.yml logs -f"
