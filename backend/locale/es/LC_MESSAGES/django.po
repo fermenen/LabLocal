@@ -910,6 +910,9 @@ msgstr "biológicamente mayor"
 msgid "Missing markers"
 msgstr "Marcadores faltantes"
 
+msgid "Missing required markers"
+msgstr "Faltan marcadores necesarios"
+
 #: labs/templates/labs/dashboard.html:139
 msgid "Body Composition"
 msgstr "Composición Corporal"
@@ -1358,8 +1361,8 @@ msgid "years older"
 msgstr "años mayor"
 
 #: labs/templates/labs/phenoage/history.html:112
-msgid "Not enough data yet to calculate PhenoAge."
-msgstr "Aún no hay suficientes datos para calcular el PhenoAge."
+msgid "Not enough data yet to calculate your biological age."
+msgstr "Aún no hay suficientes datos para calcular tu edad biológica."
 
 #: labs/templates/labs/profile/edit.html:3
 #: labs/templates/labs/profile/edit.html:6
@@ -1800,6 +1803,42 @@ msgstr "Error al eliminar la licencia local: %(error)s"
 #: labs/views/profile.py:252
 msgid "Password updated successfully."
 msgstr "Contraseña actualizada correctamente."
+
+msgid "Add an analysis to unlock this data"
+msgstr "Añade una analítica para desbloquear este dato"
+
+msgid "Manual entry"
+msgstr "Entrada manual"
+
+msgid "Fill in your values"
+msgstr "Introduce tus valores"
+
+msgid "Upload PDF"
+msgstr "Subir PDF"
+
+msgid "OCR will fill your data"
+msgstr "El OCR completará tus datos"
+
+msgid "Tap to select PDF"
+msgstr "Toca para seleccionar PDF"
+
+msgid "or drag and drop here"
+msgstr "o arrastra y suelta aquí"
+
+msgid "Tap to change"
+msgstr "Toca para cambiar"
+
+msgid "We'll automatically extract your biomarker values from the PDF. Review and confirm them after saving."
+msgstr "Extraeremos automáticamente tus valores del PDF. Revísalos y confírmalos después de guardar."
+
+msgid "Add a body record to unlock this data"
+msgstr "Añade un registro corporal para desbloquear este dato"
+
+msgid "Add an ECG to unlock this data"
+msgstr "Añade un ECG para desbloquear este dato"
+
+msgid "Your records will appear here"
+msgstr "Tus registros aparecerán aquí"
 
 #~ msgid "Optional · you can always add it later"
 #~ msgstr "Opcional · siempre puedes añadirlo más tarde"

@@ -909,6 +909,9 @@ msgstr "biologicamente mais velho"
 msgid "Missing markers"
 msgstr "Marcadores em falta"
 
+msgid "Missing required markers"
+msgstr "Marcadores necessários em falta"
+
 #: labs/templates/labs/dashboard.html:139
 msgid "Body Composition"
 msgstr "Composição Corporal"
@@ -1359,8 +1362,8 @@ msgid "years older"
 msgstr "anos mais velho"
 
 #: labs/templates/labs/phenoage/history.html:112
-msgid "Not enough data yet to calculate PhenoAge."
-msgstr "Ainda não há dados suficientes para calcular o PhenoAge."
+msgid "Not enough data yet to calculate your biological age."
+msgstr "Ainda não há dados suficientes para calcular a tua idade biológica."
 
 #: labs/templates/labs/profile/edit.html:3
 #: labs/templates/labs/profile/edit.html:6
@@ -1802,6 +1805,42 @@ msgstr "Erro ao eliminar a licença local: %(error)s"
 #: labs/views/profile.py:252
 msgid "Password updated successfully."
 msgstr "Palavra-passe atualizada com sucesso."
+
+msgid "Add an analysis to unlock this data"
+msgstr "Adiciona uma análise para desbloquear este dado"
+
+msgid "Manual entry"
+msgstr "Entrada manual"
+
+msgid "Fill in your values"
+msgstr "Preenche os teus valores"
+
+msgid "Upload PDF"
+msgstr "Carregar PDF"
+
+msgid "OCR will fill your data"
+msgstr "O OCR preencherá os teus dados"
+
+msgid "Tap to select PDF"
+msgstr "Toca para selecionar PDF"
+
+msgid "or drag and drop here"
+msgstr "ou arrasta e solta aqui"
+
+msgid "Tap to change"
+msgstr "Toca para alterar"
+
+msgid "We'll automatically extract your biomarker values from the PDF. Review and confirm them after saving."
+msgstr "Vamos extrair automaticamente os teus valores do PDF. Revê-os e confirma-os após guardar."
+
+msgid "Add a body record to unlock this data"
+msgstr "Adiciona um registo corporal para desbloquear este dado"
+
+msgid "Add an ECG to unlock this data"
+msgstr "Adiciona um ECG para desbloquear este dado"
+
+msgid "Your records will appear here"
+msgstr "Os teus registos aparecerão aqui"
 
 #~ msgid "Optional · you can always add it later"
 #~ msgstr "Opcional · podes sempre adicioná-lo mais tarde"

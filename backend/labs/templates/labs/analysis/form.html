@@ -9,8 +9,41 @@
 
 {% block page_content %}
 <div x-data="reportForm()">
-  <form method="post" class="space-y-4">
+
+  {% if action == 'Crear' %}
+  <!-- Mode selector -->
+  <div class="grid grid-cols-2 gap-3 mb-4">
+
+    <button type="button" @click="mode = 'manual'"
+            :class="mode === 'manual' ? 'ring-2 ring-[#007AFF]' : 'opacity-60'"
+            class="card p-4 text-left transition-all cursor-pointer active:scale-[.97] active:opacity-80">
+      <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
+        <svg class="w-5 h-5 text-[#007AFF]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+        </svg>
+      </div>
+      <p class="text-[14px] font-semibold text-[#1C1C1E]">{% trans "Manual entry" %}</p>
+      <p class="text-[11px] text-[#8E8E93] mt-0.5">{% trans "Fill in your values" %}</p>
+    </button>
+
+    <button type="button" @click="mode = 'pdf'"
+            :class="mode === 'pdf' ? 'ring-2 ring-[#007AFF]' : 'opacity-60'"
+            class="card p-4 text-left transition-all cursor-pointer active:scale-[.97] active:opacity-80">
+      <div class="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center mb-3">
+        <svg class="w-5 h-5 text-[#FF3B30]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+        </svg>
+      </div>
+      <p class="text-[14px] font-semibold text-[#1C1C1E]">{% trans "Upload PDF" %}</p>
+      <p class="text-[11px] text-[#8E8E93] mt-0.5">{% trans "OCR will fill your data" %}</p>
+    </button>
+
+  </div>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data" class="space-y-4">
     {% csrf_token %}
+    <input type="hidden" name="entry_mode" :value="mode">
 
     <!-- General data -->
     <div class="card px-5 py-4 space-y-3.5">
@@ -37,60 +70,98 @@
       </div>
     </div>
 
-    <!-- Search -->
-    <div class="card px-5 py-4">
-      <p class="text-[11px] font-bold text-[#8E8E93] uppercase tracking-wider mb-3">{% trans "Values" %}</p>
-      <input type="text" x-model="search" placeholder="{% trans "Search biomarker..." %}"
-             class="field mb-1" />
-      <p class="text-[11px] text-[#AEAEB2] mt-1.5">{% trans "Only fill in those that appear in your analysis" %}</p>
-    </div>
-
-    <!-- Categories -->
-    {% for category, biomarkers in biomarkers_grouped.items %}
-    <div x-show="categoryHasMatch('{{ category|escapejs }}')">
-      <button type="button" @click="toggleCategory('{{ category|escapejs }}')"
-              class="w-full flex items-center justify-between px-1 py-1.5 mb-1 cursor-pointer">
-        <p class="text-[11px] font-bold text-[#007AFF] uppercase tracking-wider">{{ category }}</p>
-        <svg class="w-3.5 h-3.5 text-[#C7C7CC] transition-transform duration-200"
-             :class="collapsed['{{ category|escapejs }}'] ? '' : 'rotate-180'"
-             fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-        </svg>
-      </button>
-      <div x-show="!collapsed['{{ category|escapejs }}']" class="card overflow-hidden">
-        {% for bm in biomarkers %}
-        <div x-show="biomarkerVisible('{{ bm.name|escapejs }}', '{{ bm.short_name|escapejs }}')"
-             class="{% if not forloop.first %}row-sep{% endif %} flex items-center gap-3 px-5 py-3.5">
-          <div class="flex-1 min-w-0">
-            <p class="text-[14px] font-semibold text-[#1C1C1E]">{{ bm.short_name }}</p>
-            <p class="text-[11px] text-[#AEAEB2] truncate">{{ bm.name }}</p>
-            {% if bm.ref_min_male or bm.ref_max_male %}
-            <p class="text-[10px] text-[#C7C7CC] mt-0.5 font-mono">
-              ♂ {{ bm.ref_min_male|default:"—" }}–{{ bm.ref_max_male|default:"—" }}
-              {% if bm.ref_min_female or bm.ref_max_female %}
-              &nbsp;♀ {{ bm.ref_min_female|default:"—" }}–{{ bm.ref_max_female|default:"—" }}
-              {% endif %}
-              {{ bm.unit }}
-            </p>
-            {% endif %}
-          </div>
-          <div class="flex items-center gap-1.5 flex-shrink-0">
-                 <input type="number" step="any"
-                   name="biomarker_{{ bm.pk }}_value"
-                   value="{% if existing_values %}{% for k,v in existing_values.items %}{% if k == bm.pk %}{{ v.value }}{% endif %}{% endfor %}{% endif %}"
-                   placeholder="—"
-                   class="w-24 text-right bg-[#F2F2F7] border border-transparent rounded-xl
-                          px-3 py-2 text-[14px] font-mono font-semibold text-[#1C1C1E]
-                          placeholder-[#AEAEB2] outline-none
-                          focus:border-[#007AFF] focus:bg-white focus:shadow-sm transition"
-                   @focus="$el.select()" />
-            <span class="text-[11px] text-[#AEAEB2] w-10 text-left">{{ bm.unit }}</span>
-          </div>
+    <!-- PDF upload -->
+    <div x-show="mode === 'pdf'" x-cloak>
+      <div class="card px-5 py-4">
+        <p class="text-[11px] font-bold text-[#8E8E93] uppercase tracking-wider mb-3">PDF *</p>
+        <input x-ref="pdfInput" type="file" name="pdf" id="id_pdf" accept=".pdf" class="sr-only"
+               @change="pdfName = $event.target.files[0]?.name ?? ''">
+        <div @click="$refs.pdfInput.click()"
+             @dragover.prevent="dragging = true"
+             @dragleave.prevent="dragging = false"
+             @drop.prevent="dragging = false; handleDrop($event)"
+             :class="dragging ? 'border-[#007AFF] bg-blue-50' : 'border-[#E5E5EA] bg-[#F9F9FB]'"
+             class="relative flex flex-col items-center justify-center gap-2 rounded-2xl border-2
+                    border-dashed px-4 py-6 cursor-pointer transition">
+          <template x-if="!pdfName">
+            <div class="flex flex-col items-center gap-1.5 pointer-events-none">
+              <svg class="w-7 h-7 text-[#C7C7CC]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+              </svg>
+              <p class="text-[13px] font-semibold text-[#8E8E93]">{% trans "Drop your PDF here" %}</p>
+              <p class="text-[11px] text-[#C7C7CC]">{% trans "or tap to choose a file" %}</p>
+            </div>
+          </template>
+          <template x-if="pdfName">
+            <div class="flex items-center gap-3 pointer-events-none">
+              <svg class="w-6 h-6 text-[#34C759] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <p class="text-[13px] font-semibold text-[#1C1C1E] truncate" x-text="pdfName"></p>
+            </div>
+          </template>
         </div>
-        {% endfor %}
+        {% if form.pdf.errors %}<p class="text-xs text-[#FF3B30] mt-1.5">{{ form.pdf.errors.0 }}</p>{% endif %}
       </div>
     </div>
-    {% endfor %}
+
+    <!-- Manual entry: search + biomarkers -->
+    <div x-show="mode === 'manual'" x-cloak>
+
+      <div class="card px-5 py-4 mb-4">
+        <p class="text-[11px] font-bold text-[#8E8E93] uppercase tracking-wider mb-3">{% trans "Values" %}</p>
+        <input type="text" x-model="search" placeholder="{% trans "Search biomarker..." %}"
+               class="field mb-1" />
+        <p class="text-[11px] text-[#AEAEB2] mt-1.5">{% trans "Only fill in those that appear in your analysis" %}</p>
+      </div>
+
+      {% for category, biomarkers in biomarkers_grouped.items %}
+      <div x-show="categoryHasMatch('{{ category|escapejs }}')" class="mb-4">
+        <button type="button" @click="toggleCategory('{{ category|escapejs }}')"
+                class="w-full flex items-center justify-between px-1 py-1.5 mb-1 cursor-pointer">
+          <p class="text-[11px] font-bold text-[#007AFF] uppercase tracking-wider">{{ category }}</p>
+          <svg class="w-3.5 h-3.5 text-[#C7C7CC] transition-transform duration-200"
+               :class="collapsed['{{ category|escapejs }}'] ? '' : 'rotate-180'"
+               fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div x-show="!collapsed['{{ category|escapejs }}']" class="card overflow-hidden">
+          {% for bm in biomarkers %}
+          <div x-show="biomarkerVisible('{{ bm.name|escapejs }}', '{{ bm.short_name|escapejs }}')"
+               class="{% if not forloop.first %}row-sep{% endif %} flex items-center gap-3 px-5 py-3.5">
+            <div class="flex-1 min-w-0">
+              <p class="text-[14px] font-semibold text-[#1C1C1E]">{{ bm.short_name }}</p>
+              <p class="text-[11px] text-[#AEAEB2] truncate">{{ bm.name }}</p>
+              {% if bm.ref_min_male or bm.ref_max_male %}
+              <p class="text-[10px] text-[#C7C7CC] mt-0.5 font-mono">
+                ♂ {{ bm.ref_min_male|default:"—" }}–{{ bm.ref_max_male|default:"—" }}
+                {% if bm.ref_min_female or bm.ref_max_female %}
+                &nbsp;♀ {{ bm.ref_min_female|default:"—" }}–{{ bm.ref_max_female|default:"—" }}
+                {% endif %}
+                {{ bm.unit }}
+              </p>
+              {% endif %}
+            </div>
+            <div class="flex items-center gap-1.5 flex-shrink-0">
+              <input type="number" step="any"
+                     name="biomarker_{{ bm.pk }}_value"
+                     value="{% if existing_values %}{% for k,v in existing_values.items %}{% if k == bm.pk %}{{ v.value }}{% endif %}{% endfor %}{% endif %}"
+                     placeholder="—"
+                     class="w-24 text-right bg-[#F2F2F7] border border-transparent rounded-xl
+                            px-3 py-2 text-[14px] font-mono font-semibold text-[#1C1C1E]
+                            placeholder-[#AEAEB2] outline-none
+                            focus:border-[#007AFF] focus:bg-white focus:shadow-sm transition"
+                     @focus="$el.select()" />
+              <span class="text-[11px] text-[#AEAEB2] w-10 text-left">{{ bm.unit }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
 
     <!-- Buttons -->
     <div class="space-y-2.5 pt-2">
@@ -114,6 +185,9 @@
 <script>
   function reportForm() {
     return {
+      mode: '{{ action }}' === 'Crear' ? 'manual' : 'manual',
+      dragging: false,
+      pdfName: '{{ report.pdf.name|default:""|escapejs }}'.split('/').pop() || '',
       search: '',
       collapsed: {},
       toggleCategory(cat) { this.collapsed[cat] = !this.collapsed[cat]; },
@@ -122,8 +196,12 @@
         const q = this.search.toLowerCase();
         return name.toLowerCase().includes(q) || shortName.toLowerCase().includes(q);
       },
-      categoryHasMatch(cat) {
-        return true;
+      categoryHasMatch(cat) { return true; },
+      handleDrop(event) {
+        const file = event.dataTransfer.files[0];
+        if (!file || file.type !== 'application/pdf') return;
+        this.$refs.pdfInput.files = event.dataTransfer.files;
+        this.pdfName = file.name;
       },
     };
   }

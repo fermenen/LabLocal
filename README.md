@@ -22,7 +22,7 @@ That's it.
 ## Install
 
 ```bash
-git clone https://github.com/your-username/lablocal.git
+git clone https://github.com/fermenen/LabLocal.git
 cd lablocal
 sh install.sh
 ```
