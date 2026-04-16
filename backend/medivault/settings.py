@@ -124,5 +124,7 @@ LOGGING = {
     'handlers': {'console': {'class': 'logging.StreamHandler'}},
     'loggers': {
         'labs.views.ai_proxy': {'handlers': ['console'], 'level': 'DEBUG', 'propagate': False},
+        'labs.pdf_extraction': {'handlers': ['console'], 'level': 'INFO', 'propagate': False},
+        'labs.views.analysis': {'handlers': ['console'], 'level': 'INFO', 'propagate': False},
     },
 }

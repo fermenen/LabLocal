@@ -11,9 +11,14 @@ from django.views.generic import DeleteView, DetailView, ListView, TemplateView
 
 from django.utils.translation import gettext as _
 
+import logging
+
 from ..forms import AnalysisReportForm
 from ..models import AnalysisReport, Biomarker, BiomarkerResult
+from ..pdf_extraction import apply_pdf_extraction_async
 from ..phenoage import update_report_phenoage
+
+logger = logging.getLogger(__name__)
 
 
 def _biomarkers_grouped():
@@ -90,7 +95,10 @@ class ReportCreateView(LoginRequiredMixin, View):
         report.user = request.user
         report.save()
         _save_biomarker_results(request, report)
-        update_report_phenoage(report)
+        if report.pdf:
+            apply_pdf_extraction_async(report)  # también llama a update_report_phenoage
+        else:
+            update_report_phenoage(report)
         messages.success(request, _('Analysis "%(name)s" created successfully.') % {'name': report.name})
         if back == 'dashboard':
             return redirect('dashboard')
@@ -159,7 +167,13 @@ class ReportUpdateView(LoginRequiredMixin, View):
             })
         report = form.save()
         _save_biomarker_results(request, report)
-        update_report_phenoage(report)
+        logger.info('ReportUpdateView.post: FILES=%s, report.pdf=%s', list(request.FILES.keys()), report.pdf)
+        if 'pdf' in request.FILES:
+            logger.info('ReportUpdateView.post: PDF detectado en FILES, llamando apply_pdf_extraction_async')
+            apply_pdf_extraction_async(report)  # también llama a update_report_phenoage
+        else:
+            logger.info('ReportUpdateView.post: sin PDF nuevo en FILES, llamando update_report_phenoage directamente')
+            update_report_phenoage(report)
         messages.success(request, _('Analysis "%(name)s" updated successfully.') % {'name': report.name})
         return redirect('analysis_detail', pk=report.pk)
 
